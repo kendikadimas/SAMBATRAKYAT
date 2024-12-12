@@ -45,7 +45,7 @@ if(isset($_POST['submit'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>Lihat Pengaduan | Dispendukcapil Bangkalan</title>
-    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="shortcut icon" href="images/samblog.ico">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css">
     <!-- font Awesome CSS -->
@@ -87,48 +87,33 @@ if(isset($_POST['submit'])) {
     ?>
 
     <div class="shadow">
-        <nav class="navbar navbar-fixed navbar-inverse form-shadow">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="index">
-                        <img alt="Brand" src="images/bangkalan.png">
-                    </a>
+    <div class="navbar">
+            <div class="main-logo">
+                <a href="/">
+                    <img src="images/samblog.svg" alt="Logo Sambat" class="main-logo">
+                </a>
+                <div class="sub-tem">
+                    <h1>Sambat rakyat</h1>
                 </div>
+            </div>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li><a href="index">HOME</a></li>
-                        <li><a href="lapor">LAPOR</a></li>
-                        <li class="active"><a href="lihat">LIHAT PENGADUAN</a></li>
-                        <li><a href="cara">CARA</a></li>
-                        <li class="dropdown">
-                            <a href="profildinas" class="dropdown-toggle" data-toggle="dropdown">PROFIL DINAS <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="profildinas">Profil Dinas</a></li>
-                                <li class="divider"></li>
-                                <li><a href="profildinas">Visi dan Misi</a></li>
-                                <li class="divider"></li>
-                                <li><a href="profildinas">Struktur Organisasi</a></li>
-                                <li class="divider"></li>
-                                <li><a href="profildinas">Motto / Maklumat Pelayanan</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="faq">FAQ</a></li>
-                        <li><a href="bantuan">BANTUAN</a></li>
-                        <li><a href="kontak">KONTAK</a></li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav><!-- /.nav -->
-
+            <div class="menu">
+                <a href="index" target="_top">HOME</a>
+                <a href="lapor" target="_top">SAMBAT</a>
+                <a href="lihat" target="_top">LIHAT PENGADUAN</a>
+                <a href="cara" target="_top">PROFIL DINAS</a>
+                <a href="faq" target="_top">TENTANG</a>
+            </div>
+            
+            <div class="logsig">
+                <a href="/account/login">
+                    <button class="login-btn">Login</button>
+                </a>
+                <a href="/account/signin">
+                    <button class="signup-btn">Sign Up</button>
+                </a>
+            </div>
+        </div>
         <!-- content -->
         <div class="main-content">
             <h3>Lihat Pengaduan</h3>
