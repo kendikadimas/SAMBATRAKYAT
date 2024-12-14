@@ -107,10 +107,10 @@ if(isset($_POST['submit'])) {
             
             <div class="logsig">
                 <a href="/account/login">
-                    <button class="login-btn">Login</button>
+                    <button class="login-btn">Masuk</button>
                 </a>
                 <a href="/account/signin">
-                    <button class="signup-btn">Sign Up</button>
+                    <button class="signup-btn">Daftar</button>
                 </a>
             </div>
         </div>

@@ -109,7 +109,7 @@ function RandomAvatar(){
         </div>
         <!-- end navbar -->
 
-        <section>
+        <section class=header-main">
             <div class="hero">
                 <div class="header-text">
                     <h3>Selamat Datang di</h3>
@@ -126,7 +126,7 @@ function RandomAvatar(){
             </div>
         </section>
 
-        <section class="statistik">
+        <section class="statistik" style="background-image: url('images/cover_hijau.png');">
             <div class="stat">
                 <h2>250</h2>
                 <p>Total Laporan</p>
@@ -174,7 +174,7 @@ function RandomAvatar(){
                     <!-- laporan Terbaru -->
                     <div class="col-md-8">
                         <br>
-                        <h3 class="text-center h3-custom">Pengaduan Terbaru</h3>
+                        <h3 class="text-center h3-custom"><span style="color:#3E7D60">Pengaduan</span> Terbaru</h3>
                         <hr class="custom-line"/>
                         <hr>
                         <!-- scroll-laporan -->
@@ -212,12 +212,11 @@ function RandomAvatar(){
                     </div>
                     <!-- End Laporan Terbaru -->
 
-
                 <!-- Social Media Feed -->
                 <div class="col-md-4">
                     <br>
                     <!-- header text social-feed -->
-                    <h3 class="text-center h3-custom">Social Feed</h3>
+                    <h3 class="text-center h3-custom"><span style="color:#3E7D60">Social</span> Feed</h3>
                     <hr class="custom-line"/>
                     <!-- end header text social-feed -->
                     <!-- Twitter Feed -->
@@ -251,32 +250,54 @@ function RandomAvatar(){
                     <hr>
                     <!-- Facebook Feed -->
                     <div class="box">
-                        <div class="box-icon shadow">
-                            <span class="fa fa-2x fa-rss"></span>
+                        <!-- End Facebook Feed -->
+                    </div>
+                    <!-- End Social Media Feed -->
+                </div>
+                <!-- end row -->
+            </div>
+            <section class="kritik">
+                        <div class="kritik-text">
+                            <h1><span style="color:#3E7D60">Kritik</span> & Saran</h1>
+                            <p>sebagai bahan evaluasi pengembangan</p>
                         </div>
-                        <div class="info">
-                            <h3 class="text-center">link</h3>
-                            <ul class="list-group">
-                                <li class="list-group-item list-group-item-success"><a href="http://www.bangkalankab.go.id/v4/">Website Pemerintah Bangkalan</a></li>
-                                <li class="list-group-item list-group-item-info"><a href="http://kominfo.bangkalankab.go.id/">Website Diskominfo Bangkalan</a></li>
-                                <li class="list-group-item list-group-item-warning"><a href="http://dispendukcapilbkl.com/">Website Dispendukcapil Bangkalan</a></li>
-                                <li class="list-group-item list-group-item-danger"><a href="http://bappeda.bangkalankab.go.id/">Website Bappeda Bangkalan</a></li>
-                            </ul>
+                        <div class="kritik-form" style="background-image: url('images/cover_hijau.png');">
+                            <img src="images/orang.png" alt="kritik">
+                            <form class="form-horizontal" role="form" method="post">
+                                <input type="text" class="form-control" id="kritik" name="kritik" placeholder="Tuliskan kritik dan saran untuk website">
+                                <button type="submit" class="btn btn-primary-custom form-shadow">Kirim</button>
+                            </form>
                         </div>
                     </div>
-                    <!-- End Facebook Feed -->
                 </div>
-                <!-- End Social Media Feed -->
-            </div>
-            <!-- end row -->
-        </div>
-        <!-- /.section -->
+            </section>
 
         <!-- link to top -->
         <a id="top" href="#" onclick="topFunction()">
             <i class="fa fa-arrow-circle-up"></i>
         </a>
         <script>
+                document.addEventListener('DOMContentLoaded', function () {
+            // Ambil semua elemen yang ingin di-observe
+            const elementsToObserve = document.querySelectorAll('.kritik-text h1, .h3-custom');
+
+            // Intersection Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('scrolled'); // Tambahkan class
+                    } else {
+                        entry.target.classList.remove('scrolled'); // Hapus class jika keluar viewport
+                    }
+                });
+            }, { threshold: 0.8 }); // Aktifkan ketika 80% elemen terlihat
+
+            // Observasi setiap elemen
+            elementsToObserve.forEach(element => {
+                observer.observe(element);
+            });
+        });
+
         // When the user scrolls down 100px from the top of the document, show the button
         window.onscroll = function() {scrollFunction()};
         function scrollFunction() {
