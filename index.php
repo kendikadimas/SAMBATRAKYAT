@@ -30,12 +30,14 @@ function RandomAvatar(){
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Main Styles CSS -->
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/stylehome.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="js/jquery.min.js"></script>
     <!-- Bootstrap JavaScript -->
     <script src="js/bootstrap.js"></script>
     <!-- Animate CSS -->
     <link rel="stylesheet" href="css/animate.min.css">
+    
 </head>
 
 <body>
@@ -98,105 +100,118 @@ function RandomAvatar(){
             
             <div class="logsig">
                 <a href="/account/login">
-                    <button class="login-btn">Login</button>
+                    <button class="login-btn">Masuk</button>
                 </a>
                 <a href="/account/signin">
-                    <button class="signup-btn">Sign Up</button>
+                    <button class="signup-btn">Daftar</button>
                 </a>
             </div>
         </div>
         <!-- end navbar -->
 
-    <!-- start slider -->
-    <div id="mainCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#mainCarousel" data-slide-to="1"></li>
-            <li data-target="#mainCarousel" data-slide-to="2"></li>
-        </ol>
+        <section>
+            <div class="hero">
+                <div class="header-text">
+                    <h3>Selamat Datang di</h3>
+                    <h1>Website</h1>
+                    <h1><span style="color:#3E7D60">Sambat Rakyat</span></h1>
+                    <p>Sebagai tempat aspirasi dan keluh kesah bagi <br>
+                     masyarakat Banyumas, Jawa Tengah</p>
+                    <a href="lapor" class="btn button-green">Laporan Kita</a>
+                </div>
 
-        <!-- Wrapper for slides -->
-
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img src="images/header_02.jpg" alt="...">
-                <div class="carousel-caption welcome">
-                    <h2 class="animated bounceInRight">Selamat Datang</h2>
-                    <h3 class="animated bounceInLeft">Website Pengaduan Masyarakat Dispendukcapil Bangkalan</h3>
+                <div class="header-image">
+                    <img src="images/orang.png" alt="orang">
                 </div>
             </div>
-            <div class="item">
-                <img src="images/header_01.jpg" alt="...">
-                <div class="carousel-caption">
-                    <h2 class="animated bounceInDown">Pejabat</h2>
-                </div>
+        </section>
+
+        <section class="statistik">
+            <div class="stat">
+                <h2>250</h2>
+                <p>Total Laporan</p>
             </div>
-            <div class="item">
-                <img src="images/header_03.jpg" alt="...">
-                <div class="carousel-caption">
-                    <h2 class="animated bounceInUp">Pengumuman</h2>
-                </div>
+            <div class="stat">
+                <h2>50</h2>
+                <p>Menunggu</p>
             </div>
-        </div>
+            <div class="stat">
+                <h2>70</h2>
+                <p>Proses</p>
+            </div>
+            <div class="stat">
+                <h2>130</h2>
+                <p>Selesai</p>
+            </div>
+        </section>
 
-        <!-- Controls -->
-        <a class="left carousel-control" href="#mainCarousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#mainCarousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-    <!-- end Slider -->
 
-    <!-- content -->
-    <div class="main-content">
-        <!-- section -->
-        <div class="section">
-            <div class="row">
-                <!-- laporan Terbaru -->
-                <div class="col-md-8">
-                    <br>
-                    <h3 class="text-center h3-custom">Pengaduan Terbaru</h3>
-                    <hr class="custom-line"/>
-                    <hr>
-                    <!-- scroll-laporan -->
-                    <div class="scroll-laporan">
-                        <?php
-                        // Ambil semua record dari tabel laporan
-                        $statement = $db->query("SELECT * FROM `laporan` ORDER BY id DESC");
-                        foreach ($statement as $key ) {
-                            $mysqldate = $key['tanggal'];
-                            $phpdate = strtotime($mysqldate);
-                            $tanggal = date( 'd F Y, H:i:s', $phpdate);
-                            ?>
-                            <div class="panel-body card-shadow-2">
-                                <a class="media-left" href="#"><img class="img-circle img-sm form-shadow" src="images/avatar/<?php RandomAvatar(); ?>"></a>
-                                <div class="media-body">
-                                    <div>
-                                        <h4 class="text-green profil-name" style="font-family: monospace;"><?php echo $key['nama']; ?></h4>
-                                        <p class="text-muted text-sm"><i class="fa fa-th fa-fw"></i>  -  <?php echo $tanggal; ?></p>
-                                    </div>
-                                    <hr class="hr-nama">
-                                    <p>
-                                        <?php echo $key['isi']; ?>
-                                    </p>
-                                </div>
-                                <!-- media body -->
-                            </div>
-                            <!-- panel body -->
-
+        <section class="about">
+            <div class="about-image">
+                <img src="images/about.png" alt="about">
+            </div>
+            <div class="about-text">
+                <h2><span style="color:#3E7D60">Tentang</span></h2>
+                <h2>Sambat Rakyat</h2>
+                <p>
+                    Sambat Rakyat adalah sebuah platform pengaduan masyarakat berbasis website yang dirancang
+                    untuk mempermudah warga dalam menyampaikan keluhan atau aspirasi mereka kepada pemerintah
+                    secara cepat, transparan, dan efisien. Platform ini bertujuan untuk menjembatani komunikasi
+                    antara masyarakat dan pemerintah dengan menyediakan proses pelaporan yang mudah diakses
+                    serta transparan. Melalui Sambat Rakyat, pengguna dapat membuat laporan secara langsung,
+                    memantau status dan perkembangan pengaduannya, serta menerima notifikasi atau umpan balik
+                    terkait tindak lanjut yang diambil pemerintah.
+                </p>
+                <p class="nkri">NKRI tak berarti penyeragaman, melainkan perwujudan kesetaraan dan kesejahteraan.</p>
+                <p>Najwa Sihab</p>
+            </div>
+        </section>
+        
+        <div class="main-content">
+            <!-- section -->
+            <div class="section">
+                <div class="row">
+                    <!-- laporan Terbaru -->
+                    <div class="col-md-8">
+                        <br>
+                        <h3 class="text-center h3-custom">Pengaduan Terbaru</h3>
+                        <hr class="custom-line"/>
+                        <hr>
+                        <!-- scroll-laporan -->
+                        <div class="scroll-laporan">
                             <?php
-                        }
-                        ?>
-
+                            // Ambil semua record dari tabel laporan
+                            $statement = $db->query("SELECT * FROM `laporan` ORDER BY id DESC");
+                            foreach ($statement as $key ) {
+                                $mysqldate = $key['tanggal'];
+                                $phpdate = strtotime($mysqldate);
+                                $tanggal = date( 'd F Y, H:i:s', $phpdate);
+                                ?>
+                                <div class="panel-body card-shadow-2">
+                                    <a class="media-left" href="#"><img class="img-circle img-sm form-shadow" src="images/avatar/<?php RandomAvatar(); ?>"></a>
+                                    <div class="media-body">
+                                        <div>
+                                            <h4 class="text-green profil-name" style="font-family: monospace;"><?php echo $key['nama']; ?></h4>
+                                            <p class="text-muted text-sm"><i class="fa fa-th fa-fw"></i>  -  <?php echo $tanggal; ?></p>
+                                        </div>
+                                        <hr class="hr-nama">
+                                        <p>
+                                            <?php echo $key['isi']; ?>
+                                        </p>
+                                    </div>
+                                    <!-- media body -->
+                                </div>
+                                <!-- panel body -->
+    
+                                <?php
+                            }
+                            ?>
+    
+                        </div>
+                        <!-- end scroll-laporan -->
                     </div>
-                    <!-- end scroll-laporan -->
-                </div>
-                <!-- End Laporan Terbaru -->
+                    <!-- End Laporan Terbaru -->
+
 
                 <!-- Social Media Feed -->
                 <div class="col-md-4">
