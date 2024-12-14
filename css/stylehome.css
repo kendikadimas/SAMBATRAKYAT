@@ -82,12 +82,10 @@
     margin: 30px;
     text-align: center;
     gap:40px;
-
-    
 }
 
 .statistik.stat h2 {
-    font-size: 40px;
+    font-size: 60px;
     font-weight: bold;
     margin: 0;
 }
@@ -97,21 +95,22 @@
     margin: 10px 0 0;
     color: #EDEDED;
 }
-
 .about {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 50px 20px;
+    justify-content: center;
+    padding: 90px;
     background-color: #FFFFFF;
     font-family: 'Poppins', sans-serif;
     color: #333;
-    gap: 20px;
+    height: 100vh;
 }
 
 .about-image {
     flex: 1;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .about-image img {
@@ -121,29 +120,29 @@
 }
 
 .about-text {
-    flex: 2;
-    padding: 20px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-
 .about-text h2 {
-    font-size: 2.5rem;
+    font-size: 32px;
     font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.about-text h2 span {
-    color: #3E7D60; /* Hijau */
 }
 
 .about-text p {
-    font-size: 1.1rem;
+    font-size: 16px;
     line-height: 1.8;
     margin-bottom: 15px;
+    margin-top:20px;
 }
 
 .about-text .nkri {
     font-style: italic;
-    font-weight: bold;
-    color: #3E7D60; /* Hijau */
+    font-weight: 400;
+    font-size: 14px;
+    color: #303030;
     margin-top: 20px;
+    padding-left: 10px;
+    border-left: 3px solid #3E7D60;
 }
