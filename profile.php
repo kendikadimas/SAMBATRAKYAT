@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="retype-password">Confirm New Password:</label>
                     <input type="password" id="retype-password" name="confirm_password" 
-                           placeholder="Re-enter new password" required>
+                           placeholder="Re-enter new password">
                 </div>
                 <button type="submit" class="btn-save-profile">Save Changes</button>
             </form>
