@@ -134,32 +134,63 @@
 }
 
 /* Footer styling */
-.footer {
+
+/* Footer Styling */
+footer {
     background-color: #343a40;
     color: #fff;
     padding: 20px 0;
-    text-align: center;
+    bottom: 0;
 }
 
-.footer h4 {
-    color: #f8f9fa;
+footer h4 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
 }
 
-.footer p {
-    font-size: 14px;
-    color: #adb5bd;
+footer p {
+    font-size: 0.9em;
 }
 
-.footer .btn-social {
-    background-color: transparent;
-    border: 1px solid #adb5bd;
-    color: #adb5bd;
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
+footer ul {
+    list-style: none;
+    padding: 0;
 }
 
-.footer .btn-social:hover {
-    background-color: #adb5bd;
-    color: #343a40;
+footer .btn-social {
+    color: #fff;
+    border: 1px solid #fff;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+footer .btn-social:hover {
+    background-color: #3E7D60;
+    border-color: #3E7D60;
+}
+
+.copyright {
+    background-color: #23272b;
+    padding: 10px 0;
+    font-size: 0.8em;
+    bottom: 0;
+}
+
+
+.menu a {
+    text-decoration: none;
+    color: black;
+    font-weight: normal;
+    display: inline-block;
+    transition: color 0.3s, font-weight 0.3s;
+}
+
+.menu a:hover {
+    color: #3E7D60;
+    font-weight: bold;
+}
+
+.menu a.active-menu {
+    color: #3E7D60;
+    font-weight: bold;
 }

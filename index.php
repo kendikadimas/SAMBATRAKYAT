@@ -80,33 +80,33 @@ function RandomAvatar(){
     <!-- body -->
     <div class="shadow">
         <!-- navbar -->
-        <div class="navbar">
-            <div class="main-logo">
-                <a href="/">
-                    <img src="images/samblog.svg" alt="Logo Sambat" class="main-logo">
-                </a>
-                <div class="sub-tem">
-                    <h1>Sambat rakyat</h1>
-                </div>
+<?php
+// Fungsi untuk menentukan halaman aktif
+function isActive($page) {
+    return basename($_SERVER['PHP_SELF']) == $page ? 'active-menu' : '';
+}
+?>
+    <div class="navbar">
+        <div class="main-logo">
+            <a href="/">
+                <img src="images/samblog.svg" alt="Logo Sambat" class="main-logo">
+            </a>
+            <div class="sub-tem">
+                <h1>Sambat rakyat</h1>
             </div>
+        </div>
 
-            <div class="menu">
-                <a href="index" target="_top">HOME</a>
-                <a href="lapor" target="_top">SAMBAT</a>
-                <a href="lihat" target="_top">LIHAT PENGADUAN</a>
-                <a href="cara" target="_top">PROFIL DINAS</a>
-                <a href="faq" target="_top">TENTANG</a>
-            </div>
+        <div class="menu">
+            <a href="index" class="<?= isActive('index.php') ?>" target="_top">HOME</a>
+            <a href="lapor" class="<?= isActive('lapor.php') ?>" target="_top">SAMBAT</a>
+            <a href="lihat" class="<?= isActive('lihat.php') ?>" target="_top">LIHAT PENGADUAN</a>
+            <a href="cara" class="<?= isActive('cara.php') ?>" target="_top">PROFIL DINAS</a>
+            <a href="faq" class="<?= isActive('faq.php') ?>" target="_top">TENTANG</a>
+        </div>
 
         <?php
         session_start(); // Start session to store user information
-
-        // Check if the user is logged in by checking if 'username' is stored in the session
-        if (isset($_SESSION['username'])) {
-            $username = $_SESSION['username'];
-        } else {
-            $username = null;
-        }
+        $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
         ?>
 
         <?php if ($username) : ?> 
@@ -118,7 +118,6 @@ function RandomAvatar(){
                 </a>
             </div>
         <?php else: ?>
-
             <div class="logsig">
                 <a href="/SAMBATRAKYAT/login.php">
                     <button class="login-btn">Masuk</button>
@@ -127,9 +126,9 @@ function RandomAvatar(){
                     <button class="signup-btn">Daftar</button>
                 </a>
             </div>
-        <?php endif;?>
+        <?php endif; ?>
+    </div>
 
-        </div>
         <!-- end navbar -->
 
         <section class=header-main">
@@ -157,10 +156,6 @@ function RandomAvatar(){
             <div class="stat">
                 <h2>50</h2>
                 <p>Menunggu</p>
-            </div>
-            <div class="stat">
-                <h2>70</h2>
-                <p>Proses</p>
             </div>
             <div class="stat">
                 <h2>130</h2>
@@ -249,7 +244,7 @@ function RandomAvatar(){
                         </div>
                         <div class="info">
                             <h3 class="text-center">twitter</h3>
-                            <a class="twitter-timeline" href="https://twitter.com/disdukcapilbkl?ref_src=twsrc%5Etfw" data-width="500" data-height="300">Tweets by disdukcapilbkl</a>
+                            <a class="twitter-timeline" href="https://twitter.com/bmshumas?lang=en" data-width="500" data-height="300">Tweets by Humas Pemkab Banyumas</a>
                             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                         </div>
                     </div>
@@ -286,7 +281,7 @@ function RandomAvatar(){
                         </div>
                         <div class="kritik-form" style="background-image: url('images/cover_hijau.png');">
                             <img src="images/orang.png" alt="kritik">
-                            <form class="form-horizontal" role="form" method="post">
+                            <form class="form-horizontal" role="form" method="post" action="send_feedback.php">
                                 <input type="text" class="form-control" id="kritik" name="kritik" placeholder="Tuliskan kritik dan saran untuk website">
                                 <button type="submit" class="btn btn-primary-custom form-shadow">Kirim</button>
                             </form>
@@ -321,6 +316,7 @@ function RandomAvatar(){
     <!-- end main-content -->
 
        <!-- Footer -->
+       <!-- Footer -->
        <footer class="footer text-center">
             <div class="row">
                 <div class="col-md-4 mb-5 mb-lg-0">
@@ -348,12 +344,12 @@ function RandomAvatar(){
                     </ul>
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.facebook.com/dispendukcapilbkl/">
+                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
                                 <i class="fa fa-fw fa-facebook"></i>
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/disdukcapilbkl">
+                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/bmshumas?lang=en">
                                 <i class="fa fa-fw fa-twitter"></i>
                             </a>
                         </li>
@@ -378,11 +374,37 @@ function RandomAvatar(){
         </footer>
         <!-- /footer -->
 
-    <div class="copyright" style="background-color: black">
+    <div class="copyright">
         <p style="text-align: center; color: white">v-1.0 | Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
     </div>
     <!-- shadow -->
 </div>
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Ambil semua elemen yang ingin di-observe
+        const elementsToObserve = document.querySelectorAll('.kritik-text h1, .h3-custom');
+
+        // Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('scrolled'); // Tambahkan class
+                } else {
+                    entry.target.classList.remove('scrolled'); // Hapus class jika keluar viewport
+                }
+            });
+        }, { threshold: 0.8 }); // Aktifkan ketika 80% elemen terlihat
+
+        // Observasi setiap elemen
+        elementsToObserve.forEach(element => {
+            observer.observe(element);
+        });
+    });
+</script>
 
 </body>
 </html>

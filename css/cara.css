@@ -71,7 +71,23 @@ body {
     text-align: justify;
 }
 
+.menu a {
+    text-decoration: none;
+    color: black;
+    font-weight: normal;
+    display: inline-block;
+    transition: color 0.3s, font-weight 0.3s;
+}
 
+.menu a:hover {
+    color: #3E7D60;
+    font-weight: bold;
+}
+
+.menu a.active-menu {
+    color: #3E7D60;
+    font-weight: bold;
+}
 
 
 /* Styling for the "back to top" button */

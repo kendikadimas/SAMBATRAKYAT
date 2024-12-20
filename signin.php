@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="right-section">
         <div class="overlay"></div>
         <div class="text-content">
-            <a href="/"><img src="images/pemkab.png" alt="" style="width: 100px; height: 100px;"></a>
+            <a href="Index.php"><img src="images/pemkab.png" alt="" style="width: 100px; height: 100px;"></a>
             <h1>Sambat Rakyat</h1>
             <p>Membangun Banyumas yang lebih melalui aspirasi dan evaluasi</p>
         </div>

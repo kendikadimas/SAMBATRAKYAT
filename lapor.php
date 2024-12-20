@@ -37,56 +37,54 @@
 <body>
 
     <div class="shadow">
+    <?php
+// Fungsi untuk menentukan halaman aktif
+function isActive($page) {
+    return basename($_SERVER['PHP_SELF']) == $page ? 'active-menu' : '';
+}
+?>
     <div class="navbar">
-            <div class="main-logo">
-                <a href="/">
-                    <img src="images/samblog.svg" alt="Logo Sambat" class="main-logo">
-                </a>
-                <div class="sub-tem">
-                    <h1>Sambat rakyat</h1>
-                </div>
+        <div class="main-logo">
+            <a href="/">
+                <img src="images/samblog.svg" alt="Logo Sambat" class="main-logo">
+            </a>
+            <div class="sub-tem">
+                <h1>Sambat rakyat</h1>
             </div>
-
-            <div class="menu">
-                <a href="index" target="_top">HOME</a>
-                <a href="lapor" target="_top">SAMBAT</a>
-                <a href="lihat" target="_top">LIHAT PENGADUAN</a>
-                <a href="cara" target="_top">PROFIL DINAS</a>
-                <a href="faq" target="_top">TENTANG</a>
-            </div>
-            
-            <?php
-            session_start(); // Start session to store user information
-
-            // Check if the user is logged in by checking if 'username' is stored in the session
-            if (isset($_SESSION['username'])) {
-                $username = $_SESSION['username'];
-            } else {
-                $username = null;
-            }
-            ?>
-
-            <?php if ($username) : ?> 
-                <div class="logsig">
-                    <a href="/SAMBATRAKYAT/profile.php">
-                        <button class="login-new-btn">
-                            <?= htmlspecialchars($username) ?>
-                        </button>
-                    </a>
-                </div>
-            <?php else: ?>
-
-                <div class="logsig">
-                    <a href="/SAMBATRAKYAT/login.php">
-                        <button class="login-btn">Masuk</button>
-                    </a>
-                    <a href="/SAMBATRAKYAT/signin.php">
-                        <button class="signup-btn">Daftar</button>
-                    </a>
-                </div>
-            <?php endif;?>
-
         </div>
+
+        <div class="menu">
+            <a href="index" class="<?= isActive('index.php') ?>" target="_top">HOME</a>
+            <a href="lapor" class="<?= isActive('lapor.php') ?>" target="_top">SAMBAT</a>
+            <a href="lihat" class="<?= isActive('lihat.php') ?>" target="_top">LIHAT PENGADUAN</a>
+            <a href="cara" class="<?= isActive('cara.php') ?>" target="_top">PROFIL DINAS</a>
+            <a href="faq" class="<?= isActive('faq.php') ?>" target="_top">TENTANG</a>
+        </div>
+
+        <?php
+        session_start(); // Start session to store user information
+        $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+        ?>
+
+        <?php if ($username) : ?> 
+            <div class="logsig">
+                <a href="/SAMBATRAKYAT/profile.php">
+                    <button class="login-new-btn">
+                        <?= htmlspecialchars($username) ?>
+                    </button>
+                </a>
+            </div>
+        <?php else: ?>
+            <div class="logsig">
+                <a href="/SAMBATRAKYAT/login.php">
+                    <button class="login-btn">Masuk</button>
+                </a>
+                <a href="/SAMBATRAKYAT/signin.php">
+                    <button class="signup-btn">Daftar</button>
+                </a>
+            </div>
+        <?php endif; ?>
+    </div>
 
 
         <!-- content -->
@@ -244,12 +242,12 @@
                     </ul>
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.facebook.com/dispendukcapilbkl/">
+                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
                                 <i class="fa fa-fw fa-facebook"></i>
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/disdukcapilbkl">
+                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/bmshumas?lang=en">
                                 <i class="fa fa-fw fa-twitter"></i>
                             </a>
                         </li>
