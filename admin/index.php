@@ -1,9 +1,8 @@
-<!-- # @Author: Wahid Ari <wahidari>
-# @Date:   8 January 2018, 5:05
-# @Copyright: (c) wahidari 2018 -->
+
 <?php
     require_once("database.php"); // koneksi DB
-    require_once("auth.php"); // Session
+    require_once 'auth.php';
+    
     logged_admin ();
     global $total_laporan_masuk, $total_laporan_menunggu, $total_laporan_ditanggapi;
     if ($id_admin > 0) {

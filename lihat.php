@@ -44,14 +44,15 @@ if(isset($_POST['submit'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Lihat Pengaduan | Dispendukcapil Bangkalan</title>
-    <link rel="shortcut icon" href="images/samblog.ico">
+    <title>Lihat Pengaduan | Sambat Rakyat</title>
+    <link rel="shortcut icon" href="images/samblog.svg">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css">
     <!-- font Awesome CSS -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Main Styles CSS -->
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/lihat.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="js/jquery.min.js"></script>
     <!-- Bootstrap JavaScript -->
@@ -105,21 +106,43 @@ if(isset($_POST['submit'])) {
                 <a href="faq" target="_top">TENTANG</a>
             </div>
             
+            <?php
+        session_start(); // Start session to store user information
+
+        // Check if the user is logged in by checking if 'username' is stored in the session
+        if (isset($_SESSION['username'])) {
+            $username = $_SESSION['username'];
+        } else {
+            $username = null;
+        }
+        ?>
+
+        <?php if ($username) : ?> 
             <div class="logsig">
-                <a href="/account/login">
+                <a href="/SAMBATRAKYAT/profile.php">
+                    <button class="login-new-btn">
+                        <?= htmlspecialchars($username) ?>
+                    </button>
+                </a>
+            </div>
+        <?php else: ?>
+
+            <div class="logsig">
+                <a href="/SAMBATRAKYAT/login.php">
                     <button class="login-btn">Masuk</button>
                 </a>
-                <a href="/account/signin">
+                <a href="/SAMBATRAKYAT/signin.php">
                     <button class="signup-btn">Daftar</button>
                 </a>
             </div>
+        <?php endif;?>
         </div>
         <!-- content -->
         <div class="main-content">
             <h3>Lihat Pengaduan</h3>
             <hr/>
             <div class="row">
-                <div class="col-md-6 card-shadow-2 form-custom">
+                <div class="col card-shadow-2 form-custom">
                     <form class="form-horizontal" role="form" method="post">
                         <div class="form-group">
                             <label for="nomor" class="col-sm-4 control-label">Nomor Pengaduan</label>
@@ -153,7 +176,7 @@ if(isset($_POST['submit'])) {
                     <h3>Hasil Pencarian</h3>
 
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col">
 
                             <div class="panel-body-lihat card-shadow-2">
                                 <div class="row">
@@ -256,10 +279,10 @@ if(isset($_POST['submit'])) {
 
         <hr>
 
-        <!-- Footer -->
-        <div class="footer footer-bottom text-center">
+       <!-- Footer -->
+       <footer class="footer text-center">
             <div class="row">
-                <div class="col-md-4 mb-5 mb-lg-0">
+                <div class="col-md-4 mb-5">
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
                             <i class="fa fa-top fa-map-marker"></i>
@@ -269,8 +292,8 @@ if(isset($_POST['submit'])) {
                         </li>
                     </ul>
                     <p class="mb-0">
-                        Jalan Soekarno-Hatta No 50
-                        <br>Bangkalan, Jawa Timur
+                        Jl. Kabupaten No. 1 Purwokerto
+                        <br>Banyumas, Jawa Tengah
                     </p>
                 </div>
                 <div class="col-md-4 mb-5 mb-lg-0">
@@ -305,20 +328,18 @@ if(isset($_POST['submit'])) {
                         </li>
                     </ul>
                     <p class="mb-0">
-                        031-3095331 <br>
-                        dispendukcapil@bangkalankab.go.id <br>
-                        dispendukcapil.bangkalan@gmail.com
+                        +62 858-1417-4267 <br>
+                        https://www.banyumaskab.go.id/ <br>
+                        banyumaspemkab@gmail.com
                     </p>
                 </div>
             </div>
-        </div>
+        </footer>
         <!-- /footer -->
 
-        <div class="copyright py-4 text-center text-white">
-            <div class="container">
-                <small>v-6.0 | Copyright &copy; Dispendukcapil Bangkalan 2018</small>
-            </div>
-        </div>
+    <div class="copyright">
+        <p style="text-align: center; color: white">v-1.0 | Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
+    </div>
 
 
         <!-- shadow -->

@@ -23,14 +23,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Lapor | Dispendukcapil Bangkalan</title>
-    <link rel="shortcut icon" href="images/samblog.png">
+    <title>Sambat | Sambat Rakyat</title>
+    <link rel="shortcut icon" href="images/samblog.svg">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css">
     <!-- font Awesome CSS -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Main Styles CSS -->
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/lapor.css" rel="stylesheet">
 </head>
 
 <body>
@@ -54,14 +55,37 @@
                 <a href="faq" target="_top">TENTANG</a>
             </div>
             
-            <div class="logsig">
-                <a href="/account/login">
-                    <button class="login-btn">Masuk</button>
-                </a>
-                <a href="/account/signin">
-                    <button class="signup-btn">Daftar</button>
-                </a>
-            </div>
+            <?php
+            session_start(); // Start session to store user information
+
+            // Check if the user is logged in by checking if 'username' is stored in the session
+            if (isset($_SESSION['username'])) {
+                $username = $_SESSION['username'];
+            } else {
+                $username = null;
+            }
+            ?>
+
+            <?php if ($username) : ?> 
+                <div class="logsig">
+                    <a href="/SAMBATRAKYAT/profile.php">
+                        <button class="login-new-btn">
+                            <?= htmlspecialchars($username) ?>
+                        </button>
+                    </a>
+                </div>
+            <?php else: ?>
+
+                <div class="logsig">
+                    <a href="/SAMBATRAKYAT/login.php">
+                        <button class="login-btn">Masuk</button>
+                    </a>
+                    <a href="/SAMBATRAKYAT/signin.php">
+                        <button class="signup-btn">Daftar</button>
+                    </a>
+                </div>
+            <?php endif;?>
+
         </div>
 
 
@@ -146,25 +170,9 @@
                                 <p class="error"><?= @$_GET['pengaduanError'] ?></p>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="captcha" class="col-sm-3 control-label">Captcha</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <!--menampilkan gambar captcha-->
-                                    <img class="card-shadow-2" src="private/captcha.php"/> <br/>
-                                </div>
-                            </div>
+            
                         </div>
-                        <div class="form-group">
-                            <label for="captcha" class="col-sm-3 control-label"></label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <div class="input-group-addon"><span class="glyphicon glyphicon-open"></span></div>
-                                    <input type="text" class="form-control" id="captcha" name="captcha" placeholder="Masukkan Captcha di Atas" value="<?= @$_GET['captcha'] ?>" required>
-                                </div>
-                                <p class="error"><?= @$_GET['captchaError'] ?></p>
-                            </div>
-                        </div>
+                       
                         <div class="form-group">
                             <div class="col-sm-10 col-sm-offset-3">
                                 <input id="submit" name="submit" type="submit" value="Kirim Pengaduan" class="btn btn-primary-custom form-shadow">
@@ -208,7 +216,8 @@
         </div>
 
         <!-- Footer -->
-        <footer class="footer text-center">
+       <!-- Footer -->
+       <footer class="footer text-center">
             <div class="row">
                 <div class="col-md-4 mb-5 mb-lg-0">
                     <ul class="list-inline mb-0">
@@ -220,8 +229,8 @@
                         </li>
                     </ul>
                     <p class="mb-0">
-                        Jalan Soekarno-Hatta No 50
-                        <br>Bangkalan, Jawa Timur
+                        Jl. Kabupaten No. 1 Purwokerto
+                        <br>Banyumas, Jawa Tengah
                     </p>
                 </div>
                 <div class="col-md-4 mb-5 mb-lg-0">
@@ -256,20 +265,18 @@
                         </li>
                     </ul>
                     <p class="mb-0">
-                        031-3095331 <br>
-                        dispendukcapil@bangkalankab.go.id <br>
-                        dispendukcapil.bangkalan@gmail.com
+                        +62 858-1417-4267 <br>
+                        https://www.banyumaskab.go.id/ <br>
+                        banyumaspemkab@gmail.com
                     </p>
                 </div>
             </div>
         </footer>
         <!-- /footer -->
 
-        <div class="copyright py-4 text-center text-white">
-            <div class="container">
-                <small>v-6.0 | Copyright &copy; Dispendukcapil Bangkalan 2018</small>
-            </div>
-        </div>
+    <div class="copyright">
+        <p style="text-align: center; color: white">v-1.0 | Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
+    </div>
         <!-- shadow -->
     </div>
 

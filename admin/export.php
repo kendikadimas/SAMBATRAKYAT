@@ -3,7 +3,7 @@
 # @Copyright: (c) wahidari 2018 -->
 <?php
 require_once("database.php");
-require_once("auth.php"); // Session
+
 logged_admin ();
 ?>
 <!DOCTYPE html>

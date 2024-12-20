@@ -9,8 +9,8 @@
 	require_once("database.php");
 	header("Location: ../index?status=success");
 	// Atasi Undefined
-	$nama = $email = $telpon = $alamat = $pengaduan = $captcha = $is_valid = "";
-	$namaError = $emailError = $telponError = $alamatError = $pengaduanError = $captchaError = "";
+	$nama = $email = $telpon = $alamat = $pengaduan = $is_valid = "";
+	$namaError = $emailError = $telponError = $alamatError = $pengaduanError = "";
 
     if (isset($_POST['submit'])){
         $nomor     = $_POST['nomor'];
@@ -20,7 +20,6 @@
         $alamat    = $_POST['alamat'];
         $tujuan    = $_POST['tujuan'];
         $pengaduan = $_POST['pengaduan'];
-        $captcha   = $_POST['captcha'];
         $is_valid  = true;
         validate_input();
 
@@ -39,19 +38,18 @@
 			$stmt->execute();
 			header("Location: ../index?status=success");
         } elseif (!$is_valid) {
-            header("Location: ../lapor.php?nomor=$nomor&nama=$nama&namaError=$namaError&email=$email&emailError=$emailError&telpon=$telpon&telponError=$telponError&alamat=$alamat&alamatError=$alamatError&pengaduan=$pengaduan&pengaduanError=$pengaduanError&captcha=$captcha&captchaError=$captchaError");
+            header("Location: ../lapor.php?nomor=$nomor&nama=$nama&namaError=$namaError&email=$email&emailError=$emailError&telpon=$telpon&telponError=$telponError&alamat=$alamat&alamatError=$alamatError&pengaduan=$pengaduan&pengaduanError=$pengaduanError");
         }
     }
 
     // Fungsi Untuk Melakukan Pengecekan Dari Setiap Inputan Di Masing - masing Fungsi
     function validate_input() {
-        global $nama , $email , $telpon , $alamat , $pengaduan , $captcha , $is_valid;
+        global $nama , $email , $telpon , $alamat , $pengaduan , $is_valid;
         cek_nama($nama);
         cek_email($email);
         cek_telpon($telpon);
         cek_alamat($alamat);
 		cek_pengaduan($pengaduan);
-        cek_captcha($captcha);
     }
 
     // validasi nama
@@ -117,15 +115,4 @@
         }
     }
 
-    // validasi captcha
-    function cek_captcha($captcha) {
-        global $captcha, $is_valid, $captchaError;
-        echo "cek_captcha   : ", $captcha   , "<br>";
-        if ($captcha != $_SESSION['bilangan']) { // cek fullname bukan huruf
-            $captchaError = "Captcha Salah atau Silahkan Reload Browser Anda";
-            $is_valid = false;
-        } else { // jika pengaduan valid kosongkan error
-            $captchaError = "";
-        }
-    }
 ?>

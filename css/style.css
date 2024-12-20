@@ -65,3 +65,84 @@
     color: #3E7D60;
     background-color: white;
 }
+
+.login-new-btn{
+    cursor: pointer;
+    border: 0;
+    border-radius: 4px;
+    font-weight: 600;
+    margin: 0 10px;
+    width: 125px;
+    padding: 10px 0;
+    transition: 0.4s;
+    color: white;
+    background-color: #3E7D60;
+}
+
+/* Back to Top Button */
+#top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    z-index: 999;
+    font-size: 24px;
+    color: #3E7D60;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+#top:hover {
+    background-color: #2b6c4e;
+    color: #fff;
+}
+
+
+/* Footer Styling */
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px 0;
+}
+
+footer h4 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+footer p {
+    font-size: 0.9em;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+footer .btn-social {
+    color: #fff;
+    border: 1px solid #fff;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+footer .btn-social:hover {
+    background-color: #3E7D60;
+    border-color: #3E7D60;
+}
+
+.copyright p{
+    padding: 10px 0;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.copyright {
+    background-color: black;
+}

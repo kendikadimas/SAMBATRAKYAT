@@ -4,7 +4,7 @@
 <?php
     // database
     require_once("database.php");
-    require_once("auth.php"); // Session
+    
     logged_admin ();
     // global var
     global $nomor, $foundreply;
