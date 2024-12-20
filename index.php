@@ -262,9 +262,9 @@ function RandomAvatar(){
                         </div>
                         <div class="info">
                             <h3 class="text-center">facebook</h3>
-                            <div class="fb-page" data-height="300" data-width="500" data-href="https://www.facebook.com/dispendukcapilbkl" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
-                                <blockquote cite="https://www.facebook.com/dispendukcapilbkl" class="fb-xfbml-parse-ignore">
-                                    <a href="https://www.facebook.com/dispendukcapilbkl">Dispenduk dan Capil Kabupaten Bangkalan</a>
+                            <div class="fb-page" data-height="300" data-width="500" data-href="https://www.facebook.com/betterbanyumas" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                                <blockquote cite="https://www.facebook.com/betterbanyumas" class="fb-xfbml-parse-ignore">
+                                    <a href="https://www.facebook.com/betterbanyumas">Pemerintahan Kabupaten Banyumas</a>
                                 </blockquote>
                             </div>
                         </div>

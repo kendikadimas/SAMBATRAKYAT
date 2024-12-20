@@ -1,5 +1,32 @@
 <?php
 require_once("private/database.php");
+
+session_start(); // Memulai sesi
+
+// Inisialisasi variabel $account sebagai null secara default
+$account = null;
+
+// Periksa apakah pengguna sudah login
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+
+    try {
+        // Query ke database untuk mendapatkan detail pengguna
+        $query = "SELECT id, username, email, role FROM users WHERE username = :username";
+        $stmt = $db->prepare($query); // Menggunakan PDO
+        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
+
+        // Jika data pengguna ditemukan, simpan ke $account
+        if ($stmt->rowCount() > 0) {
+            $account = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+    } catch (PDOException $e) {
+        // Menangani kesalahan koneksi atau query
+        echo "Database error: " . $e->getMessage();
+        exit;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -85,7 +112,7 @@ require_once("private/database.php");
             </div>
 
         <?php
-        session_start(); // Start session to store user information
+        
 
         // Check if the user is logged in by checking if 'username' is stored in the session
         if (isset($_SESSION['username'])) {
