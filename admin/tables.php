@@ -59,7 +59,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="images/favicon.ico">
-    <title>Table - Pengaduan Dispenduk Bangkalan</title>
+    <title>Table - Sambat Rakyat Banyumas</title>
     <!-- Bootstrap core CSS-->
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
@@ -73,7 +73,7 @@
 <body class="fixed-nav sticky-footer" id="page-top">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-        <a class="navbar-brand" href="index">Dispenduk Bangkalan</a>
+        <a class="navbar-brand" href="index">Sambat Rakyat Banyumas</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -400,7 +400,7 @@
         <footer class="sticky-footer">
             <div class="container">
                 <div class="text-center">
-                    <small>Copyright © Dispenduk Bangkalan 2018</small>
+                    <small>Copyright © Pemerintah Kabupaten Banyumas</small>
                 </div>
             </div>
         </footer>
@@ -442,7 +442,7 @@
                     </div>
                     <div class="modal-body">
                         <h5 style="text-align : center;">V-6.0</h5>
-                        <p style="text-align : center;">Copyright © Dispenduk Bangkalan 2018</p>
+                        <p style="text-align : center;">Copyright © Pemerintahan Kabupaten Banyumas</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-close card-shadow-2 btn-sm" data-dismiss="modal">Tutup</button>
