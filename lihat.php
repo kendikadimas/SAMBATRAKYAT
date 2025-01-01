@@ -1,7 +1,7 @@
 <?php
-# @Author: Wahid Ari <wahidari>
-# @Date:   8 January, 5:05
-# @Copyright: (c) wahidari 2017
+# @Author: kelompok 4
+# @Date:   20 Desember 2024
+# @Copyright: (c) Sambat Rakyat Banyumas 2024
 ?>
 <?php
 require_once("private/database.php");
@@ -139,7 +139,7 @@ function isActive($page) {
 
         <!-- content -->
         <div class="main-content">
-            <h3>Lihat Pengaduan</h3>
+            <h3 style="text-align: center; color: #3E7D60; font-weight: bold">Lihat Pengaduan</h3>
             <hr/>
             <div class="row">
                 <div class="col card-shadow-2 form-custom">

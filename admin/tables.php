@@ -1,6 +1,6 @@
-<!-- # @Author: Wahid Ari <wahidari>
-# @Date:   8 January 2018, 5:05
-# @Copyright: (c) wahidari 2018 -->
+<!-- # @Author: kelompok 4
+# @Date:   20 Desember 2024
+# @Copyright: (c) Sambat Rakyat Banyumas 2024 -->
 <?php
     // database
     require_once("database.php");
@@ -58,7 +58,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="shortcut icon" href="images/samblog.svg">
     <title>Table - Sambat Rakyat Banyumas</title>
     <!-- Bootstrap core CSS-->
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -118,7 +118,7 @@
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Version">
                     <a class="nav-link" href="#VersionModal" data-toggle="modal" data-target="#VersionModal">
                         <i class="fa fa-fw fa-code"></i>
-                        <span class="nav-link-text">v-6.0</span>
+                        <span class="nav-link-text">v-1.0</span>
                     </a>
                 </li>
 
@@ -441,7 +441,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h5 style="text-align : center;">V-6.0</h5>
+                        <h5 style="text-align : center;">V-1.0</h5>
                         <p style="text-align : center;">Copyright © Pemerintahan Kabupaten Banyumas</p>
                     </div>
                     <div class="modal-footer">

@@ -1,7 +1,7 @@
 <?php
-# @Author: Wahid Ari <wahidari>
-# @Date:   8 January, 5:05
-# @Copyright: (c) wahidari 2017
+# @Author: kelompok 4
+# @Date:   20 Desember 2024
+# @Copyright: (c) Sambat Rakyat Banyumas 2024
 ?>
 <?php
     require_once("private/database.php");
@@ -14,6 +14,42 @@ function RandomAvatar(){
     $randomImage = $photoAreas[$randomNumber];
     echo $randomImage;
 }
+?>
+
+
+
+<?php
+// Konfigurasi koneksi database
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$database = 'kp';
+
+// Koneksi ke database
+$mysqli = new mysqli($host, $user, $password, $database);
+
+// Periksa koneksi
+if ($mysqli->connect_error) {
+    die("Koneksi gagal: " . $mysqli->connect_error);
+}
+
+// Ambil jumlah laporan total
+$total_laporan_query = "SELECT COUNT(*) AS total_laporan FROM laporan";
+$total_laporan_result = $mysqli->query($total_laporan_query);
+$total_laporan = $total_laporan_result->fetch_assoc()['total_laporan'];
+
+// Ambil jumlah laporan menunggu
+$menunggu_query = "SELECT COUNT(*) AS menunggu FROM laporan WHERE status = 'Menunggu'";
+$menunggu_result = $mysqli->query($menunggu_query);
+$total_menunggu = $menunggu_result->fetch_assoc()['menunggu'];
+
+// Ambil jumlah laporan selesai
+$selesai_query = "SELECT COUNT(*) AS selesai FROM laporan WHERE status = 'Ditanggapi'";
+$selesai_result = $mysqli->query($selesai_query);
+$total_selesai = $selesai_result->fetch_assoc()['selesai'];
+
+// Tutup koneksi
+$mysqli->close();
 ?>
 
 <!DOCTYPE html>
@@ -150,15 +186,15 @@ function isActive($page) {
 
         <section class="statistik" style="background-image: url('images/cover_hijau.png');">
             <div class="stat">
-                <h2>250</h2>
+                <h2><?php echo $total_laporan; ?></h2>
                 <p>Total Laporan</p>
             </div>
             <div class="stat">
-                <h2>50</h2>
+                <h2><?php echo $total_menunggu; ?></h2>
                 <p>Menunggu</p>
             </div>
             <div class="stat">
-                <h2>130</h2>
+                <h2><?php echo $total_selesai; ?></h2>
                 <p>Selesai</p>
             </div>
         </section>
@@ -281,7 +317,7 @@ function isActive($page) {
                         </div>
                         <div class="kritik-form" style="background-image: url('images/cover_hijau.png');">
                             <img src="images/orang.png" alt="kritik">
-                            <form class="form-horizontal" role="form" method="post" action="send_feedback.php">
+                            <form class="form-horizontal" role="form" method="post" action="index.php">
                                 <input type="text" class="form-control" id="kritik" name="kritik" placeholder="Tuliskan kritik dan saran untuk website">
                                 <button type="submit" class="btn btn-primary-custom form-shadow">Kirim</button>
                             </form>
@@ -404,6 +440,40 @@ function isActive($page) {
             observer.observe(element);
         });
     });
+
+
+
+
+    // Fungsi untuk animasi counter
+function animateCounter(element, start, end, duration) {
+    let startTimestamp = null;
+
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const value = Math.floor(progress * (end - start) + start);
+        element.textContent = value;
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    };
+
+    window.requestAnimationFrame(step);
+}
+
+    // Menjalankan animasi untuk setiap elemen statistik
+    document.addEventListener("DOMContentLoaded", () => {
+        const totalLaporanElement = document.querySelector(".stat:nth-child(1) h2");
+        const menungguElement = document.querySelector(".stat:nth-child(2) h2");
+        const selesaiElement = document.querySelector(".stat:nth-child(3) h2");
+
+        // Memulai animasi
+        animateCounter(totalLaporanElement, 0, parseInt(totalLaporanElement.textContent), 1000);
+        animateCounter(menungguElement, 0, parseInt(menungguElement.textContent), 1000);
+        animateCounter(selesaiElement, 0, parseInt(selesaiElement.textContent), 1000);
+    });
+
+
 </script>
 
 </body>

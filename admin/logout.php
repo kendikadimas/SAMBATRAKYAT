@@ -1,7 +1,7 @@
 <?php
-# @Author: Wahid Ari <wahidari>
-# @Date:   13 January 2018, 3:58
-# @Copyright: (c) wahidari 2018
+# @Author: kelompok 4
+# @Date:   20 Desember 2024
+# @Copyright: (c) Sambat Rakyat Banyumas 2024
 
 session_start();
 unset($_SESSION['admin']); // unset admin session
