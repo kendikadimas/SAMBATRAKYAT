@@ -30,11 +30,11 @@ Proyek ini dilisensikan oleh Informatika, Fakultas Teknik, Universitas Jenderal 
 
 ## Tentang Developer
 
-Nadzare Kafah Alfatiha (H1D023014)
-Zaizafun Hanifah Zainnur Hanun (H1D023021)
-Moreno Hilbran Glenardi (H1D023024)
-Aisyah Syifa Karima (H1D023043)
-M. Edwi Tsanystya Raihan (H1D023087)
+1. Nadzare Kafah Alfatiha (H1D023014)
+2. Zaizafun Hanifah Zainnur Hanun (H1D023021)
+3. Moreno Hilbran Glenardi (H1D023024)
+4. Aisyah Syifa Karima (H1D023043)
+5. M. Edwi Tsanystya Raihan (H1D023087) 
 
 
 ---
