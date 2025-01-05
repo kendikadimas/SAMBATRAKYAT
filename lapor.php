@@ -26,170 +26,226 @@
     <title>Sambat | Sambat Rakyat</title>
     <link rel="shortcut icon" href="images/samblog.svg">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
     <!-- font Awesome CSS -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Main Styles CSS -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/lapor.css" rel="stylesheet">
+    <!-- <link href="css/style.css" rel="stylesheet">
+    <link href="css/lapor.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="css/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-
-    <div class="shadow">
-    <?php
-// Fungsi untuk menentukan halaman aktif
-function isActive($page) {
-    return basename($_SERVER['PHP_SELF']) == $page ? 'active-menu' : '';
-}
+<!-- NAVBAR -->
+<?php
+    if(isset($_GET['status'])) {
 ?>
-    <div class="navbar">
-        <div class="main-logo">
-            <a href="/">
-                <img src="images/samblog.svg" alt="Logo Sambat" class="main-logo">
-            </a>
-            <div class="sub-tem">
-                <h1>Sambat rakyat</h1>
-            </div>
-        </div>
+    <script type="text/javascript">
+        $("#successmodalclear").modal();
+    </script>
+<?php
+    }
+?>
+<?php
+    function isActive($page) {
+        return basename($_SERVER['PHP_SELF']) == $page ? 'text-[#3E7D60] font-semibold' : 'text-gray-800 m-2';
+    }
+?>
 
-        <div class="menu">
-            <a href="index" class="<?= isActive('index.php') ?>" target="_top">HOME</a>
-            <a href="lapor" class="<?= isActive('lapor.php') ?>" target="_top">SAMBAT</a>
-            <a href="lihat" class="<?= isActive('lihat.php') ?>" target="_top">LIHAT PENGADUAN</a>
-            <a href="cara" class="<?= isActive('cara.php') ?>" target="_top">PROFIL DINAS</a>
-            <a href="faq" class="<?= isActive('faq.php') ?>" target="_top">TENTANG</a>
+<div class="w-full bg-white shadow-lg p-5 flex justify-between items-center z-[100]">
+    <!-- Logo and Title Section -->
+    <div class="flex items-center ml-14">
+        <a href="/">
+            <img src="images/samblog.svg" alt="Logo Sambat" class="h-[3vw] transition duration-300 transform hover:scale-110">
+        </a>
+        <div class="text-2xl font-bold ml-3">
+            <h1 class="text-[#3E7D60] hover:text-[#2C6B50] transition-colors duration-300">Sambat Rakyat</h1>
         </div>
+    </div>
 
+    <!-- Navigation Links Section -->
+    <div class="hidden md:flex items-center space-x-8 text-center">
+        <a href="index" class="<?= isActive('index.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Home</a>
+        <a href="lapor" class="<?= isActive('lapor.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Sambat</a>
+        <a href="lihat" class="<?= isActive('lihat.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Lihat Pengaduan</a>
+        <a href="cara" class="<?= isActive('cara.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Profil Dinas</a>
+        <a href="faq" class="<?= isActive('faq.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Tentang</a>
+    </div>
+
+    <!-- User Authentication Buttons Section -->
+    <div class="flex items-center space-x-6">
         <?php
-        session_start(); // Start session to store user information
         $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
         ?>
 
-        <?php if ($username) : ?> 
-            <div class="logsig">
-                <a href="/SAMBATRAKYAT/profile.php">
-                    <button class="login-new-btn">
-                        <?= htmlspecialchars($username) ?>
-                    </button>
-                </a>
-            </div>
+        <?php if ($username): ?>
+            <a href="/SAMBATRAKYAT/profile.php">
+                <button class="border-0 rounded-md font-semibold px-6 py-3 text-white bg-[#3E7D60] hover:bg-[#5C8D73] transition duration-300 transform hover:scale-105">
+                    <?= htmlspecialchars($username) ?>
+                </button>
+            </a>
         <?php else: ?>
-            <div class="logsig">
-                <a href="/SAMBATRAKYAT/login.php">
-                    <button class="login-btn">Masuk</button>
-                </a>
-                <a href="/SAMBATRAKYAT/signin.php">
-                    <button class="signup-btn">Daftar</button>
-                </a>
-            </div>
+            <a href="/SAMBATRAKYAT/login.php">
+                <button class="border-0 rounded-md font-semibold px-6 py-3 text-primary bg-white hover:bg-[#f0f0f0] hover:underline transition duration-300 transform hover:scale-105">Masuk</button>
+            </a>
+            <a href="/SAMBATRAKYAT/signin.php">
+                <button class="border-0 rounded-md font-semibold px-6 py-3 text-white bg-[#3E7D60] hover:bg-[#5C8D73] transition duration-300 transform hover:scale-105">Daftar</button>
+            </a>
         <?php endif; ?>
     </div>
+</div>
+
+<!-- Mobile Menu Toggle Button -->
+<div class="md:hidden flex items-center space-x-4">
+    <button class="text-gray-800 p-2 rounded-md hover:text-[#3E7D60] focus:outline-none">
+        <i class="fas fa-bars"></i>
+    </button>
+</div>
 
 
         <!-- content -->
-        <div class="main-content">
+        <div class="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 mb-10">
+    <h3 class="text-primary font-bold text-center text-3xl mb-4">Buat Laporan</h3>
+    <hr class="border-t border-gray-300 mb-6" />
 
-            <h3 style="font-weight: bold">Buat Laporan</h3>
-            <hr/>
-            <div class="row">
-                <div class="col-md-8 card-shadow-2 form-custom">
-                    <form class="form-horizontal" role="form" method="post" action="private/validasi">
-                        <div class="form-group">
-                            <label for="nomor" class="col-sm-3 control-label">Nomor Pengaduan</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <div class="input-group-addon"><span class="glyphicon glyphicon-exclamation-sign"></span></div>
-                                    <input type="text" class="form-control" id="nomor" name="nomor" value="<?php echo $max_id; ?>" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="nama" class="col-sm-3 control-label">Nama</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
-                                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Lengkap" value="<?= @$_GET['nama'] ?>" required>
-                                </div>
-                                <p class="error"><?= @$_GET['namaError'] ?></p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="col-sm-3 control-label">Email</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <div class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></div>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="example@domain.com" value="<?= @$_GET['email'] ?>" required>
-                                </div>
-                                <p class="error"><?= @$_GET['emailError'] ?></p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="telpon" class="col-sm-3 control-label">Telpon</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <div class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></div>
-                                    <input type="text" class="form-control" id="telpon" name="telpon" placeholder="087123456789" value="<?= @$_GET['telpon'] ?>" required>
-                                </div>
-                                <p class="error"><?= @$_GET['telponError'] ?></p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="alamat" class="col-sm-3 control-label">Alamat</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <div class="input-group-addon"><span class="glyphicon glyphicon-home"></span></div>
-                                    <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat" value="<?= @$_GET['alamat'] ?>" required>
-                                </div>
-                                <p class="error"><?= @$_GET['alamatError'] ?></p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="tujuan" class="col-sm-3 control-label">Tujuan Pengaduan</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <div class="input-group-addon"><span class="glyphicon glyphicon-random"></span></div>
-                                    <select class="form-control" name="tujuan">
-                                        <option value="1">Pelayanan Pendaftaran Penduduk</option>
-                                        <option value="2">Pelayanan Pencatatan Sipil</option>
-                                        <option value="3">Pengelolaan Informasi Administrasi Kependudukan</option>
-                                        <option value="4">Pemanfaatan Data Dan Inovasi Pelayanan</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="pengaduan" class="col-sm-3 control-label">Isi Pengaduan</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <div class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></div>
-                                    <textarea class="form-control" rows="4" name="pengaduan" placeholder="Tuliskan Isi Pengaduan" required><?= @$_GET['pengaduan'] ?></textarea>
-                                </div>
-                                <p class="error"><?= @$_GET['pengaduanError'] ?></p>
-                            </div>
-                        </div>
-            
-                        </div>
-                       
-                        <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-3">
-                                <input id="submit" name="submit" type="submit" value="Kirim Pengaduan" class="btn btn-primary-custom form-shadow">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
-                                <p class="error"><em>* Catat Nomor Pengaduan Untuk Melihat Status Pengaduan</em></p>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-4"></div>
+    <form class="space-y-6" method="post" action="private/validasi">
+        <!-- Nomor Pengaduan -->
+        <div class="grid grid-cols-3 gap-4 items-center">
+            <label for="nomor" class="font-semibold text-gray-700 col-span-1">Nomor Pengaduan</label>
+            <div class="col-span-2">
+                <input 
+                    type="text" 
+                    id="nomor" 
+                    name="nomor" 
+                    value="<?php echo $max_id; ?>" 
+                    class="bg-gray-100 text-gray-500 w-full px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300"
+                    readonly />
             </div>
+        </div>
+
+        <!-- Nama -->
+        <div class="grid grid-cols-3 gap-4 items-center">
+            <label for="nama" class="font-semibold text-gray-700 col-span-1">Nama</label>
+            <div class="col-span-2">
+                <input 
+                    type="text" 
+                    id="nama" 
+                    name="nama" 
+                    placeholder="Nama Lengkap" 
+                    value="<?= @$_GET['nama'] ?>" 
+                    required
+                    class="w-full px-4 py-2 border rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300" />
+                <p class="text-sm text-red-500 mt-1"><?= @$_GET['namaError'] ?></p>
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="grid grid-cols-3 gap-4 items-center">
+            <label for="email" class="font-semibold text-gray-700 col-span-1">Email</label>
+            <div class="col-span-2">
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="example@domain.com" 
+                    value="<?= @$_GET['email'] ?>" 
+                    required
+                    class="w-full px-4 py-2 border rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300" />
+                <p class="text-sm text-red-500 mt-1"><?= @$_GET['emailError'] ?></p>
+            </div>
+        </div>
+
+        <!-- Telpon -->
+        <div class="grid grid-cols-3 gap-4 items-center">
+            <label for="telpon" class="font-semibold text-gray-700 col-span-1">Telpon</label>
+            <div class="col-span-2">
+                <input 
+                    type="text" 
+                    id="telpon" 
+                    name="telpon" 
+                    placeholder="087123456789" 
+                    value="<?= @$_GET['telpon'] ?>" 
+                    required
+                    class="w-full px-4 py-2 border rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300" />
+                <p class="text-sm text-red-500 mt-1"><?= @$_GET['telponError'] ?></p>
+            </div>
+        </div>
+
+        <!-- Alamat -->
+        <div class="grid grid-cols-3 gap-4 items-center">
+            <label for="alamat" class="font-semibold text-gray-700 col-span-1">Alamat</label>
+            <div class="col-span-2">
+                <input 
+                    type="text" 
+                    id="alamat" 
+                    name="alamat" 
+                    placeholder="Alamat" 
+                    value="<?= @$_GET['alamat'] ?>" 
+                    required
+                    class="w-full px-4 py-2 border rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300" />
+                <p class="text-sm text-red-500 mt-1"><?= @$_GET['alamatError'] ?></p>
+            </div>
+        </div>
+
+        <!-- Tujuan Pengaduan -->
+        <div class="grid grid-cols-3 gap-4 items-center">
+            <label for="tujuan" class="font-semibold text-gray-700 col-span-1">Tujuan Pengaduan</label>
+            <div class="col-span-2">
+                <select 
+                    id="tujuan" 
+                    name="tujuan" 
+                    class="w-full px-4 py-2 border rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300">
+                    <option value="1">Pelayanan Pendaftaran Penduduk</option>
+                    <option value="2">Pelayanan Pencatatan Sipil</option>
+                    <option value="3">Pengelolaan Informasi Administrasi Kependudukan</option>
+                    <option value="4">Pemanfaatan Data Dan Inovasi Pelayanan</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Isi Pengaduan -->
+        <div class="grid grid-cols-3 gap-4 items-center">
+            <label for="pengaduan" class="font-semibold text-gray-700 col-span-1">Isi Pengaduan</label>
+            <div class="col-span-2">
+                <textarea 
+                    id="pengaduan" 
+                    name="pengaduan" 
+                    placeholder="Tuliskan Isi Pengaduan" 
+                    rows="4" 
+                    required
+                    class="w-full px-4 py-2 border rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300"></textarea>
+                <p class="text-sm text-red-500 mt-1"><?= @$_GET['pengaduanError'] ?></p>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center">
+            <button 
+                type="submit" 
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Kirim Pengaduan
+            </button>
+        </div>
+
+        <!-- Note -->
+        <div class="text-center text-sm text-gray-500 mt-4">
+            <em>* Catat Nomor Pengaduan Untuk Melihat Status Pengaduan</em>
+        </div>
+    </form>
+</div>
 
             <!-- link to top -->
-            <a id="top" href="#" onclick="topFunction()">
-                <i class="fa fa-arrow-circle-up"></i>
+            <a 
+                id="top" 
+                href="#" 
+                onclick="topFunction()" 
+                class="fixed bottom-5 right-5 bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 hover:scale-110 transition-all duration-300"
+                title="Back to Top"
+            >
+                <i class="fa fa-arrow-circle-up text-[24px]"></i>
             </a>
+
             <script>
             // When the user scrolls down 100px from the top of the document, show the button
             window.onscroll = function() {scrollFunction()};
@@ -215,67 +271,65 @@ function isActive($page) {
 
         <!-- Footer -->
        <!-- Footer -->
-       <footer class="footer text-center">
-            <div class="row">
-                <div class="col-md-4 mb-5 mb-lg-0">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
+       <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5 ">
+                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+                    <ul class="pl-0 list-none ">
+                        <li class="pl-0 list-none ">
                             <i class="fa fa-top fa-map-marker"></i>
                         </li>
-                        <li class="list-inline-item">
-                            <h4 class="text-uppercase mb-4">Kantor</h4>
+                        <li class="pl-0 list-none ">
+                            <h4 class="text-[1.2em] mb-[10px]">Kantor</h4>
                         </li>
                     </ul>
-                    <p class="mb-0">
+                    <p class="text-[0.9em]">
                         Jl. Kabupaten No. 1 Purwokerto
                         <br>Banyumas, Jawa Tengah
                     </p>
                 </div>
-                <div class="col-md-4 mb-5 mb-lg-0">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
+
+                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+                    <ul class="list-none p-0 mb-0">
+                        <li class="pl-0 list-none">
                             <i class="fa fa-top fa-rss"></i>
                         </li>
-                        <li class="list-inline-item">
-                            <h4 class="text-uppercase mb-4">Sosial Media</h4>
+                        <li class="pl-0 list-none">
+                            <h4 class="text-[1.2em] mb-[10px]">Sosial Media</h4>
                         </li>
                     </ul>
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
-                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
+                    <ul class="list-none flex text-center justify-center p-0 mb-0">
+                        <li class="pl-0 list-none">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1" href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
                                 <i class="fa fa-fw fa-facebook"></i>
                             </a>
                         </li>
-                        <li class="list-inline-item">
-                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/bmshumas?lang=en">
+                        <li class="pl-0 list-none">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1 ml-5" href="https://twitter.com/bmshumas?lang=en">
                                 <i class="fa fa-fw fa-twitter"></i>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
+
+                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+                    <ul class="pl-0 list-none ">
+                        <li class="pl-0 list-none ">
                             <i class="fa fa-top fa-envelope-o"></i>
                         </li>
-                        <li class="list-inline-item">
-                            <h4 class="text-uppercase mb-4">Kontak</h4>
+                        <li class="pl-0 list-none ">
+                            <h4 class="text-[1.2em] mb-[10px]">Kontak</h4>
                         </li>
                     </ul>
-                    <p class="mb-0">
+                    <p class="text-[0.9em]">
                         +62 858-1417-4267 <br>
                         https://www.banyumaskab.go.id/ <br>
                         banyumaspemkab@gmail.com
                     </p>
                 </div>
-            </div>
         </footer>
         <!-- /footer -->
 
-    <div class="copyright">
-        <p style="text-align: center; color: white">v-1.0 | Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
-    </div>
-        <!-- shadow -->
+    <div class="copyright bg-black">
+        <p style="text-align: center; color: white">Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
     </div>
 
     <!-- jQuery -->

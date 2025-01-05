@@ -6,6 +6,7 @@ $message = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil data dari form
+    $username = trim($_POST["email"]);
     $email = trim($_POST["email"]);
     $password = $_POST["password"];
     $role = $_POST["role"];
@@ -13,14 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validasi email, password, dan role
     if (!empty($email) && !empty($password) && !empty($role)) {
         // Query untuk memeriksa pengguna di database
-        $query_sql = "SELECT * FROM users WHERE email = ? AND role = ?";
+        $query_sql = "SELECT * FROM users WHERE (email = ? OR username = ?) AND role = ?";
         $stmt = mysqli_prepare($conn, $query_sql);
-        mysqli_stmt_bind_param($stmt, "ss", $email, $role);
+        mysqli_stmt_bind_param($stmt, "sss", $email, $username, $role);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $user = mysqli_fetch_assoc($result);
 
-        if ($user && password_verify($password, $user['password'])) {
+        if ($password = $user['password']) {
             // Login berhasil, set session
             $_SESSION["username"] = $user['username'];
             $_SESSION["role"] = $user['role'];
@@ -42,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -67,12 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     <div class="left-section">
- 
-
-
-
-
-
         <h1>LOGIN</h1>
         <form action="" method="POST">
             <div class="box-input">
