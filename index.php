@@ -260,6 +260,7 @@ $mysqli->close();
             $laporan_id = $key['id'];
             $replies = $db->prepare("SELECT * FROM `komen` WHERE laporan_id = ?");
             $replies->execute([$laporan_id]);
+            $reply_count = $replies->rowCount(); // Hitung jumlah tanggapan
         ?>
         <!-- Card -->
         <div class="flex flex-col sm:flex-row items-start bg-white border border-gray-300 rounded-lg shadow-lg w-full sm:w-[48%] p-4 hover:shadow-2xl transition-shadow duration-300">
@@ -282,6 +283,11 @@ $mysqli->close();
                     <?php echo htmlspecialchars($key['isi']); ?>
                 </p>
                 <hr class="my-2">
+
+                <!-- Jumlah Tanggapan -->
+                <p class="text-sm text-gray-600 mb-2">
+                    <i class="fa fa-comments text-green-600"></i> <?php echo $reply_count; ?> Tanggapan
+                </p>
 
                 <!-- Tanggapan dan Form -->
                 <div>
