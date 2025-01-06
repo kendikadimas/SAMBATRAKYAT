@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Komunitas</title>
+    <title>Forum</title>
     <link rel="shortcut icon" href="images/samblog.svg">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- jQuery --> 
@@ -83,69 +83,19 @@
 <!-- end navbar -->
 
 <!-- hero -->
-        <section style="background-image: url('images/backsginin.png');" class="h-[50vh] w-screen bg-cover bg-center bg-no-repeat">
+        <h1 class="text-black text-3xl font-bold p-10">PRABOWO KONTOLLLLLLL</h1>
+        <section style="background-image: url('images/bms.jpg');" class="h-[50vh] w-screen bg-cover bg-center bg-no-repeat">
             <div class="w-1/2 m-auto ">
                 <h1 class="text-white text-[45px] font-bold p-10">Pojok Komunitas</h1>
                 <p class="text-white text-[20px] font-medium px-10">Disini anda bisa anuan</p>
             </div>
         </section>
-        <section class="h-[50vh] w-screen bg-cover bg-center bg-no-repeat bg-gray-100">
-    <h1 class="text-3xl font-bold p-10 text-center text-gray-800">Forum Populer</h1>
-    <div class="flex flex-wrap justify-center w-full">
-        <!-- Card 1 -->
-        <div class="w-full md:w-1/3 p-6">
-            <div class="bg-white shadow-md rounded-lg overflow-hidden border border-gray-300 hover:border-green-600 transition-all duration-300">
-                <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">
-                        Pajak 12% dan Isu Terbaru
-                    </h3>
-                    <p class="text-gray-600">
-                        Bergabunglah untuk berdiskusi mengenai topik ini dan berbagi pendapat.
-                    </p>
-                    <div class="mt-4 text-center">
-                        <a href="#" class="text-white bg-green-600 px-6 py-2 rounded-3xl hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Card 2 -->
-        <div class="w-full md:w-1/3 p-6">
-            <div class="bg-white shadow-md rounded-lg overflow-hidden border border-gray-300 hover:border-green-600 transition-all duration-300">
-                <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">
-                        Dampak Kebijakan Pajak
-                    </h3>
-                    <p class="text-gray-600">
-                        Mari berdiskusi tentang kebijakan pajak terbaru dan dampaknya pada masyarakat.
-                    </p>
-                    <div class="mt-4 text-center">
-                        <a href="#" class="text-white bg-green-600 px-6 py-2 rounded-3xl hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Card 3 -->
-        <div class="w-full md:w-1/3 p-6">
-            <div class="bg-white shadow-md rounded-lg overflow-hidden border border-gray-300 hover:border-green-600 transition-all duration-300">
-                <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">
-                        Isu Ekonomi Terkini
-                    </h3>
-                    <p class="text-gray-600">
-                        Diskusikan berbagai isu ekonomi terkini dan solusinya bersama komunitas.
-                    </p>
-                    <div class="mt-4 text-center">
-                        <a href="#" class="text-white bg-green-600 px-6 py-2 rounded-3xl hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
+        <section class="w-screen h-auto ">
+            <p class="p-10 text-[16px]">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum optio quas deleniti accusamus temporibus, quaerat velit nulla doloremque eaque ipsum itaque saepe harum nobis pariatur, exercitationem, amet maiores aperiam! Accusantium? Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa provident unde, reiciendis iure quis harum eligendi et obcaecati nesciunt nam illum eveniet dolorem praesentium dolores sit impedit nisi voluptatum quisquam. LOREM\
+                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt sint minus aperiam labore aliquam doloremque officiis quasi! Aperiam ipsum explicabo doloremque eius ex, eaque hic eos vel architecto neque ratione!
+            </p>
+        </section>
+        
 
 
 </body>
