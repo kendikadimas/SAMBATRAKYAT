@@ -240,8 +240,8 @@ $mysqli->close();
         </section>
         <!-- END ABOUT SECTION -->
 
-     <!-- LAPORAN TERBARU -->
-<div class="container mx-auto p-8">
+ <!-- LAPORAN TERBARU -->
+ <div class="container mx-auto p-8">
     <h3 class="ml-8 text-left text-[32px] border-b-4 border-green-700 h3-custom inline-block">
         <span style="color:#3E7D60">Pengaduan</span> Terbaru
     </h3>
@@ -255,6 +255,11 @@ $mysqli->close();
             $mysqldate = $key['tanggal'];
             $phpdate = strtotime($mysqldate);
             $tanggal = date('d F Y, H:i:s', $phpdate);
+
+            // Ambil tanggapan terkait laporan ini
+            $laporan_id = $key['id'];
+            $replies = $db->prepare("SELECT * FROM `komen` WHERE laporan_id = ?");
+            $replies->execute([$laporan_id]);
         ?>
         <!-- Card -->
         <div class="flex flex-col sm:flex-row items-start bg-white border border-gray-200 rounded-lg shadow-lg w-full sm:w-[48%] p-4">
@@ -267,20 +272,82 @@ $mysqli->close();
             <!-- Content -->
             <div class="ml-4 flex-1">
                 <h4 class="text-green-700 text-[20px] font-semibold mb-1" style="font-family: monospace;">
-                    <?php echo $key['nama']; ?>
+                    <?php echo htmlspecialchars($key['nama']); ?>
                 </h4>
                 <p class="text-gray-500 text-sm mb-2">
                     <i class="fa fa-calendar"></i> <?php echo $tanggal; ?>
                 </p>
                 <hr class="mb-2">
                 <p class="text-gray-700">
-                    <?php echo $key['isi']; ?>
+                    <?php echo htmlspecialchars($key['isi']); ?>
                 </p>
+                <hr class="my-2">
+
+                <!-- Tanggapan dan Form -->
+                <div>
+                    <button class="toggle-replies bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600">
+                        Tanggapi
+                    </button>
+                    <div class="replies tutup mt-2">
+                        <h5 class="text-green-700 font-semibold mb-2">Tanggapan:</h5>
+                        <?php foreach ($replies as $reply) { ?>
+                            <div class="mb-2">
+                                <strong class="text-green-700"><?php echo htmlspecialchars($reply['nama']); ?></strong>:
+                                <p class="text-gray-700"><?php echo htmlspecialchars($reply['isi']); ?></p>
+                            </div>
+                        <?php } ?>
+
+                        <!-- Form Tanggapan -->
+                        <form action="tambah_tanggapan.php" method="POST" class="mt-4">
+                            <input type="tutup" name="laporan_id" value="<?php echo $key['id']; ?>" style="display: none;">
+                            <div class="mb-2">
+                                <label for="nama" class="block text-sm font-medium text-gray-700">Nama Anda</label>
+                                <input type="text" id="nama" name="nama" required
+                                    class="block w-full border border-gray-300 rounded-md p-2 mt-1">
+                            </div>
+                            <div class="mb-2">
+                                <label for="isi" class="block text-sm font-medium text-gray-700">Tanggapan</label>
+                                <textarea id="isi" name="isi" rows="2" required
+                                    class="block w-full border border-gray-300 rounded-md p-2 mt-1"></textarea>
+                            </div>
+                            <button type="submit"
+                                class="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600">Kirim Tanggapan</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         <?php } ?>
     </div>
 </div>
+
+<script>
+// JavaScript untuk toggle visibilitas komentar dan form
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleButtons = document.querySelectorAll('.toggle-replies');
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const repliesDiv = this.nextElementSibling;
+            if (repliesDiv.classList.contains('tutup')) {
+                repliesDiv.classList.remove('tutup');
+                this.textContent = 'Sembunyikan Tanggapan';
+            } else {
+                repliesDiv.classList.add('tutup');
+                this.textContent = 'Tanggapi';
+            }
+        });
+    });
+});
+</script>
+
+<style>
+/* Gaya untuk menyembunyikan komentar dan form */
+.tutup {
+    display: none;
+}
+</style>
+
+
 <!-- End Laporan Terbaru -->
 
 

@@ -5,9 +5,9 @@ $password = '';
 $dbname = 'kp';
 
 try {
-    // Membuat koneksi menggunakan OOP
+    // Membuat koneksi menggunakan mysqli
     $conn = new mysqli($host, $user, $password, $dbname);
-    
+
     // Cek koneksi
     if ($conn->connect_error) {
         throw new Exception("Koneksi gagal: " . $conn->connect_error);
