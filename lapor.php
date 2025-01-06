@@ -4,6 +4,7 @@
 # @Copyright: (c) Sambat Rakyat Banyumas 2024
 ?>
 <?php
+session_start();
     require_once("private/database.php");
     $statement = $db->query("SELECT id FROM `laporan` ORDER BY id DESC LIMIT 1");
     // $cekk = $statement->fetch(PDO::FETCH_ASSOC);
@@ -105,14 +106,13 @@
 
 
         <!-- content -->
-        <div class="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 mb-10">
+        <div class="max-w-4xl mx-auto p-8 bg-white border border-gray-300 shadow-lg rounded-lg mt-10 mb-10">
     <h3 class="text-primary font-bold text-center text-3xl mb-4">Buat Laporan</h3>
     <hr class="border-t border-gray-300 mb-6" />
 
     <form class="space-y-6" method="post" action="private/validasi">
         <!-- Nomor Pengaduan -->
-        <div class="grid grid-cols-3 gap-4 items-center">
-            <label for="nomor" class="font-semibold text-gray-700 col-span-1">Nomor Pengaduan</label>
+        <div class="grid grid-cols-3 gap-4 items-center">                                                                           <label for="nomor" class="font-semibold text-gray-700 col-span-1">Nomor Pengaduan</label>
             <div class="col-span-2">
                 <input 
                     type="text" 
