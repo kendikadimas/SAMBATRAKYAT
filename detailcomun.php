@@ -83,7 +83,7 @@
 <!-- end navbar -->
 
 <!-- hero -->
-        <h1 class="text-black text-3xl font-bold p-10">PRABOWO KONTOLLLLLLL</h1>
+        <h1 class="text-black text-3xl font-bold p-10">limas agung pride</h1>
         <section style="background-image: url('images/bms.jpg');" class="h-[50vh] w-screen bg-cover bg-center bg-no-repeat">
             <div class="w-1/2 m-auto ">
                 <h1 class="text-white text-[45px] font-bold p-10">Pojok Komunitas</h1>
