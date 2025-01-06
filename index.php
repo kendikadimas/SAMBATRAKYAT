@@ -262,11 +262,11 @@ $mysqli->close();
             $replies->execute([$laporan_id]);
         ?>
         <!-- Card -->
-        <div class="flex flex-col sm:flex-row items-start bg-white border border-gray-200 rounded-lg shadow-lg w-full sm:w-[48%] p-4">
+        <div class="flex flex-col sm:flex-row items-start bg-white border border-gray-300 rounded-lg shadow-lg w-full sm:w-[48%] p-4 hover:shadow-2xl transition-shadow duration-300">
             <!-- Avatar -->
             <div class="flex-shrink-0">
                 <a href="#">
-                    <img src="images/avatar/avatar1.png" alt="Avatar" class="rounded-full w-16 h-16">
+                    <img src="images/avatar/avatar1.png" alt="Avatar" class="rounded-full w-16 h-16 border border-green-500 shadow-sm">
                 </a>
             </div>
             <!-- Content -->
@@ -275,43 +275,48 @@ $mysqli->close();
                     <?php echo htmlspecialchars($key['nama']); ?>
                 </h4>
                 <p class="text-gray-500 text-sm mb-2">
-                    <i class="fa fa-calendar"></i> <?php echo $tanggal; ?>
+                    <i class="fa fa-calendar-alt text-green-600"></i> <?php echo $tanggal; ?>
                 </p>
                 <hr class="mb-2">
-                <p class="text-gray-700">
+                <p class="text-gray-700 leading-relaxed">
                     <?php echo htmlspecialchars($key['isi']); ?>
                 </p>
                 <hr class="my-2">
 
                 <!-- Tanggapan dan Form -->
                 <div>
-                    <button class="toggle-replies bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600">
+                    <button class="toggle-replies bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition-all duration-300">
                         Tanggapi
                     </button>
-                    <div class="replies tutup mt-2">
-                        <h5 class="text-green-700 font-semibold mb-2">Tanggapan:</h5>
-                        <?php foreach ($replies as $reply) { ?>
-                            <div class="mb-2">
-                                <strong class="text-green-700"><?php echo htmlspecialchars($reply['nama']); ?></strong>:
-                                <p class="text-gray-700"><?php echo htmlspecialchars($reply['isi']); ?></p>
-                            </div>
-                        <?php } ?>
+                    <div class="replies tutup mt-4">
+                        <h5 class="text-green-700 font-semibold mb-3">Tanggapan:</h5>
+                        <div class="space-y-4">
+                            <?php foreach ($replies as $reply) { ?>
+                                <div class="flex items-start gap-3 p-3 bg-gray-100 rounded-lg shadow-sm">
+                                    <img src="images/avatar/avatar2.png" alt="Avatar" class="rounded-full w-10 h-10 border border-green-300">
+                                    <div>
+                                        <strong class="text-green-700"><?php echo htmlspecialchars($reply['nama']); ?></strong>
+                                        <p class="text-gray-600 text-sm mt-1 leading-relaxed"><?php echo htmlspecialchars($reply['isi']); ?></p>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </div>
 
                         <!-- Form Tanggapan -->
-                        <form action="tambah_tanggapan.php" method="POST" class="mt-4">
-                            <input type="tutup" name="laporan_id" value="<?php echo $key['id']; ?>" style="display: none;">
-                            <div class="mb-2">
+                        <form action="tambah_tanggapan.php" method="POST" class="mt-6">
+                            <input type="hidden" name="laporan_id" value="<?php echo $key['id']; ?>">
+                            <div class="mb-4">
                                 <label for="nama" class="block text-sm font-medium text-gray-700">Nama Anda</label>
                                 <input type="text" id="nama" name="nama" required
-                                    class="block w-full border border-gray-300 rounded-md p-2 mt-1">
+                                    class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500">
                             </div>
-                            <div class="mb-2">
+                            <div class="mb-4">
                                 <label for="isi" class="block text-sm font-medium text-gray-700">Tanggapan</label>
                                 <textarea id="isi" name="isi" rows="2" required
-                                    class="block w-full border border-gray-300 rounded-md p-2 mt-1"></textarea>
+                                    class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500"></textarea>
                             </div>
                             <button type="submit"
-                                class="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600">Kirim Tanggapan</button>
+                                class="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600 transition-all duration-300">Kirim Tanggapan</button>
                         </form>
                     </div>
                 </div>
@@ -345,7 +350,21 @@ document.addEventListener('DOMContentLoaded', function () {
 .tutup {
     display: none;
 }
+
+/* Kartu utama */
+.card {
+    transition: all 0.3s ease;
+}
+.card:hover {
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Warna tambahan */
+.bg-gray-100 {
+    background-color: #f9f9f9;
+}
 </style>
+
 
 
 <!-- End Laporan Terbaru -->
