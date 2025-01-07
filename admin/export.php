@@ -78,7 +78,7 @@ logged_admin ();
 
 <body class="fixed-nav sticky-footer" id="page-top">
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: #3E7D60;">
         <a class="navbar-brand" href="index">Sambat Rakyat Banyumas</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -114,7 +114,7 @@ logged_admin ();
                     </a>
                 </li>
 
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Export">
+                <li class="nav-item active" data-toggle="tooltip" data-placement="right" title="Export">
                     <a class="nav-link" href="export">
                         <i class="fa fa-fw fa-print"></i>
                         <span class="nav-link-text">Ekspor</span>
