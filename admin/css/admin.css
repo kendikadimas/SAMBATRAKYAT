@@ -349,7 +349,7 @@ body.sidenav-toggled .navbar-sidenav-tooltip.show {
 }
 
 #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
-    color: #868e96;
+    color: #FFFfff;
 }
 
 #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link:hover {
@@ -373,7 +373,7 @@ body.sidenav-toggled .navbar-sidenav-tooltip.show {
 
 @media (min-width: 992px) {
     #mainNav.navbar-dark .navbar-collapse .navbar-sidenav {
-        background: #343a40;
+        background: #3E7D60;
     }
     #mainNav.navbar-dark .navbar-collapse .navbar-sidenav li.active a {
         color: white !important;
@@ -495,11 +495,11 @@ footer.sticky-footer {
 PROFILE SIDEBAR SECTION
 ============================================================ */
 ul.sidebar-menu li.sidebar-profile {
-    background-color: #3A434D;
+    background-color: #f3f5f8;
     padding: 10px;
-    color: #fff;
+    color: #3E7D60;
     text-align: center;
-    border-bottom: 10px solid #76CF1C;
+    border-bottom: 10px solid #3E7D60;
 }
 ul.sidebar-menu li.sidebar-profile .name {
     margin-top: 10px;
