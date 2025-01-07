@@ -160,7 +160,7 @@ if(isset($_POST['submit'])) {
 
 
         <!-- content -->
-        <div class="p-5 rounded-lg shadow-md border border-gray-300 mx-auto my-5 w-1/2 h-[70vh] bg-white ">
+        <div class="p-5 rounded-lg shadow-md border border-gray-300 mx-auto my-5 w-1/2 h-auto bg-white ">
     <h3 class="text-2xl mb-4 text-center font-bold text-green-700">Lihat Pengaduan</h3>
     <hr class="border border-gray-300 my-2" />
     <div class="flex flex-col items-center">

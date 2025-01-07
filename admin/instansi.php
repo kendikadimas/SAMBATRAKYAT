@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum</title>
+    <title>Instansi</title>
     <link rel="shortcut icon" href="images/samblog.svg">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- jQuery --> 
@@ -81,32 +81,42 @@
 </div>
 
 <!-- end navbar -->
-
-<!-- hero -->
-        <h1 class="text-black text-3xl font-bold p-10">limas agung pride</h1>
-        <section style="background-image: url('images/bms.jpg');" class="h-[50vh] w-screen bg-cover bg-center bg-no-repeat">
-            <div class="w-1/2 m-auto ">
-                <!-- <h1 class="text-white text-[45px] font-bold p-10">Pojok Komunitas</h1>
-                <p class="text-white text-[20px] font-medium px-10">Disini anda bisa anuan</p> -->
+<!-- answer report page -->
+<div  style="background-image: url('images/backsginin.png');" class="h-[40vh] w-auto bg-cover bg-center bg-no-repeat p-10 mb-[350px]">
+    <!-- Bagian Pertanyaan -->
+    <div class="bg-white shadow-lg rounded-lg p-6 m-auto w-5/6 z-50 pt-10">
+        <div class="flex items-center gap-4 mb-4 ml-10">
+            <img src="https://via.placeholder.com/50" alt="Profile" class="w-20 h-20 rounded-full">
+            <div>
+                <div class="flex items-center justify-between ml-10">
+                    <div>
+                        <h3 class="font-bold text-green-700 text-xl">Dimas Kendika Fazrulfalah</h3>
+                        <p class="text-sm text-gray-500">02 January 2025, 09:43:09</p>
+                        <p class="text-gray-700 text-lg ml-auto">Ini gmn ya daftarnya</p>
+                    </div>
+                </div>
             </div>
-        </section>
-        <section class="w-screen h-auto ">
-            <p class="p-10 text-[16px]">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum optio quas deleniti accusamus temporibus, quaerat velit nulla doloremque eaque ipsum itaque saepe harum nobis pariatur, exercitationem, amet maiores aperiam! Accusantium? Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa provident unde, reiciendis iure quis harum eligendi et obcaecati nesciunt nam illum eveniet dolorem praesentium dolores sit impedit nisi voluptatum quisquam. LOREM\
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt sint minus aperiam labore aliquam doloremque officiis quasi! Aperiam ipsum explicabo doloremque eius ex, eaque hic eos vel architecto neque ratione!
-            </p>
-        </section>
-        <section class="w-full gap-5 flex">
-            <img src="images/bms.jpg" alt="" class="w-1/2 p-10 h-[300px]">
-            <img src="images/bms.jpg" alt="" class="w-1/2 p-10 h-[300px]">
-        </section>
-        <section class="w-screen h-auto ">
-            <p class="p-10 text-[16px]">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum optio quas deleniti accusamus temporibus, quaerat velit nulla doloremque eaque ipsum itaque saepe harum nobis pariatur, exercitationem, amet maiores aperiam! Accusantium? Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa provident unde, reiciendis iure quis harum eligendi et obcaecati nesciunt nam illum eveniet dolorem praesentium dolores sit impedit nisi voluptatum quisquam. LOREM\
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt sint minus aperiam labore aliquam doloremque officiis quasi! Aperiam ipsum explicabo doloremque eius ex, eaque hic eos vel architecto neque ratione!
-            </p>
-        </section>
-        
+        </div>
+    </div>
 
-        <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5">
+    <!-- Bagian Tanggapan -->
+    <div class="bg-white shadow-lg rounded-lg p-6 m-auto w-5/6 mt-2">
+        <h4 class="font-bold text-gray-700 text-lg mb-3">Tanggapan Anda</h4>
+        <textarea 
+            class="w-full p-4 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" 
+            rows="5" 
+            placeholder="Tulis tanggapan Anda di sini..."
+        ></textarea>
+        <div class="flex justify-end mt-4">
+            <button class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300">
+                Kirim
+            </button>
+        </div>
+    </div>
+</div>
+        </div>
+   <!-- Footer -->
+   <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5">
                 <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
                     <ul class="pl-0 list-none ">
                         <li class="pl-0 list-none ">
@@ -162,10 +172,8 @@
                 </div>
         </footer>
         <!-- /footer -->
-
+    
     <div class="copyright bg-black">
         <p style="text-align: center; color: white">Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
     </div>
-
-</body>
-</html>
+<!-- /copyright -->
