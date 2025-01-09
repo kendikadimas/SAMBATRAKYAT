@@ -31,6 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: admin/index.php");
             } elseif ($user['role'] === 'user') {
                 header("Location: index.php");
+            } elseif ($user['role'] === 'instansi'){
+                header("Location: admin/instansi.php");
             } else {
                 $message = "Role tidak valid.";
             }

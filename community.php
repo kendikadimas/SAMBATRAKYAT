@@ -60,8 +60,6 @@ $mysqli->close();
     <!-- Animate CSS -->
     <link rel="stylesheet" href="css/animate.min.css"> 
     <link rel="stylesheet" href="css/output.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
@@ -81,7 +79,7 @@ $mysqli->close();
     }
 ?>
 
-<div class="w-screen bg-white shadow-lg p-5 flex justify-between items-center z-[100]">
+<div class="w-full bg-white shadow-lg p-5 flex justify-between items-center z-[100]">
     <!-- Logo and Title Section -->
     <div class="flex items-center ml-14">
         <a href="/">
@@ -134,20 +132,20 @@ $mysqli->close();
 <!-- end navbar -->
 
 <!-- hero -->
-    <section style="background-image: url('images/backsginin.png');" class="h-[50vh] bg-cover w-screen bg-center bg-no-repeat">
-        <div class="w-1/2 m-auto ">
-            <h1 class="text-white text-[45px] font-bold p-10">Pojok Komunitas</h1>
-            <p class="text-white text-[20px] font-medium px-10">Disini anda bisa anuan</p>
+    <section style="background-image: url('images/backsginin.png');" class="h-[60vh] bg-cover w-full bg-center bg-no-repeat ">
+        <div class="w-1/2 m-auto pt-[10vh]">
+            <h1 class="text-white text-[45px] font-bold p-10">Komunitas Sambat Rakyat</h1>
+            <p class="text-white text-[20px] font-medium px-10">Temukan diskusi, aksi, dan pendapat masyarakat di sini.</p>
         </div>
     </section>
 <!-- end hero section -->
 
 <!-- sambatan -->
+<main class="flex w-full">
+    <section class="h-auto w-3/4 bg-cover bg-center bg-no-repeat bg-gray-100">
+        <h1 class="text-3xl font-bold px-16 pt-8 pb-4 text-left text-gray-800">Sambatan</h1>
 
-    <section class="h-auto w-screen bg-cover bg-center bg-no-repeat bg-gray-100">
-        <h1 class="text-3xl font-bold px-16 py-8 text-left text-gray-800">Sambatan</h1>
-
-    <div class="flex flex-wrap gap-5 px-10 py-3 justify-center">
+    <div class="flex flex-wrap gap-6 px-14 py-3 justify-center w-full border-r-2 border-[#3E7D60] ">
         <?php
         // Ambil semua record dari tabel laporan
         $statement = $db->query("SELECT * FROM `laporan` ORDER BY id DESC");
@@ -162,72 +160,130 @@ $mysqli->close();
             $replies->execute([$laporan_id]);
             $reply_count = $replies->rowCount(); // Hitung jumlah tanggapan
         ?>
+
+        
             <!-- Card -->
-        <div class="flex flex-col sm:flex-row items-start bg-white border border-gray-300 rounded-lg shadow-lg w-1/2 sm:w-[48%] p-4 hover:shadow-2xl transition-shadow duration-300">
-            <!-- Avatar -->
-            <div class="flex-shrink-0">
-                <a href="#">
-                    <img src="images/avatar/avatar1.png" alt="Avatar" class="rounded-full w-16 h-16 border border-green-500 shadow-sm">
-                </a>
-            </div>
-            <!-- Content -->
-            <div class="ml-4 flex-1">
-                <h4 class="text-green-700 text-[20px] font-semibold mb-1" style="font-family: monospace;">
-                    <?php echo htmlspecialchars($key['nama']); ?>
-                </h4>
-                <p class="text-gray-500 text-sm mb-2">
-                    <i class="fa fa-calendar-alt text-green-600"></i> <?php echo $tanggal; ?>
-                </p>
-                <hr class="mb-2">
-                <p class="text-gray-700 leading-relaxed">
-                    <?php echo htmlspecialchars($key['isi']); ?>
-                </p>
-                <hr class="my-2">
-
-                <!-- Jumlah Tanggapan -->
-                <p class="text-sm text-gray-600 mb-2">
-                    <i class="fa fa-comments text-green-600"></i> <?php echo $reply_count; ?> Tanggapan
-                </p>
-
-                <!-- Tanggapan dan Form -->
-                <div>
-                    <button class="toggle-replies bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition-all duration-300">
-                        Tanggapi
-                    </button>
-                    <div class="replies tutup mt-4">
-                        <h5 class="text-green-700 font-semibold mb-3">Tanggapan:</h5>
-                        <div class="space-y-4">
-                            <?php foreach ($replies as $reply) { ?>
-                                <div class="flex items-start gap-3 p-3 bg-gray-100 rounded-lg shadow-sm">
-                                    <img src="images/avatar/avatar2.png" alt="Avatar" class="rounded-full w-10 h-10 border border-green-300">
-                                    <div>
-                                        <strong class="text-green-700"><?php echo htmlspecialchars($reply['nama']); ?></strong>
-                                        <p class="text-gray-600 text-sm mt-1 leading-relaxed"><?php echo htmlspecialchars($reply['isi']); ?></p>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </div>
-
-                        <!-- Form Tanggapan -->
-                        <form action="tambah_tanggapan.php" method="POST" class="mt-6">
-                            <input type="hidden" name="laporan_id" value="<?php echo $key['id']; ?>">
-                            <div class="mb-4">
-                                <label for="nama" class="block text-sm font-medium text-gray-700">Nama Anda</label>
-                                <input type="text" id="nama" name="nama" required
-                                    class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500">
-                            </div>
-                            <div class="mb-4">
-                                <label for="isi" class="block text-sm font-medium text-gray-700">Tanggapan</label>
-                                <textarea id="isi" name="isi" rows="2" required
-                                    class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500"></textarea>
-                            </div>
-                            <button type="submit"
-                                class="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600 transition-all duration-300">Kirim Tanggapan</button>
-                        </form>
-                    </div>
-                </div>
+            <div class="flex flex-col sm:flex-row items-start bg-white border border-gray-300 rounded-lg shadow-lg w-1/2 sm:w-[48%] p-4 hover:shadow-2xl transition-shadow duration-300">
+    <!-- Avatar -->
+    <div class="flex-shrink-0">
+        <a href="#">
+            <img src="images/avatar/avatar1.png" alt="Avatar" class="rounded-full w-16 h-16 border border-green-500 shadow-sm">
+        </a>
+    </div>
+    <!-- Content -->
+    <div class="ml-4 flex-1 relative">
+        <!-- Nama dan Tombol -->
+        <div class="flex justify-between items-center">
+            <h4 class="text-green-700 text-[20px] font-semibold mb-1" style="font-family: monospace;">
+                <?php echo htmlspecialchars($key['nama']); ?>
+            </h4>
+            <div class="flex items-center gap-2">
+                <!-- Tombol Upvote -->
+                <button class="bg-gray-200 hover:bg-green-300 p-2 rounded-full transition-all duration-300 upvote-btn">
+                    <i class="fa fa-arrow-up text-green-700"></i>
+                </button>
+                <span id="vote-count-<?php echo $key['id']; ?>" class="text-gray-600">
+                    <?php echo $key['upvotes'] - $key['downvotes']; ?>
+                </span>
+                <!-- Tombol Downvote -->
+                <button class="bg-gray-200 hover:bg-red-300 p-2 rounded-full transition-all duration-300 downvote-btn">
+                    <i class="fa fa-arrow-down text-red-700"></i>
+                </button>
             </div>
         </div>
+        <p class="text-gray-500 text-sm mb-2">
+            <i class="fa fa-calendar-alt text-green-600"></i> <?php echo $tanggal; ?>
+        </p>
+        <hr class="mb-2">
+        <p class="text-gray-700 leading-relaxed">
+            <?php echo htmlspecialchars($key['isi']); ?>
+        </p>
+        <hr class="my-2">
+        <!-- Jumlah Tanggapan -->
+        <p class="text-sm text-gray-600 mb-2">
+            <i class="fa fa-comments text-green-600"></i> <?php echo $reply_count; ?> Tanggapan
+        </p>
+        <!-- Tanggapan dan Form -->
+        <div>
+            <button class="toggle-replies bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition-all duration-300">
+                Tanggapi
+            </button>
+            <div class="replies tutup mt-4">
+                <h5 class="text-green-700 font-semibold mb-3">Tanggapan:</h5>
+                <div class="space-y-4">
+                    <?php foreach ($replies as $reply) { ?>
+                        <div class="flex items-start gap-3 p-3 bg-gray-100 rounded-lg shadow-sm">
+                            <img src="images/avatar/avatar2.png" alt="Avatar" class="rounded-full w-10 h-10 border border-green-300">
+                            <div>
+                                <strong class="text-green-700"><?php echo htmlspecialchars($reply['nama']); ?></strong>
+                                <p class="text-gray-600 text-sm mt-1 leading-relaxed"><?php echo htmlspecialchars($reply['isi']); ?></p>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+                <!-- Form Tanggapan -->
+                <form action="tambah_tanggapan.php" method="POST" class="mt-6">
+                    <input type="hidden" name="laporan_id" value="<?php echo $key['id']; ?>">
+                    <div class="mb-4">
+                        <label for="nama" class="block text-sm font-medium text-gray-700">Nama Anda</label>
+                        <input type="text" id="nama" name="nama" required
+                            class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="isi" class="block text-sm font-medium text-gray-700">Tanggapan</label>
+                        <textarea id="isi" name="isi" rows="2" required
+                            class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500"></textarea>
+                    </div>
+                    <button type="submit"
+                        class="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600 transition-all duration-300">Kirim Tanggapan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    // Handle upvote
+    document.querySelectorAll('.upvote-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const laporanId = button.closest('.flex').dataset.id; // Assuming each card has a data-id attribute
+            fetch('upvote.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `laporan_id=${laporanId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const voteCountEl = button.nextElementSibling;
+                    voteCountEl.textContent = parseInt(voteCountEl.textContent) + 1;
+                }
+            });
+        });
+    });
+
+    // Handle downvote
+    document.querySelectorAll('.downvote-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const laporanId = button.closest('.flex').dataset.id;
+            fetch('downvote.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `laporan_id=${laporanId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const voteCountEl = button.previousElementSibling;
+                    voteCountEl.textContent = parseInt(voteCountEl.textContent) - 1;
+                }
+            });
+        });
+    });
+});
+
+</script>
+
         <?php } ?>
     </div>
 </section>
@@ -271,118 +327,165 @@ $mysqli->close();
         }
         </style>
 
-
-<section class="h-auto w-screen bg-gray-100 py-10">
-    <h1 class="text-3xl font-bold px-16 text-left text-gray-800 mb-6">Forum Populer</h1>
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper px-4 lg:px-16">
-            <!-- Card Forum -->
-            <div class="swiper-slide">
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-                    <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Pajak 12% dan Isu Terbaru</h3>
-                        <p class="text-sm text-gray-600 mb-4">Diskusikan isu pajak terbaru dan pendapat Anda.</p>
-                        <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-                    <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Pajak 12% dan Isu Terbaru</h3>
-                        <p class="text-sm text-gray-600 mb-4">Diskusikan isu pajak terbaru dan pendapat Anda.</p>
-                        <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-                    <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Pajak 12% dan Isu Terbaru</h3>
-                        <p class="text-sm text-gray-600 mb-4">Diskusikan isu pajak terbaru dan pendapat Anda.</p>
-                        <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-                    <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Pajak 12% dan Isu Terbaru</h3>
-                        <p class="text-sm text-gray-600 mb-4">Diskusikan isu pajak terbaru dan pendapat Anda.</p>
-                        <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-                    <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Pajak 12% dan Isu Terbaru</h3>
-                        <p class="text-sm text-gray-600 mb-4">Diskusikan isu pajak terbaru dan pendapat Anda.</p>
-                        <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Tambahkan lebih banyak slide -->
-        </div>
-        <!-- Navigasi -->
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
-    </div>
-</section>
-
 <!-- Bagian Event Mendatang -->
-<section class="h-auto w-screen bg-gray-100 py-10">
-    <h1 class="text-3xl font-bold px-16 text-left text-gray-800 mb-6">Event Mendatang</h1>
-    <div class="flex flex-wrap justify-center gap-6 px-6 lg:px-16">
-        <!-- Card -->
-        <div class="w-1/3 bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
-            <h3 class="text-lg font-bold mb-2">Event 1</h3>
-            <p class="text-sm text-gray-600 mb-4">Deskripsi singkat tentang event.</p>
-            <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Detail</button>
+    <section class="h-auto w-1/4 bg-gray-100 py-10">
+        <h1 class="text-3xl font-bold px-16 text-left text-gray-800 mb-6">Event</h1>
+        <div class="flex flex-wrap justify-center gap-6 px-6 lg:px-16">
+            <!-- Card -->
+            <div class="w-full bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
+                <h3 class="text-lg font-bold mb-2">Event 1</h3>
+                <p class="text-sm text-gray-600 mb-4">Deskripsi singkat tentang event.</p>
+                <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Detail</button>
+            </div>
+            <div class="w-full bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
+                <h3 class="text-lg font-bold mb-2">Event 1</h3>
+                <p class="text-sm text-gray-600 mb-4">Deskripsi singkat tentang event.</p>
+                <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Detail</button>
+            </div>
+            <div class="w-full bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
+                <h3 class="text-lg font-bold mb-2">Event 1</h3>
+                <p class="text-sm text-gray-600 mb-4">Deskripsi singkat tentang event.</p>
+                <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Detail</button>
+            </div>
+            <div class="w-full bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
+                <h3 class="text-lg font-bold mb-2">Event 1</h3>
+                <p class="text-sm text-gray-600 mb-4">Deskripsi singkat tentang event.</p>
+                <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Detail</button>
+            </div>
+            <!-- Tambahkan card lainnya -->
         </div>
-        <div class="w-1/3 bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
-            <h3 class="text-lg font-bold mb-2">Event 1</h3>
-            <p class="text-sm text-gray-600 mb-4">Deskripsi singkat tentang event.</p>
-            <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Detail</button>
+    </section>
+</main>
+
+<!-- Bagian Forum Populer -->
+<section class="h-auto w-full bg-gray-100 py-10">
+    <h1 class="text-3xl font-bold px-16 text-left text-gray-800 mb-6">Forum Populer</h1>
+    <div class="w-full overflow-x-auto snap-x snap-mandatory flex gap-6 px-6 lg:px-16 scrollbar-hide">
+        <!-- Card Forum -->
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
+            <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Pajak 12% dan Isu Terbaru</h3>
+                <p class="text-sm text-gray-600 mb-4">Diskusikan isu pajak terbaru dan pendapat Anda.</p>
+                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
+            </div>
         </div>
-        <div class="w-1/3 bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
-            <h3 class="text-lg font-bold mb-2">Event 1</h3>
-            <p class="text-sm text-gray-600 mb-4">Deskripsi singkat tentang event.</p>
-            <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Detail</button>
+        <!-- Card Forum 2 -->
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
+            <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Diskusi Terbaru</h3>
+                <p class="text-sm text-gray-600 mb-4">Ikut serta dalam diskusi hangat ini.</p>
+                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
+            </div>
         </div>
-        <!-- Tambahkan card lainnya -->
+        <!-- Tambahkan lebih banyak card forum -->
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
+            <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Forum Teknologi</h3>
+                <p class="text-sm text-gray-600 mb-4">Bahas teknologi terbaru di sini.</p>
+                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
+            </div>
+        </div>
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
+            <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Forum Teknologi</h3>
+                <p class="text-sm text-gray-600 mb-4">Bahas teknologi terbaru di sini.</p>
+                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
+            </div>
+        </div>
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
+            <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Forum Teknologi</h3>
+                <p class="text-sm text-gray-600 mb-4">Bahas teknologi terbaru di sini.</p>
+                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
+            </div>
+        </div>
     </div>
 </section>
 
-<!-- Bagian Edukasi Masyarakat -->
-<section class="h-auto w-screen bg-gray-100 py-10">
+<style>
+    .scrollbar-hide {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, and Opera */
+    }
+</style>
+
+
+<!-- Bagian Edukasi Masyarakat (Carousel) -->
+<section class="h-auto w-full bg-gray-100 py-10">
     <h1 class="text-3xl font-bold px-16 text-left text-gray-800 mb-6">Edukasi Masyarakat</h1>
-    <div class="flex flex-wrap justify-center gap-6 px-6 lg:px-16">
+    <div class="w-full overflow-x-auto snap-x snap-mandatory flex gap-6 px-6 lg:px-16 scrollbar-hide">
         <!-- Card Artikel -->
-        <div class="w-full md:w-1/2 lg:w-1/3 bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
-            <h3 class="text-lg font-bold mb-2">Artikel 1</h3>
-            <p class="text-sm text-gray-600 mb-4">Ringkasan artikel edukasi.</p>
-            <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Baca Selengkapnya</button>
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
+            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
+                <h3 class="text-lg font-bold text-white">Artikel 1</h3>
+                <p class="text-sm text-gray-200">Ringkasan artikel edukasi ini untuk Anda.</p>
+            </div>
         </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
-            <h3 class="text-lg font-bold mb-2">Artikel 1</h3>
-            <p class="text-sm text-gray-600 mb-4">Ringkasan artikel edukasi.</p>
-            <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Baca Selengkapnya</button>
+        <!-- Card Artikel 2 -->
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
+            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
+                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
+                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+            </div>
         </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
-            <h3 class="text-lg font-bold mb-2">Artikel 1</h3>
-            <p class="text-sm text-gray-600 mb-4">Ringkasan artikel edukasi.</p>
-            <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Baca Selengkapnya</button>
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
+            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
+                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
+                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+            </div>
         </div>
-        <!-- Tambahkan card lainnya -->
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
+            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
+                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
+                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+            </div>
+        </div>
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
+            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
+                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
+                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+            </div>
+        </div>
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
+            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
+                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
+                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+            </div>
+        </div>
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
+            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
+                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
+                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+            </div>
+        </div>
     </div>
 </section>
+
+<style>
+    .scrollbar-hide {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, and Opera */
+    }
+</style>
+
 
 <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5">
                 <div class="relative min-h-[1px] px-[15px] float-left w-1/3">

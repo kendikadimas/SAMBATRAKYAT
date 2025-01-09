@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <!-- Section Header -->
 <div class="text-center mb-[100px] mt-[50px]">
     <h1 class="text-[32px] font-bold text-[#333] mb-[10px] border-b-4 border-transparent inline-block relative overflow-hidden transition-colors duration-500 ease-in-out">
-        <span style="color:#3E7D60">Kritik</span>& Saran
+        <span style="color:#3E7D60">Kritik</span> & Saran
     </h1>
     <p class="text-[16px] text-[#666]">Sebagai bahan evaluasi pengembangan</p>
 </div>

@@ -1,37 +1,10 @@
-
 <?php
     require_once("database.php"); // koneksi DB
     require_once 'auth.php';
     
     logged_admin ();
-    global $total_laporan_masuk, $total_laporan_menunggu, $total_laporan_ditanggapi;
-    if ($id_admin > 0) {
-        foreach($db->query("SELECT COUNT(*) FROM laporan WHERE laporan.tujuan = $id_admin") as $row) {
-            $total_laporan_masuk = $row['COUNT(*)'];
-        }
+?>
 
-        foreach($db->query("SELECT COUNT(*) FROM laporan WHERE status = \"Ditanggapi\" AND laporan.tujuan = $id_admin") as $row) {
-            $total_laporan_ditanggapi = $row['COUNT(*)'];
-        }
-
-        foreach($db->query("SELECT COUNT(*) FROM laporan WHERE status = \"Menunggu\" AND laporan.tujuan = $id_admin") as $row) {
-            $total_laporan_menunggu = $row['COUNT(*)'];
-        }
-    } else {
-        foreach($db->query("SELECT COUNT(*) FROM laporan") as $row) {
-            $total_laporan_masuk = $row['COUNT(*)'];
-        }
-
-        foreach($db->query("SELECT COUNT(*) FROM laporan WHERE status = \"Ditanggapi\"") as $row) {
-            $total_laporan_ditanggapi = $row['COUNT(*)'];
-        }
-
-        foreach($db->query("SELECT COUNT(*) FROM laporan WHERE status = \"Menunggu\"") as $row) {
-            $total_laporan_menunggu = $row['COUNT(*)'];
-        }
-    }
-
- ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +15,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="images/samblog.svg">
-    <title>Dashboard - Sambat Rakyat Banyumas</title>
+    <title>Instansi - Sambat Rakyat Banyumas</title>
     <!-- Bootstrap core CSS-->
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
@@ -51,6 +24,7 @@
     <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="css/admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/output.css">
 </head>
 
 <body class="fixed-nav sticky-footer" id="page-top">
@@ -72,7 +46,11 @@
                         </p>
                         <p>
                             <span class="">Admin</span><br>
-                            <span class="user" style="font-family: monospace;"><?php echo $divisi; ?></span>
+                            <!-- <span class="user" style="font-family: monospace;">'
+                                <?php 
+                                // echo $divisi; 
+                                ?>
+                            </span> -->
                         </p>
                     </div>
                 </li>
@@ -99,8 +77,7 @@
                 </li>
 
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Version">
-                    <a class="nav-link" href="addinstansi" >
-                    <!-- data-toggle="modal" data-target="#VersionModal -->
+                    <a class="nav-link" href="addinstansi" data-toggle="modal" data-target="#VersionModal">
                         <i class="fa fa-fw fa-code"></i>
                         <span class="nav-link-text">Instansi</span>
                     </a>
@@ -169,7 +146,7 @@
                 <li class="breadcrumb-item active"><?php echo $divisi; ?></li>
             </ol>
 
-            <!-- Icon Cards-->
+            <!-- Icon Cards
             <div class="row">
 
                 <div class="col-xl-3 col-sm-6 mb-3">
@@ -221,7 +198,7 @@
                             </span>
                         </a>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- <div class="col-xl-3 col-sm-6 mb-3">
                     <div class="card text-white bg-warning o-hidden h-100">
@@ -242,6 +219,10 @@
 
             </div>
             <!-- ./Icon Cards-->
+
+            <div class="">
+            <button class="border-0 rounded-md font-semibold px-6 py-3 text-white    bg-[#3E7D60] hover:bg-[#f0f0f0] hover:underline transition duration-300 transform hover:scale-105">Tambah Instansi</button>
+            </div>
 
             <!-- Example DataTables Card-->
             <div class="card mb-3">

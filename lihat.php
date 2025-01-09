@@ -29,7 +29,7 @@ if(isset($_POST['submit'])) {
         // jika  laporan ditemukan
         else {
             // ada laporan ada tangggapan
-            $stat = $db->query("SELECT * FROM `tanggapan` WHERE id_laporan = $nomor");
+            $stat = $db->query("SELECT * FROM tanggapan WHERE id_laporan = $nomor");
             if ($stat->rowCount() > 0) {
                 $foundreply = true;
             }
@@ -60,6 +60,21 @@ if(isset($_POST['submit'])) {
     <script src="js/bootstrap.js"></script> -->
     <link rel="stylesheet" href="css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Pastikan tinggi minimum sesuai layar */
+        }
+
+        .main-content {
+            flex: 1; /* Konten utama mengambil ruang yang tersedia */
+        }
+
+        footer {
+            margin-top: auto; /* Pastikan footer berada di bagian bawah */
+        }
+    </style>
 
 </head>
 
@@ -160,183 +175,115 @@ if(isset($_POST['submit'])) {
 
 
         <!-- content -->
-        <div class="p-5 rounded-lg shadow-md border border-gray-300 mx-auto my-5 w-1/2 h-auto bg-white ">
-    <h3 class="text-2xl mb-4 text-center font-bold text-green-700">Lihat Pengaduan</h3>
-    <hr class="border border-gray-300 my-2" />
-    <div class="flex flex-col items-center">
-        <form class="w-full" role="form" method="post">
-            <div class="mb-4">
-                <label for="nomor" class="block font-medium text-gray-600">Nomor Pengaduan</label>
-                <div class="flex items-center mt-1">
-                    <span class="inline-flex items-center px-3 bg-gray-200 border border-gray-300 rounded-l">
-                        <i class="glyphicon glyphicon-exclamation-sign text-gray-500"></i>
-                    </span>
-                    <input 
-                        type="text" 
-                        id="nomor" 
-                        name="nomor" 
-                        placeholder="Masukkan Nomor Pengaduan" 
-                        class="form-control border border-gray-300 rounded-r w-full focus:ring focus:ring-green-300 focus:border-green-500"
-                        required>
-                </div>
-                <p class="text-sm text-red-500 mt-1"><?= @$nomorError ?></p>
-            </div>
-            <div class="text-center">
-                <button 
-                    type="submit" 
-                    name="submit" 
-                    id="submit"
-                    class="px-4 py-2 text-white bg-blue-600 rounded shadow-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">
-                    Lihat Pengaduan
-                </button>
-            </div>
-        </form>
-    </div>
-
-    <?php if ($found): ?>
-        <div class="mt-8">
-            <h3 class="text-xl font-bold text-gray-800">Hasil Pencarian</h3>
-            <div class="space-y-6 mt-4">
-                <?php foreach ($statement as $key): ?>
-                    <?php $tanggal = date('d F Y, H:i:s', strtotime($key['tanggal'])); ?>
-                    <div class="p-5 border border-gray-300 rounded-md shadow-md bg-gray-50">
-                        <div class="flex justify-between items-center mb-4">
-                            <h4 class="text-lg font-bold text-gray-700">Laporan</h4>
-                            <p class="text-sm text-gray-500"><?= $key['nama_divisi']; ?></p>
-                        </div>
-                        <div class="flex items-center mb-4">
-                            <img class="w-12 h-12 rounded-full border-2 border-green-500" src="images/avatar/avatar1.png" alt="Avatar">
-                            <div class="ml-4">
-                                <h5 class="text-green-700 font-bold"><?= $key['nama']; ?></h5>
-                                <p class="text-sm text-gray-500"><i class="fa fa-calendar"></i> <?= $tanggal; ?></p>
-                            </div>
-                        </div>
-                        <p class="text-gray-700 text-justify"><?= $key['isi']; ?></p>
-                        <div class="mt-4">
-                            <h4 class="text-md font-semibold text-gray-700">Tindak Lanjut Laporan</h4>
-                            <hr class="border border-gray-300 my-2">
-                            <?php if ($foundreply): ?>
-                                <?php foreach ($stat as $reply): ?>
-                                    <?php $tanggal_tanggapan = date('d F Y, H:i:s', strtotime($reply['tanggal_tanggapan'])); ?>
-                                    <div class="flex items-start mt-4">
-                                        <img class="w-10 h-10 rounded-full border-2 border-blue-500" src="images/avatar/avatar2.png" alt="Avatar Admin">
-                                        <div class="ml-4">
-                                            <h5 class="text-blue-600 font-bold"><?= $reply['admin']; ?></h5>
-                                            <p class="text-sm text-gray-500"><i class="fa fa-calendar"></i> <?= $tanggal_tanggapan; ?></p>
-                                            <p class="text-gray-700 mt-2"><?= $reply['isi_tanggapan']; ?></p>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <p class="text-gray-500 text-sm"><i class="fa fa-exclamation-circle"></i> Belum Ada Tanggapan</p>
-                            <?php endif; ?>
-                        </div>
+        <div class="p-6 rounded-lg shadow-lg border border-gray-200 mx-auto my-8 w-3/5 h- bg-gradient-to-r from-white to-gray-100 flex flex-col">
+            <h3 class="text-3xl mb-2 text-center font-extrabold text-green-800">Lihat Pengaduan</h3>
+            <hr class="border-b border-green-500 my-4" />
+            <div class="flex flex-col items-center flex-grow mb-5">
+                <form class="w-full" role="form" method="post">
+                    <div class="mb-6">
+                        <label for="nomor" class="block text-lg font-medium text-gray-700">Nomor Pengaduan</label>
+                        <input 
+                            type="text" 
+                            id="nomor" 
+                            name="nomor" 
+                            placeholder="Masukkan Nomor Pengaduan" 
+                            class="w-full border border-gray-400 rounded p-2 focus:ring focus:ring-green-400 focus:border-green-600"
+                            required>
+                        <p class="text-sm text-red-600 mt-2"><?= @$nomorError ?></p>
                     </div>
-                <?php endforeach; ?>
+                    <div class="text-center">
+                        <button 
+                            type="submit" 
+                            name="submit" 
+                            id="submit"
+                            class="px-5 py-3 text-white bg-blue-700 rounded-full shadow-lg hover:bg-blue-800 focus:outline-none focus:ring focus:ring-blue-400">
+                            Lihat Pengaduan
+                        </button>
+                    </div>
+                </form>
             </div>
+
+            <?php if ($found): ?>
+                <div class="mt-5 p-6 rounded-lg ">
+                    <h3 class="text-2xl font-bold text-gray-900">Hasil Pencarian</h3>
+                    <div class="space-y-8 mt-6">
+                        <?php foreach ($statement as $key): ?>
+                            <?php $tanggal = date('d F Y, H:i:s', strtotime($key['tanggal'])); ?>
+                            <div class="p-6 rounded-lg shadow-md bg-white mb-6">
+                                <div class="flex justify-between items-center mb-6 mt-3">
+                                    <h4 class="text-xl font-bold text-gray-800">Laporan</h4>
+                                    <p class="text-sm text-gray-600"><?= $key['nama_divisi']; ?></p>
+                                </div>
+                                <div class="flex items-center mb-6">
+                                    <img class="w-14 h-14 rounded-full border-2 border-green-600" src="images/avatar/avatar1.png" alt="Avatar">
+                                    <div class="ml-6">
+                                        <h5 class="text-green-800 font-bold"><?= $key['nama']; ?></h5>
+                                        <p class="text-sm text-gray-600"><i class="fa fa-calendar"></i> <?= $tanggal; ?></p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-800 text-justify"><?= $key['isi']; ?></p>
+                                <div class="mt-6">
+                                    <h4 class="text-lg font-semibold text-gray-800">Tindak Lanjut Laporan</h4>
+                                    <hr class="border-t-2 border-gray-300 my-3">
+                                    <?php if ($foundreply): ?>
+                                        <?php foreach ($stat as $reply): ?>
+                                            <?php $tanggal_tanggapan = date('d F Y, H:i:s', strtotime($reply['tanggal_tanggapan'])); ?>
+                                            <div class="flex items-start mt-6">
+                                                <img class="w-12 h-12 rounded-full border-2 border-blue-600" src="images/avatar/avatar2.png" alt="Avatar Admin">
+                                                <div class="ml-6">
+                                                    <h5 class="text-blue-700 font-bold"><?= $reply['admin']; ?></h5>
+                                                    <p class="text-sm text-gray-600"><i class="fa fa-calendar"></i> <?= $tanggal_tanggapan; ?></p>
+                                                    <p class="text-gray-800 mt-3"><?= $reply['isi_tanggapan']; ?></p>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <p class="text-gray-600 text-sm"><i class="fa fa-exclamation-circle"></i> Belum Ada Tanggapan</p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
-    <?php endif; ?>
-
-    <a 
-    id="top" 
-    href="#" 
-    onclick="topFunction()" 
-    class="fixed bottom-5 right-5 bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 hover:scale-110 transition-all duration-300"
-    title="Back to Top"
->
-    <i class="fa fa-arrow-circle-up text-[24px]"></i>
-</a>
-
-    <script>
-        window.onscroll = function () { scrollFunction(); };
-
-        function scrollFunction() {
-            const topButton = document.getElementById("top");
-            topButton.style.display = (document.documentElement.scrollTop > 100) ? "block" : "none";
-        }
-
-        function topFunction() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
-    </script>
-</div>
-
-
-
-        <hr>
 
        <!-- Footer -->
        <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5">
-                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
-                    <ul class="pl-0 list-none ">
-                        <li class="pl-0 list-none ">
-                            <i class="fa fa-top fa-map-marker"></i>
-                        </li>
-                        <li class="pl-0 list-none ">
-                            <h4 class="text-[1.2em] mb-[10px]">Kantor</h4>
-                        </li>
-                    </ul>
-                    <p class="text-[0.9em]">
-                        Jl. Kabupaten No. 1 Purwokerto
-                        <br>Banyumas, Jawa Tengah
-                    </p>
-                </div>
+        <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+            <ul class="pl-0 list-none">
+                <li><i class="fa fa-top fa-map-marker"></i></li>
+                <li><h4 class="text-[1.2em] mb-[10px]">Kantor</h4></li>
+            </ul>
+            <p class="text-[0.9em]">Jl. Kabupaten No. 1 Purwokerto<br>Banyumas, Jawa Tengah</p>
+        </div>
 
-                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
-                    <ul class="list-none p-0 mb-0">
-                        <li class="pl-0 list-none">
-                            <i class="fa fa-top fa-rss"></i>
-                        </li>
-                        <li class="pl-0 list-none">
-                            <h4 class="text-[1.2em] mb-[10px]">Sosial Media</h4>
-                        </li>
-                    </ul>
-                    <ul class="list-none flex text-center justify-center p-0 mb-0">
-                        <li class="pl-0 list-none">
-                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1" href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
-                                <i class="fa fa-fw fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li class="pl-0 list-none">
-                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1 ml-5" href="https://twitter.com/bmshumas?lang=en">
-                                <i class="fa fa-fw fa-twitter"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+            <ul class="list-none p-0 mb-0">
+                <li><i class="fa fa-top fa-rss"></i></li>
+                <li><h4 class="text-[1.2em] mb-[10px]">Sosial Media</h4></li>
+            </ul>
+            <ul class="list-none flex text-center justify-center p-0 mb-0">
+                <li><a class="text-white border border-white mx-0 my-[5px] hover:bg-[#3E7D60]" href="https://www.facebook.com/betterbanyumas"><i class="fa fa-fw fa-facebook"></i></a></li>
+                <li><a class="text-white border border-white mx-0 my-[5px] hover:bg-[#3E7D60]" href="https://twitter.com/bmshumas"><i class="fa fa-fw fa-twitter"></i></a></li>
+            </ul>
+        </div>
 
-                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
-                    <ul class="pl-0 list-none ">
-                        <li class="pl-0 list-none ">
-                            <i class="fa fa-top fa-envelope-o"></i>
-                        </li>
-                        <li class="pl-0 list-none ">
-                            <h4 class="text-[1.2em] mb-[10px]">Kontak</h4>
-                        </li>
-                    </ul>
-                    <p class="text-[0.9em]">
-                        +62 858-1417-4267 <br>
-                        https://www.banyumaskab.go.id/ <br>
-                        banyumaspemkab@gmail.com
-                    </p>
-                </div>
-        </footer>
-        <!-- /footer -->
+        <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+            <ul class="pl-0 list-none">
+                <li><i class="fa fa-top fa-envelope-o"></i></li>
+                <li><h4 class="text-[1.2em] mb-[10px]">Kontak</h4></li>
+            </ul>
+            <p class="text-[0.9em]">+62 858-1417-4267<br>https://www.banyumaskab.go.id/<br>banyumaspemkab@gmail.com</p>
+        </div>
+    </footer>
 
     <div class="copyright bg-black">
         <p style="text-align: center; color: white">Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
     </div>
 
-
-
-        <!-- shadow -->
-    </div>
-
     <!-- jQuery -->
     <script src="js/jquery.min.js"></script>
-    <!-- Bootstrap JavaScript -->
-    <script src="js/bootstrap.js"></script>
 
 </body>
 
