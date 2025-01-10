@@ -67,6 +67,7 @@ $mysqli->close();
     <!-- <link rel="stylesheet" href="css/animate.min.css"> -->
     <link rel="stylesheet" href="css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
 </head>
 <body>
     <!-- <div id="fb-root"></div> -->
@@ -113,8 +114,8 @@ $mysqli->close();
 
 </script> -->
 
-        <!-- NAVBAR -->
-        <?php
+     <!-- NAVBAR -->
+     <?php
         if(isset($_GET['status'])) {
     ?>
         <script type="text/javascript">
@@ -140,7 +141,6 @@ $mysqli->close();
             </div>
         </div>
 
-        <!-- Navigation Links Section -->
         <div class="hidden md:flex items-center space-x-8 text-center">
             <a href="index" class="<?= isActive('index.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Home</a>
             <a href="lapor" class="<?= isActive('lapor.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Sambat</a>
@@ -148,29 +148,45 @@ $mysqli->close();
             <a href="community" class="<?= isActive('community.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Komunitas</a>
             <a href="faq" class="<?= isActive('faq.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Tentang</a>
         </div>
-
-        <!-- User Authentication Buttons Section -->
-        <div class="flex items-center space-x-6">
-            <?php
-            $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+           <?php $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+            $email = isset($_SESSION['email']) ? $_SESSION['email'] : null;
             ?>
+            <!-- User Authentication Section -->
+            <div class="flex items-center space-x-6">
+                <?php if ($username): ?>
+                    <!-- Account Dropdown -->
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-[#3E7D60] font-semibold transition">
+                            <img src="https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg" alt="Avatar" class="w-8 h-8 rounded-full">
+                            <span><?php echo htmlspecialchars($username); ?></span>
+                            <svg class="w-5 h-5 transform" :class="open ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
 
-            <?php if ($username): ?>
-                <a href="/SAMBATRAKYAT/profile.php">
-                    <button class="border-0 rounded-md font-semibold px-6 py-3 text-white bg-[#3E7D60] hover:bg-[#5C8D73] transition duration-300 transform hover:scale-105">
-                        <?= htmlspecialchars($username) ?>
-                    </button>
-                </a>
-            <?php else: ?>
-                <a href="/SAMBATRAKYAT/login.php">
-                    <button class="border-0 rounded-md font-semibold px-6 py-3 text-primary bg-white hover:bg-[#f0f0f0] hover:underline transition duration-300 transform hover:scale-105">Masuk</button>
-                </a>
-                <a href="/SAMBATRAKYAT/signin.php">
-                    <button class="border-0 rounded-md font-semibold px-6 py-3 text-white bg-[#3E7D60] hover:bg-[#5C8D73] transition duration-300 transform hover:scale-105">Daftar</button>
-                </a>
-            <?php endif; ?>
+                        <!-- Dropdown Menu -->
+                        <div x-show="open" @click.outside="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
+                            <div class="px-4 py-2 text-sm text-gray-700 border-b">
+                                <p class="font-semibold"><?php echo htmlspecialchars($username); ?></p>
+                                <p class="text-gray-500"><?php echo htmlspecialchars($email); ?></p>
+                            </div>
+                            <a href="/SAMBATRAKYAT/profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">Lihat Profil</a>
+                            <a href="/SAMBATRAKYAT/logout.php" class="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100 transition">Log Out</a>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <!-- Login and Register Buttons -->
+                    <a href="/SAMBATRAKYAT/login.php">
+                        <button class="rounded-md font-semibold px-6 py-2 text-primary bg-white border hover:bg-gray-100 hover:underline transition">Masuk</button>
+                    </a>
+                    <a href="/SAMBATRAKYAT/signin.php">
+                        <button class="rounded-md font-semibold px-6 py-2 text-white bg-[#3E7D60] hover:bg-[#5C8D73] transition">Daftar</button>
+                    </a>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
+</div>
 
     <!-- Mobile Menu Toggle Button -->
     <div class="md:hidden flex items-center space-x-4">
