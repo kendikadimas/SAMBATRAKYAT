@@ -79,7 +79,6 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button> -->
-
         <nav class="flex justify-between bg-[#3E7D60] px-4 py-2">
     <div>
         <a href="index" class="text-white font-bold">Sambat Rakyat</a>
@@ -163,60 +162,64 @@
 </nav>
 
 
-<!-- sidebar -->
-<div class="flex h-screen">
-    <!-- Sidebar -->
-    <div class="w-64 bg-gray-800 text-white flex flex-col" id="navbarResponsive">
-        <ul class="flex-grow flex flex-col space-y-2 p-4">
-            <!-- Profile Section -->
-            <li class="sidebar-profile">
-                <div class="flex flex-col items-center text-center">
-                    <div class="relative">
-                        <img alt="profile" src="images/avatar1.png" class="w-20 h-20 rounded-full border-2 border-gray-700">
-                        <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-gray-800"></span>
-                    </div>
-                    <div class="mt-3">
-                        <span class="font-semibold text-lg">Admin</span><br>
-                        <span class="text-sm font-mono text-gray-400"><?php echo $divisi; ?></span>
-                    </div>
+    <!-- sidebar -->
+    <div class="flex h-auto">
+    <div class="w-64 h-auto bg-gray-800 text-white" id="navbarResponsive">
+    <ul class="flex flex-col space-y-2 p-4">
+        <!-- Profile Section -->
+        <li class="sidebar-profile">
+            <div class="flex flex-col items-center text-center">
+                <div class="relative">
+                    <img alt="profile" src="images/avatar1.png" class="w-20 h-20 rounded-full">
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-gray-800"></span>
                 </div>
-            </li>
+                <div class="mt-2">
+                    <span class="font-semibold">Admin</span><br>
+                    <span class="text-sm font-mono"><?php echo $divisi; ?></span>
+                </div>
+            </div>
+        </li>
 
-            <!-- Navigation Links -->
-            <li>
-                <a href="index" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
-                    <i class="fa fa-fw fa-dashboard"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <a href="tables" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
-                    <i class="fa fa-fw fa-table"></i>
-                    <span>Kelola</span>
-                </a>
-            </li>
-            <li>
-                <a href="export" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
-                    <i class="fa fa-fw fa-print"></i>
-                    <span>Ekspor</span>
-                </a>
-            </li>
-            <li>
-                <a href="addinstansi" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
-                    <i class="fa fa-fw fa-code"></i>
-                    <span>Instansi</span>
-                </a>
-            </li>
-        </ul>
-
-        <!-- Sidebar Toggler -->
-        <div class="mt-auto">
-            <a href="#" class="flex justify-center p-3 text-gray-400 hover:text-white" id="sidenavToggler">
-                <i class="fa fa-fw fa-angle-left"></i>
+        <!-- Dashboard Link -->
+        <li>
+            <a href="index" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                <i class="fa fa-fw fa-dashboard"></i>
+                <span>Dashboard</span>
             </a>
-        </div>
-    </div>
+        </li>
 
+        <!-- Kelola Link -->
+        <li>
+            <a href="tables" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                <i class="fa fa-fw fa-table"></i>
+                <span>Kelola</span>
+            </a>
+        </li>
+
+        <!-- Ekspor Link -->
+        <li>
+            <a href="export" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                <i class="fa fa-fw fa-print"></i>
+                <span>Ekspor</span>
+            </a>
+        </li>
+
+        <!-- Instansi Link -->
+        <li>
+            <a href="addinstansi" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                <i class="fa fa-fw fa-code"></i>
+                <span>Instansi</span>
+            </a>
+        </li>
+    </ul>
+
+    <!-- Sidebar Toggler -->
+    <div class="mt-auto">
+        <a href="#" class="flex justify-center p-2 text-gray-400 hover:text-white" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+        </a>
+    </div>
+</div>
 
     <!-- Body -->
        <!-- Main Content -->
