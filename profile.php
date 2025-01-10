@@ -86,15 +86,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sambat Rakyat</title>
     <link rel="shortcut icon" href="images/samblog.svg">
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/stylehome.css" rel="stylesheet">
-    <link href="css/profil.css" rel="stylesheet">
+    <!-- <link href="css/style.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="css/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link href="css/stylehome.css" rel="stylesheet"> -->
+    <!-- <link href="css/profil.css" rel="stylesheet">
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
-    <link rel="stylesheet" href="css/animate.min.css">
-    <title>Profile</title>
+    <link rel="stylesheet" href="css/animate.min.css"> 
+    <title>Profile</title> -->
+    <script src="https://unpkg.com/alpinejs" defer></script>
+
 </head>
 <body>
 <div id="fb-root"></div>
@@ -107,22 +111,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 </script>
+ <!-- NAVBAR -->
+ <?php
+        if(isset($_GET['status'])) {
+    ?>
+        <script type="text/javascript">
+            $("#successmodalclear").modal();
+        </script>
+    <?php
+        }
+    ?>
+    <?php
+        function isActive($page) {
+            return basename($_SERVER['PHP_SELF']) == $page ? 'text-[#3E7D60] font-semibold' : 'text-gray-800 m-2';
+        }
+    ?>
 
-<!-- Navbar -->
-<div class="shadow">
-    <div class="navbar">
-        <div class="main-logo">
-            <a href="/"><img src="images/samblog.svg" alt="Logo Sambat" class="main-logo"></a>
-            <div class="sub-tem">
-                <h1>Sambat rakyat</h1>
+    <div class="w-full bg-white shadow-lg p-5 flex justify-between items-center z-[100]">
+        <!-- Logo and Title Section -->
+        <div class="flex items-center ml-14">
+            <a href="/">
+                <img src="images/samblog.svg" alt="Logo Sambat" class="h-[3vw] transition duration-300 transform hover:scale-110">
+            </a>
+            <div class="text-2xl font-bold ml-3">
+                <h1 class="text-[#3E7D60] hover:text-[#2C6B50] transition-colors duration-300">Sambat Rakyat</h1>
             </div>
         </div>
-        <div class="menu">
-            <a href="index" target="_top">HOME</a>
-            <a href="lapor" target="_top">SAMBAT</a>
-            <a href="lihat" target="_top">LIHAT PENGADUAN</a>
-            <a href="cara" target="_top">PROFIL DINAS</a>
-            <a href="faq" target="_top">TENTANG</a>
+
+        <div class="hidden md:flex items-center space-x-8 text-center">
+            <a href="index" class="<?= isActive('index.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Home</a>
+            <a href="lapor" class="<?= isActive('lapor.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Sambat</a>
+            <a href="lihat" class="<?= isActive('lihat.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Lihat Pengaduan</a>
+            <a href="community" class="<?= isActive('community.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Komunitas</a>
+            <a href="faq" class="<?= isActive('faq.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Tentang</a>
         </div>
            <?php $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
             $email = isset($_SESSION['email']) ? $_SESSION['email'] : null;
@@ -349,66 +370,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </section>
 </div>
 
-     <!-- Footer -->
-     <footer class="footer text-center">
-            <div class="row">
-                <div class="col-md-4 mb-5 mb-lg-0">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
+        <!-- Footer -->
+        <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5 ">
+                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+                    <ul class="pl-0 list-none ">
+                        <li class="pl-0 list-none ">
                             <i class="fa fa-top fa-map-marker"></i>
                         </li>
-                        <li class="list-inline-item">
-                            <h4 class="text-uppercase mb-4">Kantor</h4>
+                        <li class="pl-0 list-none ">
+                            <h4 class="text-[1.2em] mb-[10px]">Kantor</h4>
                         </li>
                     </ul>
-                    <p class="mb-0">
+                    <p class="text-[0.9em]">
                         Jl. Kabupaten No. 1 Purwokerto
                         <br>Banyumas, Jawa Tengah
                     </p>
                 </div>
-                <div class="col-md-4 mb-5 mb-lg-0">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
+
+                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+                    <ul class="list-none p-0 mb-0">
+                        <li class="pl-0 list-none">
                             <i class="fa fa-top fa-rss"></i>
                         </li>
-                        <li class="list-inline-item">
-                            <h4 class="text-uppercase mb-4">Sosial Media</h4>
+                        <li class="pl-0 list-none">
+                            <h4 class="text-[1.2em] mb-[10px]">Sosial Media</h4>
                         </li>
                     </ul>
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
-                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
+                    <ul class="list-none flex text-center justify-center p-0 mb-0">
+                        <li class="pl-0 list-none">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1" href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
                                 <i class="fa fa-fw fa-facebook"></i>
                             </a>
                         </li>
-                        <li class="list-inline-item">
-                            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/bmshumas?lang=en">
+                        <li class="pl-0 list-none">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1 ml-5" href="https://twitter.com/bmshumas?lang=en">
                                 <i class="fa fa-fw fa-twitter"></i>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
+
+                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+                    <ul class="pl-0 list-none ">
+                        <li class="pl-0 list-none ">
                             <i class="fa fa-top fa-envelope-o"></i>
                         </li>
-                        <li class="list-inline-item">
-                            <h4 class="text-uppercase mb-4">Kontak</h4>
+                        <li class="pl-0 list-none ">
+                            <h4 class="text-[1.2em] mb-[10px]">Kontak</h4>
                         </li>
                     </ul>
-                    <p class="mb-0">
+                    <p class="text-[0.9em]">
                         +62 858-1417-4267 <br>
                         https://www.banyumaskab.go.id/ <br>
                         banyumaspemkab@gmail.com
                     </p>
                 </div>
-            </div>
         </footer>
         <!-- /footer -->
 
-    <div class="copyright">
-        <p style="text-align: center; color: white">v-1.0 | Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
+    <div class="copyright bg-black">
+        <p style="text-align: center; color: white">Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
     </div>
 </div>
 </body>
