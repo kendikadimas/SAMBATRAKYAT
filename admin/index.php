@@ -207,11 +207,11 @@
 
 <div class="container mx-auto p-4">
     <!-- Breadcrumbs -->
-    <ol class="flex space-x-2 text-gray-700">
+    <!-- <ol class="flex space-x-2 text-gray-700">
         <li><a href="#" class="hover:underline">Dashboard</a></li>
         <li>/</li>
         <li class="font-semibold"><?php echo $divisi; ?></li>
-    </ol>
+    </ol> -->
 
     <!-- Icon Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-4">
@@ -261,11 +261,10 @@
         </div>
     </div>
 
+    <!-- ./Icon Cards-->
 
-            <!-- ./Icon Cards-->
-
-            <!-- Example DataTables Card-->
-            <div class="bg-white shadow rounded-lg p-4 mb-4">
+    <!-- Example DataTables Card-->
+    <div class="bg-white shadow rounded-lg p-4 mb-4">
     <!-- Header -->
     <div class="flex items-center justify-between border-b pb-2 mb-4">
         <h2 class="text-lg font-semibold text-gray-800">

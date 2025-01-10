@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,7 +85,7 @@
 
 <!-- end navbar -->
 <!-- answer report page -->
-<div  style="background-image: url('images/backsginin.png');" class="h-[40vh] w-auto bg-cover bg-center bg-no-repeat p-10 mb-[350px]">
+<div  style="background-image: url('../images/backsginin.png');" class="h-[40vh] w-auto bg-cover bg-center bg-no-repeat p-10 mb-[350px]">
     <!-- Bagian Pertanyaan -->
     <div class="bg-white shadow-lg rounded-lg p-6 m-auto w-5/6 z-50 pt-10">
         <div class="flex items-center gap-4 mb-4 ml-10">

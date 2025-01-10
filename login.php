@@ -9,22 +9,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST["email"]);
     $email = trim($_POST["email"]);
     $password = $_POST["password"];
-    $role = $_POST["role"];
 
     // Validasi email, password, dan role
-    if (!empty($email) && !empty($password) && !empty($role)) {
+    if (!empty($email) && !empty($password) ) {
         // Query untuk memeriksa pengguna di database
-        $query_sql = "SELECT * FROM users WHERE (email = ? OR username = ?) AND role = ?";
+        $query_sql = "SELECT * FROM users WHERE email = ? OR username = ?";
         $stmt = mysqli_prepare($conn, $query_sql);
-        mysqli_stmt_bind_param($stmt, "sss", $email, $username, $role);
+        mysqli_stmt_bind_param($stmt, "ss", $email, $username);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $user = mysqli_fetch_assoc($result);
 
-        if ($password = $user['password']) {
+        if ($user && password_verify($password, $user['password']))  {
             // Login berhasil, set session
             $_SESSION["username"] = $user['username'];
-            $_SESSION["role"] = $user['role'];
+            // $_SESSION["role"] = $user['role'];
 
             // Redirect berdasarkan role
             if ($user['role'] === 'admin') {
@@ -79,13 +78,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="box-input">
                 <input type="password" name="password" placeholder="Password" required>
             </div>
-            <div class="box-input">
+            <!-- <div class="box-input">
                 <select name="role" required>
                     <option value="" disabled selected>Pilih Role</option>
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
                 </select>
-            </div>
+            </div> -->
             <button type="submit" class="btn-input">Login</button>
             <div class="bottom">
                 <p>Belum punya akun?
