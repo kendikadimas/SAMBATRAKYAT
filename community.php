@@ -132,12 +132,24 @@ $mysqli->close();
 <!-- end navbar -->
 
 <!-- hero -->
-    <section style="background-image: url('images/backsginin.png');" class="h-[60vh] bg-cover w-full bg-center bg-no-repeat ">
-        <div class="w-1/2 m-auto pt-[10vh]">
-            <h1 class="text-white text-[45px] font-bold p-10">Komunitas Sambat Rakyat</h1>
-            <p class="text-white text-[20px] font-medium px-10">Temukan diskusi, aksi, dan pendapat masyarakat di sini.</p>
-        </div>
-    </section>
+<section 
+    style="background-image: url('images/backbms.png');" 
+    class="relative h-[60vh] bg-cover w-full bg-center bg-no-repeat flex items-center justify-center">
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-10"></div>
+    <!-- Content -->
+    <div class="relative text-center text-white px-6 md:px-0">
+        <h1 class="text-[40px] md:text-[60px] font-bold leading-tight">
+            Komunitas Sambat Rakyat
+        </h1>
+        <p class="text-[18px] md:text-[24px] font-medium mt-4">
+            Temukan diskusi, aksi, dan pendapat masyarakat di sini.
+        </p>
+    </div>
+</section>
+
+
+
 <!-- end hero section -->
 
 <!-- sambatan -->
