@@ -61,377 +61,406 @@
     <link rel="shortcut icon" href="images/samblog.svg">
     <title>Table - Sambat Rakyat Banyumas</title>
     <!-- Bootstrap core CSS-->
-    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet"> -->
     <!-- Custom fonts for this template-->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- Page level plugin CSS-->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <!-- <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet"> -->
     <!-- Custom styles for this template-->
-    <link href="css/admin.css" rel="stylesheet">
+    <!-- <link href="css/admin.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="../css/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="fixed-nav sticky-footer" id="page-top">
+<body class="" id="page-top">
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: #3E7D60;">
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: #3E7D60;">
         <a class="navbar-brand" href="index">Sambat Rakyat Banyumas</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
+        </button> -->
+
+        <nav class="flex justify-between bg-[#3E7D60] px-4 py-2">
+    <div>
+        <a href="index" class="text-white font-bold">Sambat Rakyat</a>
+    </div>
+    <div>
+    <ul class="flex items-center space-x-4">
+    <!-- Laporan Dropdown -->
+    <li class="relative">
+        <button
+            class="flex items-center text-white focus:outline-none"
+            id="messagesDropdownToggle"
+            onclick="toggleDropdown('messagesDropdownContent')"
+        >
+            <i class="fa fa-fw fa-envelope"></i>
+            <span class="lg:hidden ml-2">
+                Laporan <span class="bg-blue-500 text-white rounded-full px-2 text-xs">1 Baru</span>
+            </span>
+            <span class="hidden lg:block ml-2">
+                <i class="fa fa-fw fa-circle text-blue-500"></i>
+            </span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav navbar-sidenav sidebar-menu" id="exampleAccordion">
-
-                <li class="sidebar-profile nav-item" data-toggle="tooltip" data-placement="right" title="Admin">
-                    <div class="profile-main">
-                        <p class="image">
-                            <img alt="image" src="images/avatar1.png" width="80">
-                            <span class="status"><i class="fa fa-circle text-success"></i></span>
-                        </p>
-                        <p>
-                            <span class="">Admin</span><br>
-                            <span class="user" style="font-family: monospace;"><?php echo $divisi; ?></span>
-                        </p>
-                    </div>
-                </li>
-
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                    <a class="nav-link" href="index">
-                        <i class="fa fa-fw fa-dashboard"></i>
-                        <span class="nav-link-text">Dashboard</span>
-                    </a>
-                </li>
-
-                <li class="nav-item active" data-toggle="tooltip" data-placement="right" title="Tables">
-                    <a class="nav-link" href="tables">
-                        <i class="fa fa-fw fa-table"></i>
-                        <span class="nav-link-text">Kelola</span>
-                    </a>
-                </li>
-
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Export">
-                    <a class="nav-link" href="export">
-                        <i class="fa fa-fw fa-print"></i>
-                        <span class="nav-link-text">Ekspor</span>
-                    </a>
-                </li>
-
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Version">
-                    <a class="nav-link" href="#VersionModal" data-toggle="modal" data-target="#VersionModal">
-                        <i class="fa fa-fw fa-code"></i>
-                        <span class="nav-link-text">v-1.0</span>
-                    </a>
-                </li>
-
-            </ul>
-
-            <ul class="navbar-nav sidenav-toggler">
-                <li class="nav-item">
-                    <a class="nav-link text-center" id="sidenavToggler">
-                        <i class="fa fa-fw fa-angle-left"></i>
-                    </a>
-                </li>
-            </ul>
-
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-fw fa-envelope"></i>
-                        <span class="d-lg-none">Messages
-                            <span class="badge badge-pill badge-primary">12 New</span>
-                        </span>
-                        <span class="indicator text-primary d-none d-lg-block">
-                            <i class="fa fa-fw fa-circle"></i>
-                        </span>
-                    </a>
-                    <?php
-                        $statement = $db->query("SELECT * FROM laporan ORDER BY laporan.id DESC LIMIT 1");
-                        foreach ($statement as $key ) {
-                            $mysqldate = $key['tanggal'];
-                            $phpdate = strtotime($mysqldate);
-                            $tanggal = date( 'd/m/Y', $phpdate);
-                     ?>
-                    <div class="dropdown-menu" aria-labelledby="messagesDropdown">
-                        <h6 class="dropdown-header">Laporan Baru :</h6>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                            <strong><?php echo $key['nama']; ?></strong>
-                            <span class="small float-right text-muted"><?php echo $key['tanggal']; ?></span>
-                            <div class="dropdown-message small"><?php echo $key['isi']; ?></div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <!-- <a class="dropdown-item small" href="#">View all messages</a> -->
-                    </div>
-                    <?php
-                        }
-                     ?>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-                        <i class="fa fa-fw fa-sign-out"></i>Logout
-                    </a>
-                </li>
-            </ul>
+        <?php
+        $statement = $db->query("SELECT * FROM laporan ORDER BY laporan.id DESC LIMIT 1");
+        foreach ($statement as $key) {
+            $mysqldate = $key['tanggal'];
+            $phpdate = strtotime($mysqldate);
+            $tanggal = date('d/m/Y', $phpdate);
+        ?>
+        <!-- Dropdown Content -->
+        <div
+            id="messagesDropdownContent"
+            class="hidden absolute bg-white shadow-lg rounded mt-2 w-64 right-0 z-50"
+        >
+            <h6 class="px-4 py-2 font-semibold text-gray-700">Laporan Baru:</h6>
+            <div class="border-t border-gray-200"></div>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">
+                <strong class="text-gray-800"><?php echo $key['nama']; ?></strong>
+                <span class="text-sm text-gray-500 float-right"><?php echo $tanggal; ?></span>
+                <p class="text-sm text-gray-600 mt-1"><?php echo $key['isi']; ?></p>
+            </a>
         </div>
-    </nav>
+        <?php } ?>
+    </li>
+
+    <!-- Logout Button -->
+    <li>
+        <a
+            href="#"
+            class="text-white flex items-center"
+            data-toggle="modal"
+            data-target="#exampleModal"
+        >
+            <i class="fa fa-fw fa-sign-out"></i>
+            <span class="ml-2">Logout</span>
+        </a>
+    </li>
+</ul>
+
+<script>
+    function toggleDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        dropdown.classList.toggle('hidden');
+    }
+
+    // Optional: Close dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+        const dropdownToggle = document.getElementById('messagesDropdownToggle');
+        const dropdownContent = document.getElementById('messagesDropdownContent');
+
+        if (
+            !dropdownToggle.contains(event.target) &&
+            !dropdownContent.contains(event.target)
+        ) {
+            dropdownContent.classList.add('hidden');
+        }
+    });
+</script>
+
+    </div>
+</nav>
+
+
+<!-- sidebar -->
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-gray-800 text-white flex flex-col" id="navbarResponsive">
+        <ul class="flex-grow flex flex-col space-y-2 p-4">
+            <!-- Profile Section -->
+            <li class="sidebar-profile">
+                <div class="flex flex-col items-center text-center">
+                    <div class="relative">
+                        <img alt="profile" src="images/avatar1.png" class="w-20 h-20 rounded-full border-2 border-gray-700">
+                        <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-gray-800"></span>
+                    </div>
+                    <div class="mt-3">
+                        <span class="font-semibold text-lg">Admin</span><br>
+                        <span class="text-sm font-mono text-gray-400"><?php echo $divisi; ?></span>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Navigation Links -->
+            <li>
+                <a href="index" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                    <i class="fa fa-fw fa-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="tables" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                    <i class="fa fa-fw fa-table"></i>
+                    <span>Kelola</span>
+                </a>
+            </li>
+            <li>
+                <a href="export" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                    <i class="fa fa-fw fa-print"></i>
+                    <span>Ekspor</span>
+                </a>
+            </li>
+            <li>
+                <a href="addinstansi" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                    <i class="fa fa-fw fa-code"></i>
+                    <span>Instansi</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Sidebar Toggler -->
+        <div class="mt-auto">
+            <a href="#" class="flex justify-center p-3 text-gray-400 hover:text-white" id="sidenavToggler">
+                <i class="fa fa-fw fa-angle-left"></i>
+            </a>
+        </div>
+    </div>
 
 
     <!-- Body -->
-    <div class="content-wrapper">
-        <div class="container-fluid">
-
-            <!-- Breadcrumbs-->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="#">Kelola</a>
+       <!-- Main Content -->
+       <div class="flex-1 bg-gray-100 min-h-screen p-6">
+        <!-- Breadcrumbs -->
+        <nav class="text-sm text-gray-500 mb-6">
+            <ol class="list-reset flex items-center">
+                <li>
+                    <a href="#" class="text-blue-600 hover:underline font-medium">Kelola</a>
                 </li>
-                <li class="breadcrumb-item active"><?php echo $divisi; ?></li>
+                <li class="mx-2 text-gray-400">/</li>
+                <li class="text-gray-600"><?php echo $divisi; ?></li>
             </ol>
+        </nav>
 
-            <!-- DataTables Card-->
-            <div class="card mb-3">
-                <div class="card-header">
-                    <i class="fa fa-table"></i> Laporan Masuk
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable">
-                            <thead>
-                                <tr>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Telpon</th>
-                                    <th>Isi Laporan</th>
-                                    <th>Tanggal</th>
-                                    <th class="sorting_asc_disabled sorting_desc_disabled">Status</th>
-                                    <th class="th-no-border sorting_asc_disabled sorting_desc_disabled"></th>
-                                    <th class="th-no-border sorting_asc_disabled sorting_desc_disabled" style="text-align:right">Aksi</th>
-                                    <th class="sorting_asc_disabled sorting_desc_disabled"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
+        <!-- DataTables Card -->
+        <div class="bg-white rounded-lg shadow-md">
+            <!-- Card Header -->
+            <div class="p-5 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-2xl font-semibold text-gray-700">
+                    <i class="fa fa-table mr-2"></i>Laporan Masuk
+                </h2>
+                <!-- Search Bar -->
+                <input 
+                    type="text" 
+                    id="searchTable" 
+                    placeholder="Cari data..." 
+                    class="border border-gray-300 rounded-md py-2 px-4 w-64 focus:outline-none focus:ring focus:ring-blue-200"
+                    onkeyup="filterTable()"
+                />
+            </div>
 
-<?php
-// Ambil semua record dari tabel laporan
+            <!-- Table -->
+            <div class="p-5 overflow-x-auto">
+                <table class="w-full table-auto border-collapse border border-gray-300 text-sm text-gray-700" id="dataTable">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="border border-gray-300 px-4 py-3 text-left font-medium cursor-pointer" onclick="sortTable(0)">Nama</th>
+                            <th class="border border-gray-300 px-4 py-3 text-left font-medium cursor-pointer" onclick="sortTable(1)">Email</th>
+                            <th class="border border-gray-300 px-4 py-3 text-left font-medium cursor-pointer" onclick="sortTable(2)">Telpon</th>
+                            <th class="border border-gray-300 px-4 py-3 text-left font-medium">Isi Laporan</th>
+                            <th class="border border-gray-300 px-4 py-3 text-left font-medium cursor-pointer" onclick="sortTable(3)">Tanggal</th>
+                            <th class="border border-gray-300 px-4 py-3 text-center font-medium">Status</th>
+                            <th class="border border-gray-300 px-4 py-3 text-center font-medium">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $query = $id_admin > 0
+                            ? "SELECT * FROM laporan, divisi WHERE laporan.tujuan = divisi.id_divisi AND laporan.tujuan = $id_admin ORDER BY laporan.id DESC"
+                            : "SELECT * FROM `laporan` ORDER BY id DESC";
+                        $statement = $db->query($query);
 
-    if ($id_admin > 0) {
-        $statement = $db->query("SELECT * FROM laporan, divisi WHERE laporan.tujuan = divisi.id_divisi AND laporan.tujuan = $id_admin ORDER BY laporan.id DESC");
-    } else {
-        $statement = $db->query("SELECT * FROM `laporan` ORDER BY id DESC");
-    }
-    foreach ($statement as $key ) {
-        $mysqldate = $key['tanggal'];
-        $phpdate = strtotime($mysqldate);
-        $tanggal = date( 'd/m/Y', $phpdate);
-        $status  = $key['status'];
-        if($status == "Ditanggapi") {
-            $style_status = "<p style=\"background-color:#009688;color:#fff;padding-left:2px;padding-right:2px;padding-bottom:2px;margin-top:16px;font-size:15px;font-style:italic;\">Ditanggapi</p>";
-        } else {
-            $style_status = "<p style=\"background-color:#FF9800;color:#fff;padding-left:2px;padding-right:2px;padding-bottom:2px;margin-top:16px;font-size:15px;font-style:italic;\">Menunggu</p>";
-        }
-?>
-                                <tr>
-                                    <td><?php echo $key['nama']; ?></td>
-                                    <td><?php echo $key['email']; ?></td>
-                                    <td><?php echo $key['telpon']; ?></td>
-                                    <td><?php echo $key['isi']; ?></td>
-                                    <td><?php echo $tanggal; ?></td>
-                                    <td><?php echo $style_status; ?></td>
-                                    <td class="td-no-border">
-                                        <button type="button" class="btn btn-primary btn-sm btn-custom card-shadow-2" data-toggle="modal" data-target="#ModalDetail<?php echo $key['id']; ?>">
-                                            Detail
-                                        </button>
-                                    </td>
-                                    <td class="td-no-border">
-                                        <button type="button" class="btn btn-primary-custom btn-sm btn-custom card-shadow-2" data-toggle="modal" data-target="#ModalBalas<?php echo $key['id']; ?>">
-                                            Balas
-                                        </button>
-                                    </td>
-                                    <td class="td-no-border">
-                                        <button type="button" class="btn btn-danger btn-sm btn-custom card-shadow-2" data-toggle="modal" data-target="#ModalHapus<?php echo $key['id']; ?>">
-                                            Hapus
-                                        </button>
-                                    </td>
-                                </tr>
-<?php
-    }
-?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                        foreach ($statement as $key) {
+                            $phpdate = strtotime($key['tanggal']);
+                            $tanggal = date('d/m/Y', $phpdate);
+                            $status = $key['status'];
+                            $statusStyle = $status === "Ditanggapi"
+                           ? "<span class='inline-block bg-green-500 text-white px-3 py-1 rounded text-xs'>Ditanggapi</span>"
+                           : "<span class='inline-block bg-orange-500 text-white px-3 py-1 rounded text-xs'>Menunggu</span>";
+                   ?>
+                            <tr class="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition duration-150">
+                                <td class="border border-gray-300 px-4 py-3"><?php echo $key['nama']; ?></td>
+                                <td class="border border-gray-300 px-4 py-3"><?php echo $key['email']; ?></td>
+                                <td class="border border-gray-300 px-4 py-3"><?php echo $key['telpon']; ?></td>
+                                <td class="border border-gray-300 px-4 py-3"><?php echo $key['isi']; ?></td>
+                                <td class="border border-gray-300 px-4 py-3"><?php echo $tanggal; ?></td>
+                                <td class="border border-gray-300 px-4 py-3 text-center"><?php echo $statusStyle; ?></td>
+                                <td class="border border-gray-300 px-4 py-3 text-center space-x-2">
+                                    <button class="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-500 transition"
+                                     onclick="openModal('ModalDetail<?php echo $key['id']; ?>')
+                                    ">Detail</button>
+                                    <button class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-500 transition"
+                                    onclick="openModal('ModalHapus<?php echo $key['id']; ?>')">Hapus</button>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <!-- /.container-fluid-->
+    </div>
+</div>
+
+
+<script>
+    // Filter Table by Search
+    function filterTable() {
+        const input = document.getElementById('searchTable');
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById('dataTable');
+        const rows = table.getElementsByTagName('tr');
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j] && cells[j].innerText.toLowerCase().includes(filter)) {
+                    match = true;
+                    break;
+                }
+            }
+            rows[i].style.display = match ? '' : 'none';
+        }
+    }
+
+    // Sort Table by Column
+    function sortTable(columnIndex) {
+        const table = document.getElementById('dataTable');
+        const rows = Array.from(table.rows).slice(1);
+        const ascending = table.getAttribute('data-sort-asc') !== 'true';
+        rows.sort((a, b) => {
+            const aText = a.cells[columnIndex].innerText.toLowerCase();
+            const bText = b.cells[columnIndex].innerText.toLowerCase();
+            return ascending ? aText.localeCompare(bText) : bText.localeCompare(aText);
+        });
+        rows.forEach(row => table.tBodies[0].appendChild(row));
+        table.setAttribute('data-sort-asc', ascending);
+    }
+</script>
+
 
         <!-- Isi masing2 modal, detail, balas dan hapus -->
-        <?php
-            if ($id_admin > 0) {
-                $statement = $db->query("SELECT * FROM laporan, divisi WHERE laporan.tujuan = divisi.id_divisi AND laporan.tujuan = $id_admin ORDER BY laporan.id DESC");
-            } else {
-                $statement = $db->query("SELECT * FROM laporan, divisi WHERE laporan.tujuan = divisi.id_divisi ORDER BY laporan.id DESC");
-            }
-
-            foreach ($statement as $key ) {
-                // cek apakah laporan sudah ditanggapi atau belum
-                $nomor = $key['id'];
-                $stat = $db->query("SELECT * FROM `tanggapan` WHERE id_laporan = $nomor");
-                if ($stat->rowCount() > 0) {
-                    // jika laporan sudah ditanggapi, maka tampilkan tanggapan di modal detail laporan
-                    $foundreply = true;
-                }
-        ?>
-
-        <!--Modal Detail-->
-        <div class="modal fade" id="ModalDetail<?php echo $key['id']; ?>" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-lg " role="document">
-                <div class="modal-content">
-                    <div class="modal-header ">
-                        <h5 class="modal-title text-center">Detail Laporan</h5>
-                    </div>
-                    <div class="modal-body">
-                        <p class="custom"><b>Nama :</b></p>
-                        <p class="custom"><?php echo $key['nama']; ?></p>
-                        <hr class="custom">
-                        <p class="custom"><b>Email :</b></p>
-                        <p class="custom"><?php echo $key['email']; ?></p>
-                        <hr class="custom">
-                        <p class="custom"><b>Telpon :</b></p>
-                        <p class="custom"><?php echo $key['telpon']; ?></p>
-                        <hr class="custom">
-                        <p class="custom"><b>Alamat :</b></p>
-                        <p class="custom"><?php echo $key['alamat']; ?></p>
-                        <hr class="custom">
-                        <p class="custom"><b>Tujuan :</b></p>
-                        <p class="custom"><?php echo $key['nama_divisi']; ?></p>
-                        <hr class="custom">
-                        <p class="custom"><b>Isi Laporan :</b></p>
-                        <p class="custom"><?php echo $key['isi']; ?></p>
-                        <hr class="custom">
-                        <p class="custom"><b>Tanggal :</b></p>
-                        <p class="custom"><?php echo $key['tanggal']; ?></p>
-                        <?php
-                            // tampilkan tanggapan jika sudah ada tanggapan
-                            if($foundreply) {
-                                foreach ($stat as $keyy) {
-                                ?>
-                                <hr class="custom">
-                                <p class="custom"><b>Tanggapan :</b></p>
-                                <p class="custom"><?php echo $keyy['isi_tanggapan']; ?></p>
-                                <form method="post">
-                                    <input type="hidden" name="id_hapus_tanggapan_laporan" value="<?php echo $keyy['id_laporan']; ?>">
-                                    <input type="hidden" name="id_tanggapan" value="<?php echo $keyy['id_tanggapan']; ?>">
-                                    <input type="submit" class="btn btn-danger btn-sm card-shadow-2" name="HapusTanggapan" value="Hapus">
-                                </form>
-                                <?php
-                                }
-                            }
-                         ?>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-close btn-sm card-shadow-2" data-dismiss="modal">Tutup</button>
-                    </div>
-                </div>
-            </div>
+        <!-- Modal Detail -->
+<div id="ModalDetail<?php echo $key['id']; ?>" 
+     class="fixed inset-0 z-50 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl">
+        <div class="border-b px-4 py-3 flex justify-between items-center">
+            <h5 class="text-lg font-semibold">Detail Laporan</h5>
+            <button class="text-gray-400 hover:text-gray-600" onclick="closeModal('ModalDetail<?php echo $key['id']; ?>')">
+                &times;
+            </button>
         </div>
-        <!--./Modal Detail-->
-
-        <!-- Modal Balas -->
-        <div class="modal fade" id="ModalBalas<?php echo $key['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Balas Laporan</h5>
-                    </div>
-                    <div class="modal-body">
-                        <form  method="post">
-                            <div class="form-group">
-                                <p><b>Nama Pelapor:</b></p>
-                                <?php echo $key['nama']; ?>
-                                <hr>
-                            </div>
-                            <div class="form-group">
-                                <p><b>Isi Laporan :</b></p>
-                                <p>"<?php echo $key['isi']; ?>"</p>
-                                <hr>
-                            </div>
-                            <div class="form-group">
-                                <p><b>Tanggapan :</b></p>
-                                <textarea class="form-control" name="isi_tanggapan" placeholder="Isi Tanggapan" required></textarea>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="hidden" name="id_laporan" value="<?php echo $key['id']; ?>">
-                                <input type="submit" class="btn btn-primary-custom card-shadow-2 btn-sm" name="Balas" value="Balas">
-                                <button type="button" class="btn btn-close btn-sm card-shadow-2" data-dismiss="modal">Batal</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ./Modal Balas -->
-
-        <!--Modal Hapus-->
-        <div class="modal fade" id="ModalHapus<?php echo $key['id']; ?>" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-sm " role="document">
-                <div class="modal-content">
-                    <div class="modal-header ">
-                        <h5 class="modal-title text-center">Hapus Laporan</h5>
-                    </div>
-                    <div class="modal-body">
-                        <p class="text-center">Hapus Pengaduan</p>
-                        <p class="text-center">Dari <b><?php echo $key['nama']; ?></b> ?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <form method="post">
-                            <input type="hidden" name="id_laporan" value="<?php echo $key['id']; ?>">
-                            <input type="submit" class="btn btn-danger btn-sm card-shadow-2" name="Hapus" value="Hapus">
-                            <button type="button" class="btn btn-close btn-sm card-shadow-2" data-dismiss="modal">Batal</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ./Modal Hapus-->
-        <?php
-            }
-        ?>
-
-        <footer class="sticky-footer">
-            <div class="container">
-                <div class="text-center">
-                    <small>Copyright © Pemerintah Kabupaten Banyumas</small>
-                </div>
-            </div>
-        </footer>
-
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fa fa-angle-up"></i>
-        </a>
-
-        <!-- Logout Modal-->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Yakin Ingin Keluar?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
+        <div class="p-4">
+            <p class="mb-2"><b>Nama:</b> <?php echo $key['nama']; ?></p>
+            <p class="mb-2"><b>Email:</b> <?php echo $key['email']; ?></p>
+            <p class="mb-2"><b>Telpon:</b> <?php echo $key['telpon']; ?></p>
+            <p class="mb-2"><b>Alamat:</b> <?php echo $key['alamat']; ?></p>
+            <p class="mb-2"><b>Tujuan:</b> <?php echo $key['nama_divisi']; ?></p>
+            <p class="mb-2"><b>Isi Laporan:</b> <?php echo $key['isi']; ?></p>
+            <p class="mb-2"><b>Tanggal:</b> <?php echo $key['tanggal']; ?></p>
+            <?php if ($foundreply) : ?>
+                <hr class="my-2">
+                <p class="mb-2"><b>Tanggapan:</b></p>
+                <?php foreach ($stat as $keyy) : ?>
+                    <p class="mb-2"><?php echo $keyy['isi_tanggapan']; ?></p>
+                    <form method="post">
+                        <input type="hidden" name="id_hapus_tanggapan_laporan" value="<?php echo $keyy['id_laporan']; ?>">
+                        <input type="hidden" name="id_tanggapan" value="<?php echo $keyy['id_tanggapan']; ?>">
+                        <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-500" name="HapusTanggapan">
+                            Hapus
                         </button>
-                    </div>
-                    <div class="modal-body">Pilih "Logout" jika anda ingin mengakhiri sesi.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-close card-shadow-2 btn-sm" type="button" data-dismiss="modal">Batal</button>
-                        <a class="btn btn-primary btn-sm card-shadow-2" href="logout">Logout</a>
-                    </div>
+                    </form>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+        <div class="border-t px-4 py-3 text-right">
+            <button class="bg-gray-300 text-gray-700 px-3 py-1 rounded hover:bg-gray-400" onclick="closeModal('ModalDetail<?php echo $key['id']; ?>')">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Hapus -->
+<div id="ModalHapus<?php echo $key['id']; ?>" 
+     class="fixed inset-0 z-50 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-sm">
+        <div class="border-b px-4 py-3">
+            <h5 class="text-lg font-semibold">Hapus Laporan</h5>
+        </div>
+        <div class="p-4 text-center">
+            <p class="mb-4">Hapus pengaduan dari <b><?php echo $key['nama']; ?></b>?</p>
+        </div>
+        <div class="border-t px-4 py-3 text-right space-x-2">
+            <form method="post" class="inline-block">
+                <input type="hidden" name="id_laporan" value="<?php echo $key['id']; ?>">
+                <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-500" name="Hapus">
+                    Hapus
+                </button>
+            </form>
+            <button class="bg-gray-300 text-gray-700 px-3 py-1 rounded hover:bg-gray-400" onclick="closeModal('ModalHapus<?php echo $key['id']; ?>')">
+                Batal
+            </button>
+        </div>
+    </div>
+</div>
+        <!-- Scroll to Top Button-->
+        <a 
+    id="top" 
+    href="#" 
+    onclick="topFunction()" 
+    class="fixed bottom-5 right-5 bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 hover:scale-110 transition-all duration-300"
+    title="Back to Top"
+>
+    <i class="fa fa-arrow-circle-up text-[24px]"></i>
+</a>
+
+<script>
+            // When the user scrolls down 100px from the top of the document, show the button
+            window.onscroll = function() {scrollFunction()};
+            function scrollFunction() {
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    document.getElementById("top").style.display = "block";
+                } else {
+                    document.getElementById("top").style.display = "none";
+                }
+            }
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+            </script>
+        <!-- Logout Modal-->
+        <div id="exampleModal" class="fixed inset-0 items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">
+            <div class="bg-white rounded-lg shadow-lg max-w-sm w-full">
+                <div class="border-b px-4 py-2 flex justify-between items-center">
+                    <h5 class="text-lg font-semibold text-gray-800">Yakin Ingin Keluar?</h5>
+                    <button class="text-gray-500 hover:text-gray-800" onclick="closeModal('exampleModal')">
+                        &times;
+                    </button>
+                </div>
+                <div class="p-4">
+                    <p class="text-sm text-gray-600">Pilih "Logout" jika anda ingin mengakhiri sesi.</p>
+                </div>
+                <div class="border-t px-4 py-2 flex justify-end space-x-2">
+                    <button class="bg-gray-300 text-gray-700 px-4 py-1 rounded hover:bg-gray-400" onclick="closeModal('exampleModal')">Batal</button>
+                    <a href="logout" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-500">Logout</a>
                 </div>
             </div>
-        </div>
+            </div>
+            <script>
+                function openModal(modalId) {
+                document.getElementById(modalId).style.display = 'flex';
+            }
+
+            function closeModal(modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            }
+            </script>
 
         <!-- Version Info Modal -->
         <!-- Modal -->
-        <div class="modal fade" id="VersionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="VersionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -449,7 +478,22 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+
+        <script>
+            // Fungsi untuk membuka modal
+            function openModal(modalId) {
+                const modal = document.getElementById(modalId);
+                modal.classList.remove('hidden');
+            }
+
+            // Fungsi untuk menutup modal
+            function closeModal(modalId) {
+                const modal = document.getElementById(modalId);
+                modal.classList.add('hidden');
+            }
+
+        </script>
 
         <!-- Bootstrap core JavaScript-->
         <script src="vendor/jquery/jquery.min.js"></script>
