@@ -2,9 +2,9 @@
 # @Date:   20 Desember 2024
 # @Copyright: (c) Sambat Rakyat Banyumas 2024 -->
 <?php
+    session_start();
     // database
     require_once("database.php");
-    
     logged_admin ();
     // global var
     global $nomor, $foundreply;
@@ -175,68 +175,16 @@
                     <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-gray-800"></span>
                 </div>
                 <div class="mt-2">
-                    <span class="font-semibold">Admin</span><br>
+                    <span class="font-semibold">Instansi</span><br>
                     <!-- <span class="text-sm font-mono"><?php 
                     // echo $divisi; ?></span> -->
                 </div>
             </div>
         </li>
-
-        <!-- Dashboard Link -->
-        <!-- <li>
-            <a href="index" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
-                <i class="fa fa-fw fa-dashboard"></i>
-                <span>Dashboard</span>
-            </a>
-        </li> -->
-
-        <!-- Kelola Link -->
-        <!-- <li>
-            <a href="tables" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
-                <i class="fa fa-fw fa-table"></i>
-                <span>Kelola</span>
-            </a>
-        </li> -->
-
-        <!-- Ekspor Link -->
-        <!-- <li>
-            <a href="export" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
-                <i class="fa fa-fw fa-print"></i>
-                <span>Ekspor</span>
-            </a>
-        </li> -->
-
-        <!-- Instansi Link -->
-        <!-- <li>
-            <a href="addinstansi" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
-                <i class="fa fa-fw fa-code"></i>
-                <span>Instansi</span>
-            </a>
-        </li> -->
     </ul>
-
-    <!-- Sidebar Toggler -->
-    <!-- <div class="mt-auto">
-        <a href="#" class="flex justify-center p-2 text-gray-400 hover:text-white" id="sidenavToggler">
-            <i class="fa fa-fw fa-angle-left"></i>
-        </a>
-    </div> -->
 </div>
 
 <div class="container mx-auto p-4">
-    <!-- Breadcrumbs -->
-    <!-- <ol class="flex space-x-2 text-gray-700">
-        <li><a href="#" class="hover:underline">Da</a></li>
-        <li>/</li>
-        <li class="font-semibold"><?php 
-        // echo $divisi; ?></li>
-    </ol>
-
-     -->
-
-
-            <!-- ./Icon Cards-->
-
             <!-- Example DataTables Card-->
             <div class="bg-white shadow rounded-lg p-4 mb-4">
     <!-- Header -->
@@ -267,12 +215,8 @@
                 </tr>
             </thead>
             <tbody id="tableBody">
-                <?php
-                if ($id_admin > 0) {
-                    $statement = $db->query("SELECT * FROM laporan, divisi WHERE laporan.tujuan = divisi.id_divisi AND laporan.tujuan = $id_admin ORDER BY laporan.id DESC");
-                } else {
-                    $statement = $db->query("SELECT * FROM laporan, divisi WHERE laporan.tujuan = divisi.id_divisi ORDER BY laporan.id DESC");
-                }
+                <?php   
+            $statement = $db->query("SELECT * FROM laporan, divisi WHERE laporan.tujuan = divisi.id_divisi ORDER BY laporan.id DESC");
 
                 foreach ($statement as $key) {
                     $mysqldate = $key['tanggal'];
@@ -302,18 +246,11 @@
                                 <!-- Tombol Detail -->
                                 <a
                                     class="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-500 transition"
-                                    href="instansi.php"
+                                    href="instansi.php?id=<?php echo $key['id']; ?>"
                                 >
                                     Tanggapi
                                 </a>
                                 
-                                <!-- Tombol Hapus -->
-                                <!-- <button 
-                                    class="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-500 transition"
-                                    onclick="openModal('ModalHapus')"
-                                >
-                                    
-                                </button> -->
                             </div>
                         </td>
                     </tr>

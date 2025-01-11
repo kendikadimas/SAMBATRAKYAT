@@ -1,6 +1,22 @@
 <?php
 session_start();
 include "../koneksi.php";
+require '../koneksi.php'; // File koneksi database
+$id = $_GET['id'] ?? 0;
+
+// Query untuk mendapatkan detail laporan
+$query = $conn->prepare("SELECT laporan.*, divisi.nama_divisi FROM laporan JOIN divisi ON laporan.tujuan = divisi.id_divisi WHERE laporan.id = ?");
+$query->bind_param("i", $id);
+$query->execute();
+$result = $query->get_result();
+
+// Jika laporan tidak ditemukan
+if ($result->num_rows === 0) {
+    die("Laporan tidak ditemukan.");
+}
+
+$laporan = $result->fetch_assoc();
+$query->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,13 +59,18 @@ include "../koneksi.php";
         </button>
 
         <?php
-
+        include "../koneksi.php";
         $statement = $conn->query("SELECT * FROM laporan ORDER BY laporan.id DESC LIMIT 1");
-        foreach ($statement as $key) {
+        
+        if (!$statement) {
+            die("Query gagal: " . $conn->error);
+        }
+        
+        foreach ($statement as $key) { 
             $mysqldate = $key['tanggal'];
             $phpdate = strtotime($mysqldate);
             $tanggal = date('d/m/Y', $phpdate);
-        ?>
+            ?>
         <!-- Dropdown Content -->
         <div
             id="messagesDropdownContent"
@@ -63,7 +84,10 @@ include "../koneksi.php";
                 <p class="text-sm text-gray-600 mt-1"><?php echo $key['isi']; ?></p>
             </a>
         </div>
-        <?php } ?>
+        <?php 
+    $result->free(); 
+    } ?>
+
     </li>
 
     <!-- Logout Button -->
@@ -116,9 +140,8 @@ include "../koneksi.php";
                     <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-gray-800"></span>
                 </div>
                 <div class="mt-2">
-                    <span class="font-semibold">Admin</span><br>
-                    <!-- <span class="text-sm font-mono"><?php 
-                    // echo $divisi; ?></span> -->
+                    <span class="font-semibold">Instansi</span><br>
+        
                 </div>
             </div>
         </li>
@@ -130,30 +153,6 @@ include "../koneksi.php";
                 <span>Kembali</span>
             </a>
         </li>
-
-    <!-- 
-        <li>
-            <a href="tables" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
-                <i class="fa fa-fw fa-table"></i>
-                <span>Kelola</span>
-            </a>
-        </li>
-
-     
-        <li>
-            <a href="export" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
-                <i class="fa fa-fw fa-print"></i>
-                <span>Ekspor</span>
-            </a>
-        </li>
-
-    <li>
-            <a href="addinstansi" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
-                <i class="fa fa-fw fa-code"></i>
-                <span>Instansi</span>
-            </a>
-        </li>
-    </ul> -->
 
     <!-- Sidebar Toggler -->
     <div class="mt-auto">
@@ -170,92 +169,100 @@ include "../koneksi.php";
         <div class="flex items-center gap-4 mb-4 ml-10">
             <img src="https://via.placeholder.com/50" alt="Profile" class="w-20 h-20 rounded-full">
             <div>
-                <div class="flex items-center justify-between ml-10">
-                    <div>
-                        <h3 class="font-bold text-green-700 text-xl">Dimas Kendika Fazrulfalah</h3>
-                        <p class="text-sm text-gray-500">02 January 2025, 09:43:09</p>
-                        <p class="text-gray-700 text-lg ml-auto">Ini gmn ya daftarnya</p>
+            <?php
+                    ?>
+                    <div class="flex items-center justify-between ml-10">
+                        <div>
+                            <h3 class="font-bold text-green-700 text-xl"><?php echo htmlspecialchars($laporan['nama']); ?></h3>
+                            <p class="text-sm text-gray-500"><?php echo htmlspecialchars($tanggal); ?></p>
+                            <p class="text-gray-700 text-lg ml-auto"><?php echo htmlspecialchars($laporan['isi']); ?></p>
+                        </div>
                     </div>
-                </div>
+                    <?php
+                //DEBUG 
+                $id = isset($_GET['id']) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 0;
+
+                // Query untuk mendapatkan detail laporan
+                $query = $conn->prepare("SELECT laporan.*, divisi.nama_divisi FROM laporan JOIN divisi ON laporan.tujuan = divisi.id_divisi WHERE laporan.id = ?");
+                if (!$query) {
+                    die("Query gagal dipersiapkan: " . $conn->error); // Debug jika prepare gagal
+                }
+
+                $query->bind_param('i', $id); // Bind parameter ID
+                if (!$query->execute()) {
+                    die("Query gagal dieksekusi: " . $query->error); // Debug jika eksekusi gagal
+                }
+
+                $result = $query->get_result();
+                $laporan = $result->fetch_assoc();
+
+                // Jika laporan tidak ditemukan
+                if (!$laporan) {
+                    echo "<p class='text-red-500 text-center'>Laporan tidak ditemukan.</p>";
+                    exit(); // Hentikan eksekusi jika laporan tidak ditemukan
+                }
+
+                ?>
+                
             </div>
         </div>
     </div>
 
     <!-- Bagian Tanggapan -->
-    <div class="bg-white shadow-lg rounded-lg p-6 m-auto w-5/6 mt-2">
-        <h4 class="font-bold text-gray-700 text-lg mb-3">Tanggapan Anda</h4>
+<div class="bg-white shadow-lg rounded-lg p-6 m-auto w-5/6 mt-2">
+    <h4 class="font-bold text-gray-700 text-lg mb-3">Tanggapan Anda</h4>
+    <form method="POST" action="ditanggapi.php">
+        <input type="hidden" name="laporan_id" value="<?php echo $laporan['id']; ?>">
+        <?php 
+        $id_instansi = $_SESSION['id'];
+        $query = $conn->prepare("SELECT username FROM users WHERE id = ? AND role='instansi'");
+        $query->bind_param("i", $id_instansi);
+        $query->execute();
+        $result = $query->get_result();
+        $user = $result->fetch_assoc();
+        ?>
+        <input type="hidden" name="nama" value="<?php echo $user['username']; ?>"> <!-- Nama penanggap -->
         <textarea 
             class="w-full p-4 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" 
             rows="5" 
+            name="isi"
             placeholder="Tulis tanggapan Anda di sini..."
         ></textarea>
         <div class="flex justify-end mt-4">
-            <button class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300">
+            <button type="submit" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300">
                 Kirim
             </button>
         </div>
-    </div>
+    </form>
 </div>
+
+<!-- Bagian List Tanggapan -->
+<div class="bg-white shadow-lg rounded-lg p-6 m-auto w-5/6 mt-2 h-auto" >
+    <h4 class="font-bold text-gray-700 text-lg mb-3">Tanggapan</h4>
+    <?php
+$tanggapan_query = $conn->prepare("
+    SELECT komen.*, users.username 
+    FROM komen 
+    JOIN users ON komen.nama = users.username 
+    WHERE komen.laporan_id = ? AND role='instansi'
+");
+$tanggapan_query->bind_param("i", $laporan['id']);
+$tanggapan_query->execute();
+$result = $tanggapan_query->get_result();
+$tanggapan = $result->fetch_all(MYSQLI_ASSOC);
+?>
+
+
+<?php if (count($tanggapan) > 0): ?>
+    <?php foreach ($tanggapan as $komen): ?>
+        <div class="mb-4">
+            <h5 class="font-bold text-gray-900"><?php echo htmlspecialchars($komen['username']); ?></h5>
+            <p class="text-sm text-gray-500"><?php echo date('d F Y, H:i', strtotime($komen['tanggal'])); ?></p>
+            <p class="text-gray-700"><?php echo htmlspecialchars($komen['isi']); ?></p>
         </div>
-   <!-- Footer -->
-   <!-- <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5">
-                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
-                    <ul class="pl-0 list-none ">
-                        <li class="pl-0 list-none ">
-                            <i class="fa fa-top fa-map-marker"></i>
-                        </li>
-                        <li class="pl-0 list-none ">
-                            <h4 class="text-[1.2em] mb-[10px]">Kantor</h4>
-                        </li>
-                    </ul>
-                    <p class="text-[0.9em]">
-                        Jl. Kabupaten No. 1 Purwokerto
-                        <br>Banyumas, Jawa Tengah
-                    </p>
-                </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p class="text-gray-500">Belum ada tanggapan.</p>
+<?php endif; ?>
 
-                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
-                    <ul class="list-none p-0 mb-0">
-                        <li class="pl-0 list-none">
-                            <i class="fa fa-top fa-rss"></i>
-                        </li>
-                        <li class="pl-0 list-none">
-                            <h4 class="text-[1.2em] mb-[10px]">Sosial Media</h4>
-                        </li>
-                    </ul>
-                    <ul class="list-none flex text-center justify-center p-0 mb-0">
-                        <li class="pl-0 list-none">
-                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1" href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
-                                <i class="fa fa-fw fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li class="pl-0 list-none">
-                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1 ml-5" href="https://twitter.com/bmshumas?lang=en">
-                                <i class="fa fa-fw fa-twitter"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
-                    <ul class="pl-0 list-none ">
-                        <li class="pl-0 list-none ">
-                            <i class="fa fa-top fa-envelope-o"></i>
-                        </li>
-                        <li class="pl-0 list-none ">
-                            <h4 class="text-[1.2em] mb-[10px]">Kontak</h4>
-                        </li>
-                    </ul>
-                    <p class="text-[0.9em]">
-                        +62 858-1417-4267 <br>
-                        https://www.banyumaskab.go.id/ <br>
-                        banyumaspemkab@gmail.com
-                    </p>
-                </div>
-        </footer>
-        
-    
-    <div class="copyright bg-black">
-        <p style="text-align: center; color: white">Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
-    </div> -->
-<!-- /copyright -->
+</div>

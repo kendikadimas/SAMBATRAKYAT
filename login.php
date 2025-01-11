@@ -10,8 +10,8 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     $email = trim($_POST["email"]);
     $password = $_POST["password"];
 
-    // Validasi email, password, dan role
-    if (!empty($email) && !empty($password) ) {
+    // Validasi email, password
+    if (!empty($email) && !empty($password)) {
         // Query untuk memeriksa pengguna di database
         $query_sql = "SELECT * FROM users WHERE email = ?";
         $stmt = mysqli_prepare($conn, $query_sql);
@@ -22,9 +22,9 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
         if ($user && password_verify($password, $user['password'])) {
             // Login berhasil, set session
+            $_SESSION["id"] = $user['id']; // Set ID user
             $_SESSION["username"] = $user['username'];
             $_SESSION["email"] = $user['email'];
-            // $_SESSION["role"] = $user['role'];
 
             // Redirect berdasarkan role
             if ($user['role'] === 'admin') {
@@ -33,7 +33,8 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
             } elseif ($user['role'] === 'user') {
                 $_SESSION["role"] = 'user';
                 header("Location: index.php");
-            } elseif ($user['role'] === 'instansi'){
+            } elseif ($user['role'] === 'instansi') {
+                $_SESSION["id_instansi"] = $user['id']; // Tambahan untuk instansi
                 $_SESSION["role"] = 'instansi';
                 header("Location: admin/list_sambat.php");
             } else {
@@ -41,12 +42,13 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
             }
             exit();
         } else {
-            $message = "Email, Password, atau Role salah.";
+            $message = "Email atau Password salah.";
         }
     } else {
         $message = "Semua field wajib diisi.";
     }
 }
+
 
 ?>
 
