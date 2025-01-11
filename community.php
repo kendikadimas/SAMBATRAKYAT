@@ -61,82 +61,67 @@ $mysqli->close();
     <link rel="stylesheet" href="css/animate.min.css"> 
     <link rel="stylesheet" href="css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/alpinejs" defer></script>
 </head>
 <body>
     <!-- NAVBAR -->
     <?php
-        if(isset($_GET['status'])) {
+    // if(isset($_GET['status'])) {
     ?>
-        <script type="text/javascript">
-            $("#successmodalclear").modal();
-        </script>
-    <?php
-        }
-    ?>
-    <?php
-        function isActive($page) {
-            return basename($_SERVER['PHP_SELF']) == $page ? 'text-[#3E7D60] font-semibold' : 'text-gray-800 m-2';
-        }
-    ?>
+    <script type="text/javascript">
+        $("#successmodalclear").modal();
+    </script>
+<?php
+    
+?>
+<?php
+    function isActive($page) {
+        return basename($_SERVER['PHP_SELF']) == $page ? 'text-[#3E7D60] font-semibold' : 'text-gray-800 m-2';
+    }
+?>
 
-    <div class="w-full bg-white shadow-lg p-5 flex justify-between items-center z-[100]">
-        <!-- Logo and Title Section -->
-        <div class="flex items-center ml-14">
-            <a href="/">
-                <img src="images/samblog.svg" alt="Logo Sambat" class="h-[3vw] transition duration-300 transform hover:scale-110">
-            </a>
-            <div class="text-2xl font-bold ml-3">
-                <h1 class="text-[#3E7D60] hover:text-[#2C6B50] transition-colors duration-300">Sambat Rakyat</h1>
-            </div>
-        </div>
-
-        <div class="hidden md:flex items-center space-x-8 text-center">
-            <a href="index" class="<?= isActive('index.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Home</a>
-            <a href="lapor" class="<?= isActive('lapor.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Sambat</a>
-            <a href="lihat" class="<?= isActive('lihat.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Lihat Pengaduan</a>
-            <a href="community" class="<?= isActive('community.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Komunitas</a>
-            <a href="faq" class="<?= isActive('faq.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Tentang</a>
-        </div>
-           <?php $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
-            $email = isset($_SESSION['email']) ? $_SESSION['email'] : null;
-            ?>
-            <!-- User Authentication Section -->
-            <div class="flex items-center space-x-6">
-                <?php if ($username): ?>
-                    <!-- Account Dropdown -->
-                    <div x-data="{ open: false }" class="relative">
-                        <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-[#3E7D60] font-semibold transition">
-                            <img src="https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg" alt="Avatar" class="w-8 h-8 rounded-full">
-                            <span><?php echo htmlspecialchars($username); ?></span>
-                            <svg class="w-5 h-5 transform" :class="open ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-
-                        <!-- Dropdown Menu -->
-                        <div x-show="open" @click.outside="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
-                            <div class="px-4 py-2 text-sm text-gray-700 border-b">
-                                <p class="font-semibold"><?php echo htmlspecialchars($username); ?></p>
-                                <p class="text-gray-500"><?php echo htmlspecialchars($email); ?></p>
-                            </div>
-                            <a href="/SAMBATRAKYAT/profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">Lihat Profil</a>
-                            <a href="/SAMBATRAKYAT/logout.php" class="block px-4 py-2 text-sm text-red-500 hover:bg-gray-100 transition">Log Out</a>
-                        </div>
-                    </div>
-                <?php else: ?>
-                    <!-- Login and Register Buttons -->
-                    <a href="/SAMBATRAKYAT/login.php">
-                        <button class="rounded-md font-semibold px-6 py-2 text-primary bg-white border hover:bg-gray-100 hover:underline transition">Masuk</button>
-                    </a>
-                    <a href="/SAMBATRAKYAT/signin.php">
-                        <button class="rounded-md font-semibold px-6 py-2 text-white bg-[#3E7D60] hover:bg-[#5C8D73] transition">Daftar</button>
-                    </a>
-                <?php endif; ?>
-            </div>
+<div class="w-full bg-white shadow-lg p-5 flex justify-between items-center z-[100]">
+    <!-- Logo and Title Section -->
+    <div class="flex items-center ml-14">
+        <a href="/">
+            <img src="images/samblog.svg" alt="Logo Sambat" class="h-[3vw] transition duration-300 transform hover:scale-110">
+        </a>
+        <div class="text-2xl font-bold ml-3">
+            <h1 class="text-[#3E7D60] hover:text-[#2C6B50] transition-colors duration-300">Sambat Rakyat</h1>
         </div>
     </div>
+
+    <!-- Navigation Links Section -->
+    <div class="hidden md:flex items-center space-x-8 text-center">
+        <a href="index" class="<?= isActive('index.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Home</a>
+        <a href="lapor" class="<?= isActive('lapor.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Sambat</a>
+        <a href="lihat" class="<?= isActive('lihat.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Lihat Pengaduan</a>
+        <a href="cara" class="<?= isActive('community.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Komunitas</a>
+        <a href="faq" class="<?= isActive('faq.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Tentang</a>
+    </div>
+
+    <!-- User Authentication Buttons Section -->
+    <div class="flex items-center space-x-6">
+        <?php
+        $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+        ?>
+
+        <?php if ($username): ?>
+            <a href="/SAMBATRAKYAT/profile.php">
+                <button class="border-0 rounded-md font-semibold px-6 py-3 text-white bg-[#3E7D60] hover:bg-[#5C8D73] transition duration-300 transform hover:scale-105">
+                    <?= htmlspecialchars($username) ?>
+                </button>
+            </a>
+        <?php else: ?>
+            <a href="/SAMBATRAKYAT/login.php">
+                <button class="border-0 rounded-md font-semibold px-6 py-3 text-primary bg-white hover:bg-[#f0f0f0] hover:underline transition duration-300 transform hover:scale-105">Masuk</button>
+            </a>
+            <a href="/SAMBATRAKYAT/signin.php">
+                <button class="border-0 rounded-md font-semibold px-6 py-3 text-white bg-[#3E7D60] hover:bg-[#5C8D73] transition duration-300 transform hover:scale-105">Daftar</button>
+            </a>
+        <?php endif; ?>
+    </div>
 </div>
+
 <!-- Mobile Menu Toggle Button -->
 <div class="md:hidden flex items-center space-x-4">
     <button class="text-gray-800 p-2 rounded-md hover:text-[#3E7D60] focus:outline-none">
@@ -175,7 +160,7 @@ $mysqli->close();
     <div class="flex flex-wrap gap-6 px-14 py-3 justify-center w-full border-r-2 border-[#3E7D60] ">
         <?php
         // Ambil semua record dari tabel laporan
-        $statement = $db->query("SELECT * FROM `laporan` ORDER BY id DESC");
+        $statement = $db->query("SELECT * FROM `laporan` ORDER BY likes DESC, id DESC");
         foreach ($statement as $key) {
             $mysqldate = $key['tanggal'];
             $phpdate = strtotime($mysqldate);
@@ -205,17 +190,24 @@ $mysqli->close();
                 <?php echo htmlspecialchars($key['nama']); ?>
             </h4>
             <div class="flex items-center gap-2">
-                <!-- Tombol Upvote -->
-                <button class="bg-gray-200 hover:bg-green-300 p-2 rounded-full transition-all duration-300 upvote-btn">
-                    <i class="fa fa-arrow-up text-green-700"></i>
-                </button>
-                <span id="vote-count-<?php echo $key['id']; ?>" class="text-gray-600">
-                    <?php echo $key['upvotes'] - $key['downvotes']; ?>
-                </span>
-                <!-- Tombol Downvote -->
-                <button class="bg-gray-200 hover:bg-red-300 p-2 rounded-full transition-all duration-300 downvote-btn">
-                    <i class="fa fa-arrow-down text-red-700"></i>
-                </button>
+              <!-- Tombol Like -->
+    <button class="like-btn bg-gray-200 hover:bg-green-300 p-2 rounded-full transition-all duration-300" 
+            data-id="<?php echo $key['id']; ?>" data-action="like">
+        <i class="fa fa-thumbs-up text-green-700"></i>
+    </button>
+    <span id="like-count-<?php echo $key['id']; ?>" class="text-gray-600">
+        <?php echo $key['likes']; ?>
+    </span>
+
+    <!-- Tombol Unlike -->
+    <button class="unlike-btn bg-gray-200 hover:bg-red-300 p-2 rounded-full transition-all duration-300" 
+            data-id="<?php echo $key['id']; ?>" data-action="unlike">
+        <i class="fa fa-thumbs-down text-red-700"></i>
+    </button>
+    <span id="unlike-count-<?php echo $key['id']; ?>" class="text-gray-600">
+        <?php echo $key['unlikes']; ?>
+    </span>
+
             </div>
         </div>
         <p class="text-gray-500 text-sm mb-2">
@@ -355,94 +347,189 @@ $mysqli->close();
         </style>
 
 <!-- Bagian Event Mendatang -->
-    <section class="h-auto w-1/4 bg-gray-100 py-10">
-        <h1 class="text-3xl font-bold px-16 text-left text-gray-800 mb-6">Event</h1>
-        <div class="flex flex-wrap justify-center gap-6 px-6 lg:px-16">
-            <!-- Card -->
-            <div class="w-full bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
-                <h3 class="text-lg font-bold mb-2">Event 1</h3>
-                <p class="text-sm text-gray-600 mb-4">Deskripsi singkat tentang event.</p>
-                <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Detail</button>
-            </div>
-            <div class="w-full bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
-                <h3 class="text-lg font-bold mb-2">Event 1</h3>
-                <p class="text-sm text-gray-600 mb-4">Deskripsi singkat tentang event.</p>
-                <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Detail</button>
-            </div>
-            <div class="w-full bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
-                <h3 class="text-lg font-bold mb-2">Event 1</h3>
-                <p class="text-sm text-gray-600 mb-4">Deskripsi singkat tentang event.</p>
-                <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Detail</button>
-            </div>
-            <div class="w-full bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
-                <h3 class="text-lg font-bold mb-2">Event 1</h3>
-                <p class="text-sm text-gray-600 mb-4">Deskripsi singkat tentang event.</p>
-                <button class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Detail</button>
-            </div>
-            <!-- Tambahkan card lainnya -->
+<section class="h-100 w-1/4 bg-gray-100 py-10">
+    <h1 class="text-3xl font-bold px-16 text-left text-gray-800 mb-6">Event</h1>
+    <!-- Scrollable Container -->
+    <div class="flex flex-col overflow-y-auto max-h-[800px] px-6 lg:px-16 gap-6">
+        <!-- Card Event -->
+        <div class="w-full bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
+            <img src="images/pos1.png" alt="Seminar" class="rounded-t-lg mb-4 w-full h-40 object-cover">
+            <h3 class="text-lg font-bold mb-2">Seminar Pelayanan Masyarakat</h3>
+            <p class="text-sm text-gray-600 mb-4">Seminar tentang pelayanan masyarakat dan pengaduan.</p>
+            <button 
+                class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 open-modal-btn"
+                data-title="Seminar Pelayanan Masyarakat"
+                data-description="Seminar ini membahas pelayanan masyarakat, pengaduan, dan langkah-langkah untuk meningkatkan kualitas layanan publik. Jangan lewatkan kesempatan untuk mendapatkan wawasan baru."
+                data-image="images/pos1.png"
+            >
+                Detail
+            </button>
         </div>
-    </section>
+        <div class="w-full bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
+            <img src="images/pos2.png" alt="Seminar" class="rounded-t-lg mb-4 w-full h-40 object-cover">
+            <h3 class="text-lg font-bold mb-2">Seminar Pelayanan Masyarakat</h3>
+            <p class="text-sm text-gray-600 mb-4">Seminar tentang pelayanan masyarakat dan pengaduan.</p>
+            <button 
+                class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 open-modal-btn"
+                data-title="Seminar Pelayanan Masyarakat"
+                data-description="Seminar ini membahas pelayanan masyarakat, pengaduan, dan langkah-langkah untuk meningkatkan kualitas layanan publik. Jangan lewatkan kesempatan untuk mendapatkan wawasan baru."
+                data-image="images/pos2.png"
+            >
+                Detail
+            </button>
+        </div>
+        <div class="w-full bg-white shadow-lg rounded-lg border p-6 transition-all duration-300 hover:shadow-2xl">
+            <img src="images/pos3.png" alt="Seminar" class="rounded-t-lg mb-4 w-full h-40 object-cover">
+            <h3 class="text-lg font-bold mb-2">Seminar Pelayanan Masyarakat</h3>
+            <p class="text-sm text-gray-600 mb-4">Seminar tentang pelayanan masyarakat dan pengaduan.</p>
+            <button 
+                class="block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 open-modal-btn"
+                data-title="Seminar Pelayanan Masyarakat"
+                data-description="Seminar ini membahas pelayanan masyarakat, pengaduan, dan langkah-langkah untuk meningkatkan kualitas layanan publik. Jangan lewatkan kesempatan untuk mendapatkan wawasan baru."
+                data-image="images/pos3.png"
+            >
+                Detail
+            </button>
+        </div>
+        <!-- Add more cards here as needed -->
+    </div>
+</section>
+
+<style>
+  /* Ensure smooth vertical scrolling */
+  .overflow-y-auto {
+      scrollbar-width: thin; /* For Firefox */
+  }
+  .overflow-y-auto::-webkit-scrollbar {
+      width: 8px;
+  }
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+  }
+</style>
+
+
+<!-- Popup Modal -->
+<div id="event-modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
+    <div class="bg-white rounded-lg w-3/4 lg:w-1/3 shadow-xl p-6">
+        <img id="modal-image" src="" alt="Event Image" class="rounded-t-lg w-full h-40 object-cover mb-4">
+        <h2 id="modal-title" class="text-xl font-bold text-gray-800 mb-4"></h2>
+        <p id="modal-description" class="text-sm text-gray-600 mb-6"></p>
+        <div class="flex justify-end gap-4">
+            <button 
+                id="follow-event-btn"
+                class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300"
+            >
+                Ikuti Event
+            </button>
+            <button 
+                id="close-modal-btn"
+                class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition-all duration-300"
+            >
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
+
+
 </main>
 
 <!-- Bagian Forum Populer -->
 <section class="h-auto w-full bg-gray-100 py-10">
     <h1 class="text-3xl font-bold px-16 text-left text-gray-800 mb-6">Forum Populer</h1>
-    <div class="w-full overflow-x-auto snap-x snap-mandatory flex gap-6 px-6 lg:px-16 scrollbar-hide">
+    <div class="w-full overflow-x-auto snap-x snap-mandatory flex gap-6 px-6 lg:px-16 custom-scrollbar">
         <!-- Card Forum -->
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/for5.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">Pajak 12% dan Isu Terbaru</h3>
-                <p class="text-sm text-gray-600 mb-4">Diskusikan isu pajak terbaru dan pendapat Anda.</p>
-                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Layanan Publik</h3>
+                <p class="text-sm text-gray-600 mb-4">Diskusikan Keluhan terkait layanan transportasi, air bersih, listrik, kesehatan, pendidikan, atau administrasi publik.</p>
+                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
+            </div>
+        </div>
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
+            <img src="images/for6.png" alt="Forum Image" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Infrastruktur Daerah</h3>
+                <p class="text-sm text-gray-600 mb-4">Masalah jalan rusak, saluran air tersumbat, lampu jalan mati, atau fasilitas umum lainnya bersama masyarakat.</p>
+                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
+            </div>
+        </div>
+        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
+            <img src="images/for1.png" alt="Forum Image" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Keamanan dan Ketertiban</h3>
+                <p class="text-sm text-gray-600 mb-4">Pengaduan terkait kejahatan, perilaku yang mengganggu, atau konflik antarwarga bermasyarakat.</p>
+                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
             </div>
         </div>
         <!-- Card Forum 2 -->
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/for2.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">Diskusi Terbaru</h3>
-                <p class="text-sm text-gray-600 mb-4">Ikut serta dalam diskusi hangat ini.</p>
-                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Lingkungan Sekitar</h3>
+                <p class="text-sm text-gray-600 mb-4">Keluhan tentang polusi, sampah yang tidak dikelola, atau kerusakan lingkungan demi keberlangsungan hidup.</p>
+                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
             </div>
         </div>
         <!-- Tambahkan lebih banyak card forum -->
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/for3.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">Forum Teknologi</h3>
-                <p class="text-sm text-gray-600 mb-4">Bahas teknologi terbaru di sini.</p>
-                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Sosial dan Ekonomi</h3>
+                <p class="text-sm text-gray-600 mb-4">Isu kesenjangan sosial, bantuan yang tidak tepat sasaran, atau peluang kerja yang tidak merata.</p>
+                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
             </div>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/for4.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">Forum Teknologi</h3>
-                <p class="text-sm text-gray-600 mb-4">Bahas teknologi terbaru di sini.</p>
-                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
-            </div>
-        </div>
-        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/banyu.jpg" alt="Forum Image" class="w-full h-48 object-cover">
-            <div class="p-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">Forum Teknologi</h3>
-                <p class="text-sm text-gray-600 mb-4">Bahas teknologi terbaru di sini.</p>
-                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Sentuh aku</a>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Keamanan dan Ketertiban</h3>
+                <p class="text-sm text-gray-600 mb-4">meningkatkan rasa aman dan nyaman di lingkungan masyarakat. Diskusi meliputi langkah pencegahan kejahatan.</p>
+                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
             </div>
         </div>
     </div>
 </section>
 
 <style>
-    .scrollbar-hide {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
+    .custom-scrollbar {
+        /* General scrollbar properties */
+        scrollbar-width: thin; /* For Firefox: thin scrollbar */
+        scrollbar-color: #ccc #f9f9f9; /* Thumb and track colors */
+        overflow-y: auto; /* Ensures vertical scrolling */
+        max-height: 100%; /* Prevents scroll container from overflowing */
     }
-    .scrollbar-hide::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, and Opera */
+
+    /* Scrollbar styling for WebKit browsers (Chrome, Edge, Safari) */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 8px; /* Width of vertical scrollbar */
+        height: 8px; /* Height of horizontal scrollbar */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #bbb; /* Thumb color */
+        border-radius: 4px; /* Rounded corners */
+        border: 2px solid transparent; /* Creates space around thumb */
+        background-clip: content-box; /* Prevents thumb from overlapping border */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: #888; /* Thumb color on hover */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background-color: #f9f9f9; /* Track color */
+        border-radius: 4px; /* Rounded edges for track */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track:hover {
+        background-color: #f0f0f0; /* Slightly darker track on hover */
     }
 </style>
+
 
 
 <!-- Bagian Edukasi Masyarakat (Carousel) -->
@@ -451,62 +538,75 @@ $mysqli->close();
     <div class="w-full overflow-x-auto snap-x snap-mandatory flex gap-6 px-6 lg:px-16 scrollbar-hide">
         <!-- Card Artikel -->
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
-            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
-            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
-                <h3 class="text-lg font-bold text-white">Artikel 1</h3>
-                <p class="text-sm text-gray-200">Ringkasan artikel edukasi ini untuk Anda.</p>
+            <a href="artikel.php">
+            <img src="images/art1.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
+                <h3 class="text-lg font-bold text-white drop-shadow-md">Pengaduan Masyarakat</h3>
+                <p class="text-sm text-gray-300 drop-shadow-md">Pentingnya Layanan Pengaduan Masyarakat untuk Kesejahteraan Bersama.</p>
             </div>
+            </a>
         </div>
         <!-- Card Artikel 2 -->
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
-            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
-            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
-                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
-                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+        <a href="artikel.php">
+            <img src="images/art2.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
+                <h3 class="text-lg font-bold text-white drop-shadow-md">Panduan Pengaduan</h3>
+                <p class="text-sm text-gray-300 drop-shadow-md">Panduan Praktis Mengakses Layanan Pengaduan Masyarakat.</p>
             </div>
+        </a>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
-            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
-            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
-                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
-                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+        <a href="artikel.php">
+            <img src="images/art3.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
+                <h3 class="text-lg font-bold text-white drop-shadow-md">Peningkatan Efektivitas</h3>
+                <p class="text-sm text-gray-300 drop-shadow-md">Meningkatkan Efektivitas Pengaduan dengan Teknologi Digital.</p>
             </div>
+        </a>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
-            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
-            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
-                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
-                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+        <a href="artikel.php">
+            <img src="images/art4.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
+                <h3 class="text-lg font-bold text-white drop-shadow-md">Kewajiban Masyarakat</h3>
+                <p class="text-sm text-gray-300 drop-shadow-md">Hak dan Kewajiban Masyarakat dalam Mengajukan Pengaduan.</p>
             </div>
+        </a>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
-            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
-            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
-                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
-                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+        <a href="artikel.php">
+            <img src="images/art5.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
+                <h3 class="text-lg font-bold text-white drop-shadow-md">Transparansi Pengaduan</h3>
+                <p class="text-sm text-gray-300 drop-shadow-md">Mengapa Transparansi Penting dalam Layanan Pengaduan Masyarakat?.</p>
             </div>
+        </a>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
-            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
-            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
-                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
-                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+        <a href="artikel.php">
+            <img src="images/art6.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
+                <h3 class="text-lg font-bold text-white drop-shadow-md">Masyarakat dan Pemerintah</h3>
+                <p class="text-sm text-gray-300 drop-shadow-md">Kolaborasi Masyarakat dan Pemerintah dalam Menyelesaikan Masalah.</p>
             </div>
+        </a>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
-            <img src="images/backbms.png" alt="Artikel Image" class="w-full h-48 object-cover">
-            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4">
-                <h3 class="text-lg font-bold text-white">Artikel 2</h3>
-                <p class="text-sm text-gray-200">Ringkasan artikel edukasi kedua untuk Anda.</p>
+        <a href="artikel.php">
+            <img src="images/art7.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
+                <h3 class="text-lg font-bold text-white drop-shadow-md">Inovasi Pengaduan</h3>
+                <p class="text-sm text-gray-300 drop-shadow-md">Inovasi Layanan Pengaduan Masyarkat Berbasis Aplikasi Website dan Mobile.</p>
             </div>
+        </a>
         </div>
     </div>
 </section>
 
 <style>
     .scrollbar-hide {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
+        scrollbar-width: thin; /* Firefox */
     }
     .scrollbar-hide::-webkit-scrollbar {
         display: none; /* Chrome, Safari, and Opera */
@@ -593,6 +693,82 @@ $mysqli->close();
             1024: { slidesPerView: 3 },
         },
     });
+</script>
+
+
+
+
+<script>
+   document.querySelectorAll('.like-btn, .unlike-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const laporanId = button.getAttribute('data-id'); // Ambil ID laporan
+        const action = button.getAttribute('data-action'); // Ambil aksi (like/unlike)
+
+        // Kirim permintaan ke backend
+        fetch('like_unlike.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `laporan_id=${laporanId}&action=${action}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Perbarui angka like/unlike
+                document.getElementById(`like-count-${laporanId}`).textContent = data.likes;
+                document.getElementById(`unlike-count-${laporanId}`).textContent = data.unlikes;
+            } else {
+                alert(data.message); // Tampilkan pesan error
+            }
+        })
+        .catch(error => console.error('Terjadi kesalahan:', error));
+    });
+});
+
+</script>
+
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('event-modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const followEventBtn = document.getElementById('follow-event-btn');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+
+    // Handle open modal
+    document.querySelectorAll('.open-modal-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const title = button.getAttribute('data-title');
+            const description = button.getAttribute('data-description');
+            const image = button.getAttribute('data-image');
+
+            // Update modal content
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            modalImage.src = image;
+
+            // Show modal
+            modal.classList.remove('hidden');
+        });
+    });
+
+    // Handle close modal
+    closeModalBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+
+    // Handle follow event button
+    followEventBtn.addEventListener('click', () => {
+        alert('Anda telah mengikuti event ini!');
+        modal.classList.add('hidden');
+    });
+});
+
+
 </script>
 
 </body>
