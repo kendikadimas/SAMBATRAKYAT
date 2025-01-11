@@ -59,7 +59,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="images/samblog.svg">
-    <title>Table - Sambat Rakyat Banyumas</title>
+    <title>Daftar Sambatan - Sambat Rakyat Banyumas</title>
     <!-- Bootstrap core CSS-->
     <!-- <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet"> -->
     <!-- Custom fonts for this template-->
@@ -102,6 +102,7 @@
         </button>
 
         <?php
+
         $statement = $db->query("SELECT * FROM laporan ORDER BY laporan.id DESC LIMIT 1");
         foreach ($statement as $key) {
             $mysqldate = $key['tanggal'];
@@ -175,50 +176,51 @@
                 </div>
                 <div class="mt-2">
                     <span class="font-semibold">Admin</span><br>
-                    <span class="text-sm font-mono"><?php echo $divisi; ?></span>
+                    <!-- <span class="text-sm font-mono"><?php 
+                    // echo $divisi; ?></span> -->
                 </div>
             </div>
         </li>
 
         <!-- Dashboard Link -->
-        <li>
+        <!-- <li>
             <a href="index" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
                 <i class="fa fa-fw fa-dashboard"></i>
                 <span>Dashboard</span>
             </a>
-        </li>
+        </li> -->
 
         <!-- Kelola Link -->
-        <li>
+        <!-- <li>
             <a href="tables" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
                 <i class="fa fa-fw fa-table"></i>
                 <span>Kelola</span>
             </a>
-        </li>
+        </li> -->
 
         <!-- Ekspor Link -->
-        <li>
+        <!-- <li>
             <a href="export" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
                 <i class="fa fa-fw fa-print"></i>
                 <span>Ekspor</span>
             </a>
-        </li>
+        </li> -->
 
         <!-- Instansi Link -->
-        <li>
+        <!-- <li>
             <a href="addinstansi" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
                 <i class="fa fa-fw fa-code"></i>
                 <span>Instansi</span>
             </a>
-        </li>
+        </li> -->
     </ul>
 
     <!-- Sidebar Toggler -->
-    <div class="mt-auto">
+    <!-- <div class="mt-auto">
         <a href="#" class="flex justify-center p-2 text-gray-400 hover:text-white" id="sidenavToggler">
             <i class="fa fa-fw fa-angle-left"></i>
         </a>
-    </div>
+    </div> -->
 </div>
 
 <div class="container mx-auto p-4">
@@ -257,7 +259,7 @@
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(1)">Email</th>
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(2)">Telpon</th>
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(3)">Alamat</th>
-                    <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(4)">Tujuan</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(4)">Kategori</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Isi Laporan</th>
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(6)">Tanggal</th>
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(7)">Status</th>
@@ -298,20 +300,20 @@
                         <td class="border border-gray-300 px-4 py-2">
                             <div class="flex justify-center space-x-2">
                                 <!-- Tombol Detail -->
-                                <button 
+                                <a
                                     class="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-500 transition"
-                                    onclick="openModal('ModalDetail')"
+                                    href="instansi.php"
                                 >
-                                    Detail
-                                </button>
+                                    Tanggapi
+                                </a>
                                 
                                 <!-- Tombol Hapus -->
-                                <button 
-                                    class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-500 transition"
+                                <!-- <button 
+                                    class="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-500 transition"
                                     onclick="openModal('ModalHapus')"
                                 >
-                                    Hapus
-                                </button>
+                                    
+                                </button> -->
                             </div>
                         </td>
                     </tr>
@@ -320,11 +322,6 @@
                 ?>
             </tbody>
         </table>
-    </div>
-
-    <!-- Footer -->
-    <div class="mt-4 text-gray-500 text-xs">
-        Updated yesterday at 11:59 PM
     </div>
 </div>
 

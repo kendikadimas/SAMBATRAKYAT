@@ -4,7 +4,7 @@ require 'koneksi.php';
 
 $message = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST["email"]) && isset($_POST["password"])) {
     // Ambil data dari form
     $username = trim($_POST["email"]);
     $email = trim($_POST["email"]);
@@ -13,25 +13,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validasi email, password, dan role
     if (!empty($email) && !empty($password) ) {
         // Query untuk memeriksa pengguna di database
-        $query_sql = "SELECT * FROM users WHERE email = ? OR username = ?";
+        $query_sql = "SELECT * FROM users WHERE email = ?";
         $stmt = mysqli_prepare($conn, $query_sql);
-        mysqli_stmt_bind_param($stmt, "ss", $email, $username);
+        mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $user = mysqli_fetch_assoc($result);
 
-        if ($user && password_verify($password, $user['password']))  {
+        if ($user && password_verify($password, $user['password'])) {
             // Login berhasil, set session
             $_SESSION["username"] = $user['username'];
+            $_SESSION["email"] = $user['email'];
             // $_SESSION["role"] = $user['role'];
 
             // Redirect berdasarkan role
             if ($user['role'] === 'admin') {
+                $_SESSION["role"] = 'admin';
                 header("Location: admin/index.php");
             } elseif ($user['role'] === 'user') {
+                $_SESSION["role"] = 'user';
                 header("Location: index.php");
             } elseif ($user['role'] === 'instansi'){
-                header("Location: admin/instansi.php");
+                $_SESSION["role"] = 'instansi';
+                header("Location: admin/list_sambat.php");
             } else {
                 $message = "Role tidak valid.";
             }
@@ -43,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = "Semua field wajib diisi.";
     }
 }
+
 ?>
 
 
@@ -66,14 +71,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>Membangun Banyumas yang lebih melalui aspirasi dan evaluasi</p>
         </div>
     </div>
-
-
-
     <div class="left-section">
         <h1>LOGIN</h1>
         <form action="" method="POST">
             <div class="box-input">
-                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="email" placeholder="Email" required>
             </div>
             <div class="box-input">
                 <input type="password" name="password" placeholder="Password" required>

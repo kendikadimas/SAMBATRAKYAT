@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "../koneksi.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,77 +16,155 @@ session_start();
     <link rel="stylesheet" href="css/animate.min.css"> 
     <link rel="stylesheet" href="css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
 </head>
 <body>
-    <!-- NAVBAR -->
-    <?php
-    // if(isset($_GET['status'])) {
-    ?>
-    <script type="text/javascript">
-        $("#successmodalclear").modal();
-    </script>
-<?php
-    
-?>
-<?php
-    function isActive($page) {
-        return basename($_SERVER['PHP_SELF']) == $page ? 'text-[#3E7D60] font-semibold' : 'text-gray-800 m-2';
-    }
-?>
-
-<div class="w-full bg-white shadow-lg p-5 flex justify-between items-center z-[100]">
-    <!-- Logo and Title Section -->
-    <div class="flex items-center ml-14">
-        <a href="/">
-            <img src="images/samblog.svg" alt="Logo Sambat" class="h-[3vw] transition duration-300 transform hover:scale-110">
-        </a>
-        <div class="text-2xl font-bold ml-3">
-            <h1 class="text-[#3E7D60] hover:text-[#2C6B50] transition-colors duration-300">Sambat Rakyat</h1>
-        </div>
+     <!-- NAVBAR -->
+     <nav class="flex justify-between bg-[#3E7D60] px-4 py-2">
+    <div>
+        <a href="index" class="text-white font-bold">Sambat Rakyat</a>
     </div>
+    <div>
+    <ul class="flex items-center space-x-4">
+    <!-- Laporan Dropdown -->
+    <li class="relative">
+        <button
+            class="flex items-center text-white focus:outline-none"
+            id="messagesDropdownToggle"
+            onclick="toggleDropdown('messagesDropdownContent')"
+        >
+            <i class="fa fa-fw fa-envelope"></i>
+            <span class="lg:hidden ml-2">
+                Laporan <span class="bg-blue-500 text-white rounded-full px-2 text-xs">1 Baru</span>
+            </span>
+            <span class="hidden lg:block ml-2">
+                <i class="fa fa-fw fa-circle text-blue-500"></i>
+            </span>
+        </button>
 
-    <!-- Navigation Links Section -->
-    <div class="hidden md:flex items-center space-x-8 text-center">
-        <a href="index" class="<?= isActive('index.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Home</a>
-        <a href="lapor" class="<?= isActive('lapor.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Sambat</a>
-        <a href="lihat" class="<?= isActive('lihat.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Lihat Pengaduan</a>
-        <a href="cara" class="<?= isActive('cara.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Profil Dinas</a>
-        <a href="faq" class="<?= isActive('faq.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Tentang</a>
-    </div>
-
-    <!-- User Authentication Buttons Section -->
-    <div class="flex items-center space-x-6">
         <?php
-        $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
-        ?>
 
-        <?php if ($username): ?>
-            <a href="/SAMBATRAKYAT/profile.php">
-                <button class="border-0 rounded-md font-semibold px-6 py-3 text-white bg-[#3E7D60] hover:bg-[#5C8D73] transition duration-300 transform hover:scale-105">
-                    <?= htmlspecialchars($username) ?>
-                </button>
+        $statement = $conn->query("SELECT * FROM laporan ORDER BY laporan.id DESC LIMIT 1");
+        foreach ($statement as $key) {
+            $mysqldate = $key['tanggal'];
+            $phpdate = strtotime($mysqldate);
+            $tanggal = date('d/m/Y', $phpdate);
+        ?>
+        <!-- Dropdown Content -->
+        <div
+            id="messagesDropdownContent"
+            class="hidden absolute bg-white shadow-lg rounded mt-2 w-64 right-0 z-50"
+        >
+            <h6 class="px-4 py-2 font-semibold text-gray-700">Laporan Baru:</h6>
+            <div class="border-t border-gray-200"></div>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">
+                <strong class="text-gray-800"><?php echo $key['nama']; ?></strong>
+                <span class="text-sm text-gray-500 float-right"><?php echo $tanggal; ?></span>
+                <p class="text-sm text-gray-600 mt-1"><?php echo $key['isi']; ?></p>
             </a>
-        <?php else: ?>
-            <a href="/SAMBATRAKYAT/login.php">
-                <button class="border-0 rounded-md font-semibold px-6 py-3 text-primary bg-white hover:bg-[#f0f0f0] hover:underline transition duration-300 transform hover:scale-105">Masuk</button>
+        </div>
+        <?php } ?>
+    </li>
+
+    <!-- Logout Button -->
+    <li>
+        <a
+            href="#"
+            class="text-white flex items-center"
+            data-toggle="modal"
+            data-target="#exampleModal"
+        >
+            <i class="fa fa-fw fa-sign-out"></i>
+            <span class="ml-2">Logout</span>
+        </a>
+    </li>
+</ul>
+
+<script>
+    function toggleDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        dropdown.classList.toggle('hidden');
+    }
+
+    // Optional: Close dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+        const dropdownToggle = document.getElementById('messagesDropdownToggle');
+        const dropdownContent = document.getElementById('messagesDropdownContent');
+
+        if (
+            !dropdownToggle.contains(event.target) &&
+            !dropdownContent.contains(event.target)
+        ) {
+            dropdownContent.classList.add('hidden');
+        }
+    });
+</script>
+
+    </div>
+</nav>
+
+
+    <!-- sidebar -->
+    <div class="flex h-screen">
+    <div class="w-64 h-auto bg-gray-800 text-white" id="navbarResponsive">
+    <ul class="flex flex-col space-y-2 justify-between p-4">
+        <!-- Profile Section -->
+        <li class="sidebar-profile">
+            <div class="flex flex-col items-center text-center">
+                <div class="relative">
+                    <img alt="profile" src="images/avatar1.png" class="w-20 h-20 rounded-full">
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-gray-800"></span>
+                </div>
+                <div class="mt-2">
+                    <span class="font-semibold">Admin</span><br>
+                    <!-- <span class="text-sm font-mono"><?php 
+                    // echo $divisi; ?></span> -->
+                </div>
+            </div>
+        </li>
+
+        <!-- Dashboard Link -->
+       <li>
+            <a href="list_sambat" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                <i class="fa fa-fw fa-dashboard"></i>
+                <span>Kembali</span>
             </a>
-            <a href="/SAMBATRAKYAT/signin.php">
-                <button class="border-0 rounded-md font-semibold px-6 py-3 text-white bg-[#3E7D60] hover:bg-[#5C8D73] transition duration-300 transform hover:scale-105">Daftar</button>
+        </li>
+
+    <!-- 
+        <li>
+            <a href="tables" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                <i class="fa fa-fw fa-table"></i>
+                <span>Kelola</span>
             </a>
-        <?php endif; ?>
+        </li>
+
+     
+        <li>
+            <a href="export" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                <i class="fa fa-fw fa-print"></i>
+                <span>Ekspor</span>
+            </a>
+        </li>
+
+    <li>
+            <a href="addinstansi" class="flex items-center p-2 space-x-2 rounded hover:bg-gray-700">
+                <i class="fa fa-fw fa-code"></i>
+                <span>Instansi</span>
+            </a>
+        </li>
+    </ul> -->
+
+    <!-- Sidebar Toggler -->
+    <div class="mt-auto">
+        <a href="#" class="flex justify-center p-2 text-gray-400 hover:text-white" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+        </a>
     </div>
 </div>
-
-<!-- Mobile Menu Toggle Button -->
-<div class="md:hidden flex items-center space-x-4">
-    <button class="text-gray-800 p-2 rounded-md hover:text-[#3E7D60] focus:outline-none">
-        <i class="fas fa-bars"></i>
-    </button>
-</div>
-
 <!-- end navbar -->
 <!-- answer report page -->
-<div  style="background-image: url('../images/backsginin.png');" class="h-[40vh] w-auto bg-cover bg-center bg-no-repeat p-10 mb-[350px]">
+<div  style="background-image: url('../images/backsginin.png');" class="h-[40vh] w-full bg-cover bg-center bg-no-repeat p-10 mb-[350px]">
     <!-- Bagian Pertanyaan -->
     <div class="bg-white shadow-lg rounded-lg p-6 m-auto w-5/6 z-50 pt-10">
         <div class="flex items-center gap-4 mb-4 ml-10">
@@ -119,7 +198,7 @@ session_start();
 </div>
         </div>
    <!-- Footer -->
-   <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5">
+   <!-- <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5">
                 <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
                     <ul class="pl-0 list-none ">
                         <li class="pl-0 list-none ">
@@ -174,9 +253,9 @@ session_start();
                     </p>
                 </div>
         </footer>
-        <!-- /footer -->
+        
     
     <div class="copyright bg-black">
         <p style="text-align: center; color: white">Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
-    </div>
+    </div> -->
 <!-- /copyright -->

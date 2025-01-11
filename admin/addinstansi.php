@@ -176,18 +176,6 @@
 </div>
 
 <div class="container mx-auto p-4">
-    <!-- Breadcrumbs -->
-    <!-- <ol class="flex space-x-2 text-gray-700">
-        <li><a href="#" class="hover:underline">Da</a></li>
-        <li>/</li>
-        <li class="font-semibold"><?php 
-        // echo $divisi; ?></li>
-    </ol>
-
-     -->
-
-
-            <!-- ./Icon Cards-->
 
             <!-- Example DataTables Card-->
             <div class="bg-white shadow rounded-lg p-4 mb-4">
@@ -197,10 +185,6 @@
             <i class="fa fa-table mr-2"></i> Tambah Akun Instansi
         </h2>
         <br>
-        <!-- Search Bar -->
-        <!-- <div>
-            <input type="text" id="searchInput" placeholder="Cari laporan..." class="border border-gray-300 rounded px-2 py-1 text-sm focus:ring focus:ring-blue-300">
-        </div> -->
     </div>
     <button id="addButton" onclick="openModal();" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mb-5">
     Tambah Akun
@@ -234,11 +218,8 @@
             <div class="mt-4">
                 <button type="submit" name="register"
                     class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full">
-                    Register
+                    Buat Akun
                 </button>
-            </div>
-            <div class="mt-4 text-sm text-center text-gray-500">
-                <p>Apakah sudah punya akun? <a href="login.php" class="text-blue-500 hover:underline">Login disini</a></p>
             </div>
         </form>
     </div>
@@ -256,6 +237,48 @@
     document.getElementById('form-instansi').style.display = 'none';
   }
 </script>
+
+<div class="overflow-x-auto">
+        <table id="reportTable" class="min-w-full border-collapse border border-gray-300 text-sm text-gray-700">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(0)">ID</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(1)">Email</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(2)">Username</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(3)">Role</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(4)">Aksi</th>
+                  
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <?php
+                    $statement = $conn->query("SELECT * FROM users WHERE role = 'instansi'");
+                    foreach ($statement as $key) {
+                ?>
+                    <tr class="odd:bg-white even:bg-gray-50">
+                        <td class="border border-gray-300 px-4 py-2"><?php echo $key['id']; ?></td>
+                        <td class="border border-gray-300 px-4 py-2"><?php echo $key['email']; ?></td>
+                        <td class="border border-gray-300 px-4 py-2"><?php echo $key['username']; ?></td>
+                        <td class="border border-gray-300 px-4 py-2"><?php echo $key['role']; ?></td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <div class="flex justify-center space-x-2">
+                                <!-- Tombol Hapus -->
+                                <button 
+                                    class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-500 transition"
+                                    onclick="openModal('ModalHapus')"
+                                >
+                                    Hapus
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                <?php
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+
 
 
         <!-- Bootstrap core JavaScript-->

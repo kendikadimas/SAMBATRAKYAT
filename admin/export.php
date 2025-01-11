@@ -271,6 +271,8 @@ logged_admin ();
 
                     if ($status == "Ditanggapi") {
                         $style_status = "<span class='bg-green-500 text-white px-2 py-1 rounded text-xs'>Ditanggapi</span>";
+                    } elseif ($status == "Terposting") {
+                        $style_status = "<span class='bg-blue-500 text-white px-2 py-1 rounded text-xs'>Terposting</span>";
                     } else {
                         $style_status = "<span class='bg-orange-500 text-white px-2 py-1 rounded text-xs'>Menunggu</span>";
                     }

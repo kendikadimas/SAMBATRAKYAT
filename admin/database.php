@@ -1,8 +1,4 @@
-<?php
-# @Author: kelompok 4
-# @Date:   20 Desember 2024
-# @Copyright: (c) Sambat Rakyat Banyumas 2024
-?>
+
 <?php
 
 $db_host = "localhost";

@@ -1,35 +1,43 @@
 
 <?php
-    require_once("database.php"); // koneksi DB
-    require_once 'auth.php';
+    // require_once("database.php"); // conn conn
+    // require_once 'auth.php';
     
-    logged_admin ();
+    // logged_admin ();
+    include '../koneksi.php';
+
+    $sql = "SELECT * FROM users WHERE role = 'admin'";
+    
+    
+
+
     global $total_laporan_masuk, $total_laporan_menunggu, $total_laporan_ditanggapi;
-    if ($id_admin > 0) {
-        foreach($db->query("SELECT COUNT(*) FROM laporan WHERE laporan.tujuan = $id_admin") as $row) {
+    // if ($id_admin > 0) {
+    //     foreach($conn->query("SELECT COUNT(*) FROM laporan WHERE laporan.tujuan = $id_admin") as $row) {
+    //         $total_laporan_masuk = $row['COUNT(*)'];
+    //     }
+
+    //     foreach($conn->query("SELECT COUNT(*) FROM laporan WHERE status = \"Ditanggapi\" AND laporan.tujuan = $id_admin") as $row) {
+    //         $total_laporan_ditanggapi = $row['COUNT(*)'];
+    //     }
+
+    //     foreach($conn->query("SELECT COUNT(*) FROM laporan WHERE status = \"Menunggu\" AND laporan.tujuan = $id_admin") as $row) {
+    //         $total_laporan_menunggu = $row['COUNT(*)'];
+    //     }
+    // } else {
+    
+        foreach($conn->query("SELECT COUNT(*) FROM laporan") as $row) {
             $total_laporan_masuk = $row['COUNT(*)'];
         }
 
-        foreach($db->query("SELECT COUNT(*) FROM laporan WHERE status = \"Ditanggapi\" AND laporan.tujuan = $id_admin") as $row) {
+        foreach($conn->query("SELECT COUNT(*) FROM laporan WHERE status = \"Ditanggapi\"") as $row) {
             $total_laporan_ditanggapi = $row['COUNT(*)'];
         }
 
-        foreach($db->query("SELECT COUNT(*) FROM laporan WHERE status = \"Menunggu\" AND laporan.tujuan = $id_admin") as $row) {
+        foreach($conn->query("SELECT COUNT(*) FROM laporan WHERE status = \"Menunggu\"") as $row) {
             $total_laporan_menunggu = $row['COUNT(*)'];
         }
-    } else {
-        foreach($db->query("SELECT COUNT(*) FROM laporan") as $row) {
-            $total_laporan_masuk = $row['COUNT(*)'];
-        }
-
-        foreach($db->query("SELECT COUNT(*) FROM laporan WHERE status = \"Ditanggapi\"") as $row) {
-            $total_laporan_ditanggapi = $row['COUNT(*)'];
-        }
-
-        foreach($db->query("SELECT COUNT(*) FROM laporan WHERE status = \"Menunggu\"") as $row) {
-            $total_laporan_menunggu = $row['COUNT(*)'];
-        }
-    }
+    
 
  ?>
 <!DOCTYPE html>
@@ -86,7 +94,7 @@
         </button>
 
         <?php
-        $statement = $db->query("SELECT * FROM laporan ORDER BY laporan.id DESC LIMIT 1");
+        $statement = $conn->query("SELECT * FROM laporan ORDER BY laporan.id DESC LIMIT 1");
         foreach ($statement as $key) {
             $mysqldate = $key['tanggal'];
             $phpdate = strtotime($mysqldate);
@@ -159,7 +167,8 @@
                 </div>
                 <div class="mt-2">
                     <span class="font-semibold">Admin</span><br>
-                    <span class="text-sm font-mono"><?php echo $divisi; ?></span>
+                    <!-- <span class="text-sm font-mono"><?php 
+                    // echo $divisi; ?></span> -->
                 </div>
             </div>
         </li>
@@ -210,7 +219,8 @@
     <!-- <ol class="flex space-x-2 text-gray-700">
         <li><a href="#" class="hover:underline">Dashboard</a></li>
         <li>/</li>
-        <li class="font-semibold"><?php echo $divisi; ?></li>
+        <li class="font-semibold"><?php 
+        // echo $divisi; ?></li>
     </ol> -->
 
     <!-- Icon Cards -->
@@ -281,6 +291,7 @@
         <table id="reportTable" class="min-w-full border-collapse border border-gray-300 text-sm text-gray-700">
             <thead class="bg-gray-100">
                 <tr>
+                    <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(5)">ID</th>
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(0)">Nama</th>
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(1)">Email</th>
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(2)">Telpon</th>
@@ -288,16 +299,18 @@
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(4)">Tujuan</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Isi Laporan</th>
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(6)">Tanggal</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Setujui</th>
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(7)">Status</th>
                 </tr>
             </thead>
             <tbody id="tableBody">
                 <?php
-                if ($id_admin > 0) {
-                    $statement = $db->query("SELECT * FROM laporan, divisi WHERE laporan.tujuan = divisi.id_divisi AND laporan.tujuan = $id_admin ORDER BY laporan.id DESC");
-                } else {
-                    $statement = $db->query("SELECT * FROM laporan, divisi WHERE laporan.tujuan = divisi.id_divisi ORDER BY laporan.id DESC");
-                }
+                // if ($id_admin > 0) {
+                    $statement = $conn->query("SELECT * FROM laporan JOIN divisi ON laporan.tujuan = divisi.id_divisi ORDER BY laporan.id DESC");
+                    // -- div isi WHERE laporan.tujuan = divisi.id_divisi AND laporan.tujuan = $id_admin ORDER BY laporan.id DESC");
+                // } else {
+                    // $statement = $conn->query("SELECT * FROM laporan, divisi WHERE laporan.tujuan = divisi.id_divisi ORDER BY laporan.id DESC");
+                // }
 
                 foreach ($statement as $key) {
                     $mysqldate = $key['tanggal'];
@@ -307,11 +320,14 @@
 
                     if ($status == "Ditanggapi") {
                         $style_status = "<span class='bg-green-500 text-white px-2 py-1 rounded text-xs'>Ditanggapi</span>";
+                    } elseif ($status == "Terposting") {
+                        $style_status = "<span class='bg-blue-500 text-white px-2 py-1 rounded text-xs'>Terposting</span>";
                     } else {
                         $style_status = "<span class='bg-orange-500 text-white px-2 py-1 rounded text-xs'>Menunggu</span>";
                     }
                 ?>
                     <tr class="odd:bg-white even:bg-gray-50">
+                        <td class="border border-gray-300 px-4 py-2"><?php echo $key['id']; ?></td>
                         <td class="border border-gray-300 px-4 py-2"><?php echo $key['nama']; ?></td>
                         <td class="border border-gray-300 px-4 py-2"><?php echo $key['email']; ?></td>
                         <td class="border border-gray-300 px-4 py-2"><?php echo $key['telpon']; ?></td>
@@ -319,6 +335,39 @@
                         <td class="border border-gray-300 px-4 py-2"><?php echo $key['nama_divisi']; ?></td>
                         <td class="border border-gray-300 px-4 py-2"><?php echo $key['isi']; ?></td>
                         <td class="border border-gray-300 px-4 py-2"><?php echo $tanggal; ?></td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <button
+                                class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded"
+                                onclick="approveReport(<?php echo $key['id']; ?>)">
+                                Setujui
+                            </button>
+                        </td>
+                        <script>
+                            function approveReport(id) {
+                                if (confirm("Apakah Anda yakin ingin menyetujui laporan ini?")) {
+                                    fetch('update_status.php', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({ id: id }),
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            alert(data.message);
+                                            location.reload(); // Reload halaman untuk melihat perubahan
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error("Error:", error);
+                                        alert("Terjadi kesalahan. Silakan coba lagi.");
+                                    });
+                                }
+                            }
+                        </script>
                         <td class="border border-gray-300 px-4 py-2"><?php echo $style_status; ?></td>
                     </tr>
                 <?php
