@@ -95,13 +95,15 @@
     function cek_alamat($alamat) {
         global $alamat, $is_valid, $alamatError;
         echo "cek_alamat    : ", $alamat    , "<br>";
-        if (!preg_match("/^[a-zA-Z0-9 ]*$/",$alamat)) { // cek fullname bukan huruf
-            $alamatError = "Alamat Hanya Boleh Huruf dan Angka";
+        // Memperbolehkan huruf, angka, spasi, koma, titik, garis miring, dan tanda hubung
+        if (!preg_match("/^[a-zA-Z0-9 .,\/\-]*$/", $alamat)) { 
+            $alamatError = "Alamat hanya boleh berisi huruf, angka, spasi, koma, titik, garis miring, dan tanda hubung";
             $is_valid = false;
-        } else { // jika fullname valid kosongkan error
-            $alamatError = "";
+        } else { 
+            $alamatError = ""; // Jika valid, kosongkan error
         }
     }
+    
 
     // validasi pengaduan
     function cek_pengaduan($pengaduan) {

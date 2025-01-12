@@ -297,30 +297,125 @@
                         <td class="border border-gray-300 px-4 py-2"><?php echo $style_status; ?></td>
                         <td class="border border-gray-300 px-4 py-2">
                             <div class="flex justify-center space-x-2">
-                                <!-- Tombol Detail -->
-                                <button 
-                                    class="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-500 transition"
-                                    onclick="openModal('ModalDetail')"
-                                >
-                                    Detail
-                                </button>
-                                
-                                <!-- Tombol Hapus -->
-                                <button 
-                                    class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-500 transition"
-                                    onclick="openModal('ModalHapus')"
-                                >
-                                    Hapus
-                                </button>
+                            <button 
+                                class="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-500 transition"
+                                onclick="openModal('ModalDetail<?php echo $key['id']; ?>')"
+                            >
+                                Detail
+                            </button>
+                            
+                            <!-- Tombol Hapus -->
+                            <button 
+                                class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-500 transition"
+                                onclick="openModal('ModalHapus<?php echo $key['id']; ?>')"
+                            >
+                                Hapus
+                            </button>
                             </div>
                         </td>
                     </tr>
-                <?php
+                    <?php
                 }
                 ?>
             </tbody>
         </table>
     </div>
+
+            <!-- Isi masing2 modal, detail, balas dan hapus -->
+        <!-- Modal Detail -->
+<div id="ModalDetail<?php echo $key['id']; ?>" 
+     class="fixed inset-0 z-50 hidden bg-gray-900 bg-opacity-50 items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl">
+        <div class="border-b px-4 py-3 flex justify-between items-center">
+            <h5 class="text-lg font-semibold">Detail Laporan</h5>
+            <button class="text-gray-400 hover:text-gray-600" onclick="closeModal('ModalDetail<?php echo $key['id']; ?>')">
+                &times;
+            </button>
+        </div>
+        <div class="p-4">
+            <p class="mb-2"><b>Nama:</b> <?php echo $key['nama']; ?></p>
+            <p class="mb-2"><b>Email:</b> <?php echo $key['email']; ?></p>
+            <p class="mb-2"><b>Telpon:</b> <?php echo $key['telpon']; ?></p>
+            <p class="mb-2"><b>Alamat:</b> <?php echo $key['alamat']; ?></p>
+            <p class="mb-2"><b>Tujuan:</b> <?php echo $key['nama_divisi']; ?></p>
+            <p class="mb-2"><b>Isi Laporan:</b> <?php echo $key['isi']; ?></p>
+            <p class="mb-2"><b>Tanggal:</b> <?php echo $key['tanggal']; ?></p>
+        
+            <?php if ($foundreply) : ?>
+                <hr class="my-2">
+                <p class="mb-2"><b>Tanggapan:</b></p>
+                <?php foreach ($stat as $keyy) : ?>
+                    <p class="mb-2"><?php echo $keyy['isi_tanggapan']; ?></p>
+                    <form method="post">
+                        <input type="hidden" name="id_hapus_tanggapan_laporan" value="<?php echo $keyy['id_laporan']; ?>">
+                        <input type="hidden" name="id_tanggapan" value="<?php echo $keyy['id_tanggapan']; ?>">
+                        <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-500" name="HapusTanggapan">
+                            Hapus
+                        </button>
+                    </form>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+        <div class="border-t px-4 py-3 text-right">
+            <button class="bg-gray-300 text-gray-700 px-3 py-1 rounded hover:bg-gray-400" onclick="closeModal('ModalDetail<?php echo $key['id']; ?>')">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal Hapus -->
+    <div id="ModalHapus<?php echo $key['id']; ?>" 
+    class="fixed inset-0 z-50 hidden bg-gray-900 bg-opacity-50 items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-sm">
+        <div class="border-b px-4 py-3">
+            <h5 class="text-lg font-semibold">Hapus Laporan</h5>
+        </div>
+        <div class="p-4 text-center">
+            <p class="mb-4">Hapus pengaduan dari <b><?php echo $key['nama']; ?></b>?</p>
+        </div>
+        <div class="border-t px-4 py-3 text-right space-x-2">
+            <form method="post" class="inline-block">
+                <input type="hidden" name="id_laporan" value="<?php echo $key['id']; ?>">
+                <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-500" name="Hapus">
+                    Hapus
+                </button>
+            </form>
+            <button class="bg-gray-300 text-gray-700 px-3 py-1 rounded hover:bg-gray-400" onclick="closeModal('ModalHapus<?php echo $key['id']; ?>')">
+                Batal
+            </button>
+        </div>
+    </div>
+    </div>
+    <script>
+        function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex'; // Pastikan modal terlihat
+        } else {
+            console.error(`Modal dengan ID ${modalId} tidak ditemukan.`);
+        }
+    }
+    
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.style.display = 'none'; // Pastikan modal tersembunyi
+        } else {
+            console.error(`Modal dengan ID ${modalId} tidak ditemukan.`);
+        }
+    }
+    </script>
+
+<?php
+    if (isset($_POST['Hapus'])) {
+    $id_laporan = $_POST['id_laporan'];
+    $db->query("DELETE FROM laporan WHERE id = $id_laporan");
+    echo "<script>alert('Laporan berhasil dihapus!'); location.reload();</script>";
+}
+?>
 
     <!-- Footer -->
     <div class="mt-4 text-gray-500 text-xs">
@@ -371,71 +466,7 @@ function sortTable(columnIndex) {
 </footer>
 
 
-        <!-- Isi masing2 modal, detail, balas dan hapus -->
-        <!-- Modal Detail -->
-<div id="ModalDetail" 
-     class="fixed inset-0 z-50 hidden bg-gray-900 bg-opacity-50 items-center justify-center">
-    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl">
-        <div class="border-b px-4 py-3 flex justify-between items-center">
-            <h5 class="text-lg font-semibold">Detail Laporan</h5>
-            <button class="text-gray-400 hover:text-gray-600" onclick="closeModal('ModalDetail<?php echo $key['id']; ?>')">
-                &times;
-            </button>
-        </div>
-        <div class="p-4">
-            <p class="mb-2"><b>Nama:</b> <?php echo $key['nama']; ?></p>
-            <p class="mb-2"><b>Email:</b> <?php echo $key['email']; ?></p>
-            <p class="mb-2"><b>Telpon:</b> <?php echo $key['telpon']; ?></p>
-            <p class="mb-2"><b>Alamat:</b> <?php echo $key['alamat']; ?></p>
-            <p class="mb-2"><b>Tujuan:</b> <?php echo $key['nama_divisi']; ?></p>
-            <p class="mb-2"><b>Isi Laporan:</b> <?php echo $key['isi']; ?></p>
-            <p class="mb-2"><b>Tanggal:</b> <?php echo $key['tanggal']; ?></p>
-            <?php if ($foundreply) : ?>
-                <hr class="my-2">
-                <p class="mb-2"><b>Tanggapan:</b></p>
-                <?php foreach ($stat as $keyy) : ?>
-                    <p class="mb-2"><?php echo $keyy['isi_tanggapan']; ?></p>
-                    <form method="post">
-                        <input type="hidden" name="id_hapus_tanggapan_laporan" value="<?php echo $keyy['id_laporan']; ?>">
-                        <input type="hidden" name="id_tanggapan" value="<?php echo $keyy['id_tanggapan']; ?>">
-                        <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-500" name="HapusTanggapan">
-                            Hapus
-                        </button>
-                    </form>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
-        <div class="border-t px-4 py-3 text-right">
-            <button class="bg-gray-300 text-gray-700 px-3 py-1 rounded hover:bg-gray-400" onclick="closeModal('ModalDetail<?php echo $key['id']; ?>')">
-                Tutup
-            </button>
-        </div>
-    </div>
-</div>
 
-    <!-- Modal Hapus -->
-    <div id="ModalHapus" 
-        class="fixed inset-0 z-50 hidden bg-gray-900 bg-opacity-50 items-center justify-center">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-sm">
-            <div class="border-b px-4 py-3">
-                <h5 class="text-lg font-semibold">Hapus Laporan</h5>
-            </div>
-            <div class="p-4 text-center">
-                <p class="mb-4">Hapus pengaduan dari <b><?php echo $key['nama']; ?></b>?</p>
-            </div>
-            <div class="border-t px-4 py-3 text-right space-x-2">
-                <form method="post" class="inline-block">
-                <input type="hidden" name="id_laporan" value="<?php echo $key['id']; ?>">
-                <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-500" name="Hapus">
-                    Hapus
-                </button>
-                </form>
-                <button class="bg-gray-300 text-gray-700 px-3 py-1 rounded hover:bg-gray-400" onclick="closeModal('ModalHapus<?php echo $key['id']; ?>')">
-                Batal
-                </button>
-            </div>
-        </div>
-    </div>
 
         <!-- Scroll to Top Button-->
         <a 
@@ -484,15 +515,16 @@ function sortTable(columnIndex) {
             </div>
         </div>
 
-            <script>
+            <!-- <script>
                 function openModal(modalId) {
-                document.getElementById(modalId).style.display = 'flex';
-            }
+                    // document.getElementById(modalId).classList.remove('hidden');
+                    document.getElementById(modalId).style.display = 'flex'; 
+                }
 
-            function closeModal(modalId) {
-                document.getElementById(modalId).style.display = 'none';
-            }
-            </script>
+                function closeModal(modalId) {
+                    document.getElementById(modalId).style.display = 'none'; 
+                }
+            </script> -->
 
         <!-- Version Info Modal -->
         <!-- Modal -->

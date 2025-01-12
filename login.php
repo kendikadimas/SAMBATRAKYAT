@@ -68,9 +68,9 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     <div class="right-section">
     <div class="overlay"></div>
         <div class="text-content">
-            <a href="Index.php"><img src="images/pemkab.png" alt="" style="width: 100px; height: 100px;"></a>
+            <a href="Index.php"><img src="images/samblog.svg" alt="" style="width: 100px; height: 100px;"></a>
             <h1>Sambat Rakyat</h1>
-            <p>Membangun Banyumas yang lebih melalui aspirasi dan evaluasi</p>
+            <p>Membangun Indonesia yang lebih melalui aspirasi dan evaluasi</p>
         </div>
     </div>
     <div class="left-section">

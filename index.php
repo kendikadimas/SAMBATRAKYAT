@@ -206,7 +206,7 @@ $mysqli->close();
                     <h1 class="text-[84px] font-bold text-[#3E7D60]">Sambat Rakyat</h1>
                     <p class="text-[20px] text-[#666] leading-[1.8] mb-5">Platform penyaluran aspirasi dan keluh kesah bagi <br>
                     masyarakat Indonesia</p>
-                    <a href="lapor" class="text-white bg-[#3E7D60] px-6 py-4 rounded-md text-xl font-semibold mt-5">Laporan Kita</a>
+                    <a href="lapor" class="text-white bg-[#3E7D60] px-6 py-4 rounded-md text-xl font-semibold mt-5">Buat Sambatan</a>
                 </div>
 
                 <div class="max-w-[40%]">
@@ -258,15 +258,19 @@ $mysqli->close();
 
  <!-- LAPORAN TERBARU -->
  <div class="container mx-auto p-8">
-    <h3 class="ml-8 text-left text-[32px] border-b-4 border-green-700 h3-custom inline-block">
-        <span style="color:#3E7D60">Pengaduan</span> Terbaru
+    <h3 class="ml-8 text-left text-3xl font-bold border-b-4 border-green-700 h3-custom inline-block">
+        <span style="color:#3E7D60">Sambatan</span> Populer
     </h3>
     <hr class="my-4">
     <!-- Container for all cards -->
     <div class="flex flex-wrap gap-6 justify-center">
         <?php
         // Ambil semua record dari tabel laporan
-        $statement = $db->query("SELECT * FROM `laporan` ORDER BY id DESC");
+        $statement = $db->query("SELECT * FROM `laporan` 
+                            WHERE status IN ('Ditanggapi', 'Terposting') 
+                            ORDER BY id DESC;
+        ");
+        
         foreach ($statement as $key) {
             $mysqldate = $key['tanggal'];
             $phpdate = strtotime($mysqldate);

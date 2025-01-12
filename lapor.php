@@ -5,6 +5,12 @@
 ?>
 <?php
 session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
     require_once("private/database.php");
     $statement = $db->query("SELECT id FROM `laporan` ORDER BY id DESC LIMIT 1");
     // $cekk = $statement->fetch(PDO::FETCH_ASSOC);
@@ -122,12 +128,13 @@ session_start();
 
         <!-- content -->
         <div class="max-w-4xl mx-auto p-8 bg-white border border-gray-300 shadow-lg rounded-lg mt-10 mb-10">
-    <h3 class="text-primary font-bold text-center text-3xl mb-4">Buat Laporan</h3>
+    <h3 class="text-primary font-bold text-center text-3xl mb-4">Buat Sambatan</h3>
     <hr class="border-t border-gray-300 mb-6" />
 
     <form class="space-y-6" method="post" action="private/validasi">
         <!-- Nomor Pengaduan -->
-        <div class="grid grid-cols-3 gap-4 items-center">                                                                           <label for="nomor" class="font-semibold text-gray-700 col-span-1">Nomor Pengaduan</label>
+        <div class="grid grid-cols-3 gap-4 items-center">                                                                           
+            <label for="nomor" class="font-semibold text-gray-700 col-span-1">Nomor Pengaduan</label>
             <div class="col-span-2">
                 <input 
                     type="text" 
@@ -173,7 +180,7 @@ session_start();
 
         <!-- Telpon -->
         <div class="grid grid-cols-3 gap-4 items-center">
-            <label for="telpon" class="font-semibold text-gray-700 col-span-1">Telpon</label>
+            <label for="telpon" class="font-semibold text-gray-700 col-span-1">Telepon</label>
             <div class="col-span-2">
                 <input 
                     type="text" 
@@ -195,7 +202,7 @@ session_start();
                     type="text" 
                     id="alamat" 
                     name="alamat" 
-                    placeholder="Alamat" 
+                    placeholder="Desa/Kelurahan, Kecamatan, Kabupaten, Provinsi" 
                     value="<?= @$_GET['alamat'] ?>" 
                     required
                     class="w-full px-4 py-2 border rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300" />
@@ -205,16 +212,17 @@ session_start();
 
         <!-- Tujuan Pengaduan -->
         <div class="grid grid-cols-3 gap-4 items-center">
-            <label for="tujuan" class="font-semibold text-gray-700 col-span-1">Tujuan Pengaduan</label>
+            <label for="tujuan" class="font-semibold text-gray-700 col-span-1">Kategori Sambatan</label>
             <div class="col-span-2">
                 <select 
                     id="tujuan" 
                     name="tujuan" 
                     class="w-full px-4 py-2 border rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300">
-                    <option value="1">Pelayanan Pendaftaran Penduduk</option>
-                    <option value="2">Pelayanan Pencatatan Sipil</option>
-                    <option value="3">Pengelolaan Informasi Administrasi Kependudukan</option>
-                    <option value="4">Pemanfaatan Data Dan Inovasi Pelayanan</option>
+                    <option value="1">Sosial dan Kemasyarakatan</option>
+                    <option value="2">Keamanan dan Pertahanan</option>
+                    <option value="3">Politik dan Pemerintahan</option>
+                    <option value="4">Lingkungan dan Alam</option>
+                    <option value="5">Infrastruktur dan Transportasi</option>
                 </select>
             </div>
         </div>
@@ -238,7 +246,8 @@ session_start();
         <div class="text-center">
             <button 
                 type="submit" 
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                name="submit"
+                class="bg-[#3E7D60] hover:bg-[#3E7D60]/80 text-white font-bold py-2 px-4 rounded">
                 Kirim Pengaduan
             </button>
         </div>

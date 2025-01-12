@@ -61,25 +61,8 @@ if(isset($_POST['submit'])) {
     <link rel="stylesheet" href="css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs" defer></script>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh; /* Pastikan tinggi minimum sesuai layar */
-        }
-
-        .main-content {
-            flex: 1; /* Konten utama mengambil ruang yang tersedia */
-        }
-
-        footer {
-            margin-top: auto; /* Pastikan footer berada di bagian bawah */
-        }
-    </style>
-
 </head>
-
-<body>
+<body class="flex flex-col min-h-screen">
     <!--Success Modal Saved-->
     <div class="fixed top-0 right-0 bottom-0 left-0 z-[100] overflow-hidden outline-none hidden " id="failedmodal" tabindex="-1" role="dialog">
         <div class="relative w-auto m-[10px] " role="document">
@@ -191,28 +174,32 @@ if(isset($_POST['submit'])) {
 
 
         <!-- content -->
-        <div class="p-6 rounded-lg shadow-lg border border-gray-200 mx-auto my-8 w-3/5 h- bg-gradient-to-r from-white to-gray-100 flex flex-col">
-            <h3 class="text-3xl mb-2 text-center font-extrabold text-green-800">Lihat Pengaduan</h3>
-            <hr class="border-b border-green-500 my-4" />
+        <div class="p-6 rounded-lg shadow-lg border border-gray-200 mx-auto my-8 w-3/5 h- bg-white to-gray-100 flex flex-col">
+            <h3 class="text-primary font-bold text-center text-3xl mb-4">Lihat Pengaduan</h3>
+            <hr class="border-t border-gray-300 mb-6" />
             <div class="flex flex-col items-center flex-grow mb-5">
-                <form class="w-full" role="form" method="post">
-                    <div class="mb-6">
-                        <label for="nomor" class="block text-lg font-medium text-gray-700">Nomor Pengaduan</label>
-                        <input 
-                            type="text" 
-                            id="nomor" 
-                            name="nomor" 
-                            placeholder="Masukkan Nomor Pengaduan" 
-                            class="w-full border border-gray-400 rounded p-2 focus:ring focus:ring-green-400 focus:border-green-600"
-                            required>
-                        <p class="text-sm text-red-600 mt-2"><?= @$nomorError ?></p>
+
+                <form class=" space-y-6 w-full" role="form" method="post">
+
+                    <div class="grid grid-cols-3 gap-4 items-center">
+                        <label for="nomor" class="font-semibold text-gray-700 col-span-1 ml-7">Nomor Pengaduan</label>
+                        <div class="col-span-2">
+                            <input 
+                                type="text" 
+                                id="nomor" 
+                                name="nomor" 
+                                placeholder="Masukkan Nomor Pengaduan" 
+                                class="bg-gray-100 text-gray-500 w-full px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300"
+                                required>
+                            <p class="text-sm text-red-600 mt-2"><?= @$nomorError ?></p>
+                        </div>
                     </div>
                     <div class="text-center">
                         <button 
                             type="submit" 
                             name="submit" 
                             id="submit"
-                            class="px-5 py-3 text-white bg-blue-700 rounded-full shadow-lg hover:bg-blue-800 focus:outline-none focus:ring focus:ring-blue-400">
+                            class="bg-[#3E7D60] hover:bg-[#3E7D60]/80 text-white font-bold py-2 px-4 rounded">
                             Lihat Pengaduan
                         </button>
                     </div>
@@ -265,7 +252,7 @@ if(isset($_POST['submit'])) {
         </div>
 
        <!-- Footer -->
-       <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5">
+       <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5 mt-auto">
         <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
             <ul class="pl-0 list-none">
                 <li><i class="fa fa-top fa-map-marker"></i></li>
