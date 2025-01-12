@@ -289,9 +289,19 @@ if(isset($_POST['submit'])) {
                 <li><h4 class="text-[1.2em] mb-[10px]">Sosial Media</h4></li>
             </ul>
             <ul class="list-none flex text-center justify-center p-0 mb-0">
-                <li><a class="text-white border border-white mx-0 my-[5px] hover:bg-[#3E7D60]" href="https://www.facebook.com/betterbanyumas"><i class="fa fa-fw fa-facebook"></i></a></li>
-                <li><a class="text-white border border-white mx-0 my-[5px] hover:bg-[#3E7D60]" href="https://twitter.com/bmshumas"><i class="fa fa-fw fa-twitter"></i></a></li>
-            </ul>
+                        <li class="pl-0 list-none">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-full p-2 flex items-center justify-center w-8 h-8" 
+                            href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
+                                <i class="fa fa-fw fa-facebook"></i>
+                            </a>
+                        </li>
+                        <li class="pl-0 list-none">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-full p-2 flex items-center justify-center w-8 h-8 ml-5" 
+                            href="https://twitter.com/bmshumas?lang=en">
+                                <i class="fa fa-fw fa-twitter"></i>
+                            </a>
+                        </li>
+                    </ul>
         </div>
 
         <div class="relative min-h-[1px] px-[15px] float-left w-1/3">

@@ -10,7 +10,13 @@ require_once("private/database.php");
 //     $randomImage = $photoAreas[$randomNumber];
 //     return $randomImage;
 // }
+// Inisialisasi variabel $account sebagai null secara default
+$account = null;
+$photoBase64 = null;
+$imageType = null;
+$defaultPhoto = "https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg";
 ?>
+
 <?php
 // Konfigurasi koneksi database
 $host = 'localhost';
@@ -68,6 +74,15 @@ $mysqli->close();
     <link rel="stylesheet" href="css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs" defer></script>
+    <style>
+    .animate-border {
+        width: 0; /* Default width 0 untuk animasi */
+    }
+
+    .animate-border.active {
+        width: 100%; /* Lebar penuh setelah scroll */
+    }
+</style>
 </head>
 <body>
     <!-- <div id="fb-root"></div> -->
@@ -151,17 +166,28 @@ $mysqli->close();
            <?php $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
             $email = isset($_SESSION['email']) ? $_SESSION['email'] : null;
             ?>
-            <!-- User Authentication Section -->
-            <div class="flex items-center space-x-6">
+             <!-- User Authentication Section -->
+             <div class="flex items-center space-x-6">
                 <?php if ($username): ?>
                     <!-- Account Dropdown -->
                     <div x-data="{ open: false }" class="relative">
                         <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-[#3E7D60] font-semibold transition">
-                            <img src="https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg" alt="Avatar" class="w-8 h-8 rounded-full">
+                        <?php if ($photoBase64): ?>
+                            <!-- Tampilkan gambar pengguna jika sudah diunggah -->
+                            <img src="data:<?php echo $imageType; ?>;base64,<?php echo $photoBase64; ?>" 
+                                alt="User Avatar" 
+                                class="w-8 h-8 rounded-full">
+                        <?php else: ?>
+                            <!-- Tampilkan gambar default jika pengguna belum mengunggah foto -->
+                            <img src="<?php echo $defaultPhoto; ?>" 
+                                alt="Default Avatar" 
+                                class="w-8 h-8 rounded-full">
+                        <?php endif; ?>
                             <span><?php echo htmlspecialchars($username); ?></span>
                             <svg class="w-5 h-5 transform" :class="open ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
+                            
                         </button>
 
                         <!-- Dropdown Menu -->
@@ -250,7 +276,9 @@ $mysqli->close();
                     memantau status dan perkembangan pengaduannya, serta menerima notifikasi atau umpan balik
                     terkait tindak lanjut yang diambil pemerintah.
                 </p>
-                <p class="italic font-normal text-[14px] text-[#303030] mt-5 pl-2 border-l-4 ">NKRI tak berarti penyeragaman, melainkan perwujudan kesetaraan dan kesejahteraan.</p>
+                <p class="italic font-normal text-[14px] text-[#303030] mt-5 pl-2 border-l-4 border-[#3E7D60]">
+    NKRI tak berarti penyeragaman, melainkan perwujudan kesetaraan dan kesejahteraan.
+</p>
                 <p>Najwa Sihab</p>
             </div>
         </section>
@@ -258,8 +286,11 @@ $mysqli->close();
 
  <!-- LAPORAN TERBARU -->
  <div class="container mx-auto p-8">
-    <h3 class="ml-8 text-left text-3xl font-bold border-b-4 border-green-700 h3-custom inline-block">
+    <h3 
+        class="relative ml-8 text-left text-3xl font-bold h3-custom inline-block section-title" 
+        data-animate="false">
         <span style="color:#3E7D60">Sambatan</span> Populer
+        <span class="absolute bottom-0 left-0 w-0 h-[4px] bg-[#3E7D60] transition-all duration-700 ease-in-out animate-border"></span>
     </h3>
     <hr class="my-4">
     <!-- Container for all cards -->
@@ -311,7 +342,7 @@ $mysqli->close();
 
                 <!-- Tanggapan dan Form -->
                 <div>
-                    <button class="toggle-replies bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition-all duration-300">
+                    <button class="toggle-replies bg-[#3E7D60] text-white py-1 px-3 rounded hover:bg-green-600 transition-all duration-300">
                         Tanggapi
                     </button>
                     <div class="replies tutup mt-4">
@@ -442,11 +473,13 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>-->
 
             <!-- Section Header -->
-<div class="text-center mb-[100px] mt-[50px]">
-    <h1 class="text-[32px] font-bold text-[#333] mb-[10px] border-b-4 border-transparent inline-block relative overflow-hidden transition-colors duration-500 ease-in-out">
+            <div class="text-center mb-[100px] mt-[50px]">
+    <h3 
+        class="relative ml-8 text-left text-3xl font-bold h3-custom inline-block section-title" 
+        data-animate="false">
         <span style="color:#3E7D60">Kritik</span> & Saran
-    </h1>
-    <p class="text-[16px] text-[#666]">Sebagai bahan evaluasi pengembangan</p>
+        <span class="absolute bottom-0 left-0 w-0 h-[4px] bg-[#3E7D60] transition-all duration-700 ease-in-out animate-border"></span>
+    </h3>
 </div>
 
 <!-- Kritik & Saran Section -->
@@ -536,12 +569,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     </ul>
                     <ul class="list-none flex text-center justify-center p-0 mb-0">
                         <li class="pl-0 list-none">
-                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1" href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-full p-2 flex items-center justify-center w-8 h-8" 
+                            href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
                                 <i class="fa fa-fw fa-facebook"></i>
                             </a>
                         </li>
                         <li class="pl-0 list-none">
-                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1 ml-5" href="https://twitter.com/bmshumas?lang=en">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-full p-2 flex items-center justify-center w-8 h-8 ml-5" 
+                            href="https://twitter.com/bmshumas?lang=en">
                                 <i class="fa fa-fw fa-twitter"></i>
                             </a>
                         </li>
@@ -620,7 +655,32 @@ function animateCounter(element, start, end, duration) {
         animateCounter(menungguElement, 0, parseInt(menungguElement.textContent), 1000);
         animateCounter(selesaiElement, 0, parseInt(selesaiElement.textContent), 1000);
     });
+    // Fungsi untuk mengecek apakah elemen terlihat di viewport
+    function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
 
+    // Ambil semua elemen dengan class 'section-title'
+    const sectionTitles = document.querySelectorAll(".section-title");
+
+    // Tambahkan event listener untuk scroll
+    window.addEventListener("scroll", () => {
+        sectionTitles.forEach((title) => {
+            const border = title.querySelector(".animate-border");
+
+            // Jika elemen ada di viewport dan belum dianimasikan
+            if (isInViewport(title) && title.dataset.animate === "false") {
+                border.classList.add("active"); // Aktifkan animasi
+                title.dataset.animate = "true"; // Tandai sudah dianimasikan
+            }
+        });
+    });
 </script>
 
 </body>

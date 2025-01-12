@@ -141,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="hidden md:flex items-center space-x-8 text-center">
             <a href="index" class="<?= isActive('index.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Home</a>
             <a href="lapor" class="<?= isActive('lapor.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Sambat</a>
-            <a href="lihat" class="<?= isActive('lihat.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Lihat Pengaduan</a>
+            <a href="lihat" class="<?= isActive('lihat.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Lihat Sambatan</a>
             <a href="community" class="<?= isActive('community.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Komunitas</a>
             <a href="faq" class="<?= isActive('faq.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Tentang</a>
         </div>
@@ -202,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <ul class="space-y-4">
             <!-- Menu Items -->
             <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <a href="#users" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                     <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
                 </svg>
@@ -210,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </a>
             </li>
             <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="#password" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z"/>
                   <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z"/>
@@ -298,77 +298,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     <!-- Main Content -->
-    <section class="flex-1 dashboard-container bg-white rounded-lg shadow-md p-6">
-        <div class="dashboard-header bg-[#3E7D60] text-white p-4 rounded-t mb-6 text-center flex flex-col items-center justify-center">
-            <h1 class="text-2xl font-semibold">Welcome, <span class="text-uppercase"><?= htmlspecialchars($account['username'], ENT_QUOTES, 'UTF-8'); ?></span>!</h1>
-            <h2 class="text-lg font-light">Your Profile</h2>
+    <section class="flex-1 dashboard-container bg-gray-50 rounded-lg shadow-md p-6">
+    <div class="dashboard-header bg-[#3E7D60] text-white p-6 rounded-t-lg text-center flex flex-col items-center justify-center">
+        <h1 class="text-2xl font-semibold">
+            Welcome, <span class="uppercase"><?= htmlspecialchars($account['username'], ENT_QUOTES, 'UTF-8'); ?></span>!
+        </h1>
+        <h2 class="text-lg font-light">Your Profile</h2>
+    </div>
+
+    <form action="" method="POST" enctype="multipart/form-data" class="my-8">
+        <div class="flex flex-col items-center space-y-6">
+            <!-- Profile Image -->
+            <div class="rounded-full overflow-hidden border-2 border-[#3E7D60] w-40 h-40">
+                <?php if ($photoBase64): ?>
+                    <img src="data:<?php echo $imageType; ?>;base64,<?php echo $photoBase64; ?>" alt="User Avatar" class="w-full h-full">
+                <?php else: ?>
+                    <img src="<?php echo $defaultPhoto; ?>" alt="Default Avatar" class="w-full h-full">
+                <?php endif; ?>
+            </div>
+            <input type="file" id="photo" name="photo" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
+            <button type="submit" class="bg-[#3E7D60] text-white px-6 py-2 rounded-lg hover:bg-green-700 transition duration-300">
+                Upload Photo
+            </button>
         </div>
-        <form action="" method="POST" enctype="multipart/form-data">
-            <div class="flex-1">
-                <div class="flex flex-col items-center space-y-4 w-3/5 mx-auto">
-                    <div class="rounded-full overflow-hidden border border-grey-300 w-40 h-40">
-                    <div class="rounded-full overflow-hidden border border-grey-300 w-40 h-40">
-                    <?php if ($photoBase64): ?>
-                            <!-- Tampilkan gambar pengguna jika sudah diunggah -->
-                            <img src="data:<?php echo $imageType; ?>;base64,<?php echo $photoBase64; ?>" 
-                                alt="User Avatar"> 
-                              
-                        <?php else: ?>
-                            <!-- Tampilkan gambar default jika pengguna belum mengunggah foto -->
-                            <img src="<?php echo $defaultPhoto; ?>" 
-                                alt="Default Avatar"
-                                class="w-full h-full"> 
-                            
-                        <?php endif; ?>
-                    </div>
-                    </div>
-                    <input type="file" id="photo" name="photo" class="px-4 py-2 border border-gray-300 rounded-lg mt-4 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-                    <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300">Upload Photo</button>
-                </div>
+    </form>
+
+    <!-- Personal Info Section -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold text-gray-900 mb-6" id="users">Personal Info</h2>
+        <form action="/SAMBATRAKYAT/update" method="POST" class="space-y-6">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES, 'UTF-8'); ?>">
+
+            <!-- Username -->
+            <div class="flex items-center space-x-4">
+                <label for="username" class="w-48 text-gray-700 font-medium">Username:</label>
+                <input type="text" id="username" name="new_username" value="<?= htmlspecialchars($account['username'], ENT_QUOTES, 'UTF-8'); ?>" placeholder="Enter a new username" class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+            </div>
+
+            <!-- Email -->
+            <div class="flex items-center space-x-4">
+                <label for="email" class="w-48 text-gray-700 font-medium">Email:</label>
+                <input type="email" id="email" name="new_email" value="<?= htmlspecialchars($account['email'], ENT_QUOTES, 'UTF-8'); ?>" placeholder="Enter a new email" class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
             </div>
         </form>
-              <!-- Header -->
-              <div>
-                <h2 class="text-xl font-semibold text-gray-900">Personal Info</h2>
-          
-            <!-- Profile Form -->
-            <div class="flex-1">
-                <form action="/SAMBATRAKYAT/update" method="POST" class="flex flex-col space-y-6 w-full">
-                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES, 'UTF-8'); ?>">
-                    <!-- Username -->
-                    <div class="flex items-center space-x-4">
-                        <label for="username" class="w-64 text-gray-700 font-medium">Username:</label>
-                        <input type="text" id="username" name="new_username" value="<?= htmlspecialchars($account['username'], ENT_QUOTES, 'UTF-8'); ?>" placeholder="Enter a new username" class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-                    </div>
-                    <!-- Email -->
-                    <div class="flex items-center space-x-4">
-                        <label for="email" class="w-64 text-gray-700 font-medium">Email:</label>
-                        <input type="email" id="email" name="new_email" value="<?= htmlspecialchars($account['email'], ENT_QUOTES, 'UTF-8'); ?>" placeholder="Enter a new email" class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-                    </div>
+    </div>
 
-                    <h2 class="text-xl font-semibold text-gray-900">Change Password</h2>
-                    <!-- Current Password -->
-                    <div class="flex items-center space-x-4">
-                        <label for="current-password" class="w-64 text-gray-700 font-medium">Current Password:</label>
-                        <input type="password" id="current-password" name="current_password" placeholder="Enter current password" required class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-                    </div>
-                    <!-- New Password -->
-                    <div class="flex items-center space-x-4">
-                        <label for="new-password" class="w-64 text-gray-700 font-medium">New Password:</label>
-                        <input type="password" id="new-password" name="new_password" placeholder="Enter new password" class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-                    </div>
-                    <!-- Confirm New Password -->
-                    <div class="flex items-center space-x-4">
-                        <label for="retype-password" class="w-64 text-gray-700 font-medium">Confirm Password:</label>
-                        <input type="password" id="retype-password" name="confirm_password" placeholder="Re-enter new password" class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
-                    </div>
-                    <!-- Submit Button -->
-                    <button type="submit" class="w-full py-3 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition duration-300">Save Changes</button>
-                </form>
+    <!-- Password Section -->
+    <div class="bg-white p-6 mt-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold text-gray-900 mb-6" id="password">Change Password</h2>
+        <form action="/SAMBATRAKYAT/update" method="POST" class="space-y-6">
+            <!-- Current Password -->
+            <div class="flex items-center space-x-4">
+                <label for="current-password" class="w-48 text-gray-700 font-medium">Current Password:</label>
+                <input type="password" id="current-password" name="current_password" placeholder="Enter current password" required class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
             </div>
-        </div>
-        </div>
-    </section>
+
+            <!-- New Password -->
+            <div class="flex items-center space-x-4">
+                <label for="new-password" class="w-48 text-gray-700 font-medium">New Password:</label>
+                <input type="password" id="new-password" name="new_password" placeholder="Enter new password" class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="flex items-center space-x-4">
+                <label for="retype-password" class="w-48 text-gray-700 font-medium">Confirm Password:</label>
+                <input type="password" id="retype-password" name="confirm_password" placeholder="Re-enter new password" class="flex-grow px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:outline-none">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full py-3 bg-[#3E7D60] text-white rounded-lg shadow-md hover:bg-green-700 transition duration-300">
+                Save Changes
+            </button>
+        </form>
+    </div>
+</section>
 </div>
 
         <!-- Footer -->
