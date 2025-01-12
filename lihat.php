@@ -5,6 +5,7 @@
 ?>
 <?php
 session_start();
+include "koneksi.php";
 require_once("private/database.php");
 $nomorError = "";
 global $found, $foundreply;
@@ -24,7 +25,7 @@ if(isset($_POST['submit'])) {
         $statement = $db->query("SELECT * FROM laporan LEFT JOIN divisi ON laporan.tujuan = divisi.id_divisi WHERE laporan.id = $nomor");
         // jika laporan tidak ditemukan tampilkan pesan
         if ($statement->rowCount() < 1) {
-            $notFound= "Nomor Pengaduan Tidak Ditemukan !";
+            $notFound= "Nomor Sambatan Tidak Ditemukan !";
         }
         // jika  laporan ditemukan
         else {
@@ -45,7 +46,7 @@ if(isset($_POST['submit'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Lihat Pengaduan | Sambat Rakyat</title>
+    <title>Lihat Sambatan | Sambat Rakyat</title>
     <link rel="shortcut icon" href="images/samblog.svg">
     <!-- Bootstrap CSS -->
     <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
@@ -71,7 +72,7 @@ if(isset($_POST['submit'])) {
                     <h4 class="m-0 leading-[1.42857143] text-center text-danger">Gagal</h4>
                 </div>
                 <div class="relative p-[15px] ">
-                    <p class="text-center">Nomor Pengaduan Tidak Ditemukan</p>
+                    <p class="text-center">Nomor Sambatan Tidak Ditemukan</p>
                 </div>
                 <div class="p-[15px] text-right border-t-[1px] border-solid border-[#e5e5e5]">
                     <button type="button" class="inline  text-white bg-[#d9534f] border-[#d43f3a]" onclick="location.href='lihat';" data-dismiss="modal">Tutup</button>
@@ -92,7 +93,7 @@ if(isset($_POST['submit'])) {
 
    
         <!-- NAVBAR -->
-     <?php
+        <?php
         if(isset($_GET['status'])) {
     ?>
         <script type="text/javascript">
@@ -121,7 +122,7 @@ if(isset($_POST['submit'])) {
         <div class="hidden md:flex items-center space-x-8 text-center">
             <a href="index" class="<?= isActive('index.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Home</a>
             <a href="lapor" class="<?= isActive('lapor.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Sambat</a>
-            <a href="lihat" class="<?= isActive('lihat.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Lihat Pengaduan</a>
+            <a href="lihat" class="<?= isActive('lihat.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Lihat Sambatan</a>
             <a href="community" class="<?= isActive('community.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Komunitas</a>
             <a href="faq" class="<?= isActive('faq.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Tentang</a>
         </div>
@@ -172,23 +173,22 @@ if(isset($_POST['submit'])) {
         </button>
     </div>
 
-
         <!-- content -->
         <div class="p-6 rounded-lg shadow-lg border border-gray-200 mx-auto my-8 w-3/5 h- bg-white to-gray-100 flex flex-col">
-            <h3 class="text-primary font-bold text-center text-3xl mb-4">Lihat Pengaduan</h3>
+            <h3 class="text-primary font-bold text-center text-3xl mb-4">Lihat Sambatan</h3>
             <hr class="border-t border-gray-300 mb-6" />
             <div class="flex flex-col items-center flex-grow mb-5">
 
                 <form class=" space-y-6 w-full" role="form" method="post">
 
                     <div class="grid grid-cols-3 gap-4 items-center">
-                        <label for="nomor" class="font-semibold text-gray-700 col-span-1 ml-7">Nomor Pengaduan</label>
+                        <label for="nomor" class="font-semibold text-gray-700 col-span-1 ml-7">Nomor Sambatan</label>
                         <div class="col-span-2">
                             <input 
                                 type="text" 
                                 id="nomor" 
                                 name="nomor" 
-                                placeholder="Masukkan Nomor Pengaduan" 
+                                placeholder="Masukkan Nomor Sambatan" 
                                 class="bg-gray-100 text-gray-500 w-full px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300"
                                 required>
                             <p class="text-sm text-red-600 mt-2"><?= @$nomorError ?></p>
@@ -200,7 +200,7 @@ if(isset($_POST['submit'])) {
                             name="submit" 
                             id="submit"
                             class="bg-[#3E7D60] hover:bg-[#3E7D60]/80 text-white font-bold py-2 px-4 rounded">
-                            Lihat Pengaduan
+                            Lihat Sambatan
                         </button>
                     </div>
                 </form>
@@ -214,7 +214,7 @@ if(isset($_POST['submit'])) {
                             <?php $tanggal = date('d F Y, H:i:s', strtotime($key['tanggal'])); ?>
                             <div class="p-6 rounded-lg shadow-md bg-white mb-6">
                                 <div class="flex justify-between items-center mb-6 mt-3">
-                                    <h4 class="text-xl font-bold text-gray-800">Laporan</h4>
+                                    <h4 class="text-xl font-bold text-gray-800">Laporan</h4> 
                                     <p class="text-sm text-gray-600"><?= $key['nama_divisi']; ?></p>
                                 </div>
                                 <div class="flex items-center mb-6">
@@ -226,20 +226,42 @@ if(isset($_POST['submit'])) {
                                 </div>
                                 <p class="text-gray-800 text-justify"><?= $key['isi']; ?></p>
                                 <div class="mt-6">
-                                    <h4 class="text-lg font-semibold text-gray-800">Tindak Lanjut Laporan</h4>
+                                    <div class="flex justify-between">
+                                        <h4 class="text-lg font-semibold text-gray-800">Tindak Lanjut Laporan</h4>
+                                        <?php 
+                                        $status = $key['status'];
+                                         if ($status == "Ditanggapi") {
+                                            $style_status = "<span class='bg-green-500 text-white px-2 py-1 rounded text-xs'>Ditanggapi</span>";
+                                        } elseif ($status == "Terposting") {
+                                            $style_status = "<span class='bg-blue-500 text-white px-2 py-1 rounded text-xs'>Terposting</span>";
+                                        } else {
+                                            $style_status = "<span class='bg-orange-500 text-white px-2 py-1 rounded text-xs'>Menunggu</span>";
+                                        }
+                                        
+                                        ?>
+                                        <p class="text-sm text-gray-600"><?= $style_status ?></p>
+                                    </div>
+
                                     <hr class="border-t-2 border-gray-300 my-3">
-                                    <?php if ($foundreply): ?>
-                                        <?php foreach ($stat as $reply): ?>
-                                            <?php $tanggal_tanggapan = date('d F Y, H:i:s', strtotime($reply['tanggal_tanggapan'])); ?>
+                                    <?php
+                                    // Query untuk mengambil tanggapan berdasarkan laporan_id
+                                    $laporan_id = $key['id'];
+                                    $query = "SELECT komen.*, users.username 
+                                              FROM komen 
+                                              JOIN users ON komen.nama = users.username 
+                                              WHERE komen.laporan_id = '$laporan_id' AND role = 'instansi'";
+                                    $result = mysqli_query($conn, $query);
+                                    ?>
+                                    <?php if (mysqli_num_rows($result) > 0): ?>
+                                        <?php while ($reply = mysqli_fetch_assoc($result)): ?>
                                             <div class="flex items-start mt-6">
                                                 <img class="w-12 h-12 rounded-full border-2 border-blue-600" src="images/avatar/avatar2.png" alt="Avatar Admin">
                                                 <div class="ml-6">
-                                                    <h5 class="text-blue-700 font-bold"><?= $reply['admin']; ?></h5>
-                                                    <p class="text-sm text-gray-600"><i class="fa fa-calendar"></i> <?= $tanggal_tanggapan; ?></p>
-                                                    <p class="text-gray-800 mt-3"><?= $reply['isi_tanggapan']; ?></p>
+                                                    <h5 class="text-blue-700 font-bold"><?= $reply['username']; ?></h5>
+                                                    <p class="text-gray-800 mt-3"><?= $reply['isi']; ?></p>
                                                 </div>
                                             </div>
-                                        <?php endforeach; ?>
+                                        <?php endwhile; ?>
                                     <?php else: ?>
                                         <p class="text-gray-600 text-sm"><i class="fa fa-exclamation-circle"></i> Belum Ada Tanggapan</p>
                                     <?php endif; ?>

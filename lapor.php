@@ -75,7 +75,7 @@ if (!isset($_SESSION['username'])) {
         <div class="hidden md:flex items-center space-x-8 text-center">
             <a href="index" class="<?= isActive('index.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Home</a>
             <a href="lapor" class="<?= isActive('lapor.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Sambat</a>
-            <a href="lihat" class="<?= isActive('lihat.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Lihat Pengaduan</a>
+            <a href="lihat" class="<?= isActive('lihat.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Lihat Sambatan</a>
             <a href="community" class="<?= isActive('community.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Komunitas</a>
             <a href="faq" class="<?= isActive('faq.php') ?> no-underline text-primary hover:text-[#3E7D60] transition duration-300 font-semibold">Tentang</a>
         </div>
@@ -118,12 +118,13 @@ if (!isset($_SESSION['username'])) {
         </div>
     </div>
 </div>
-<!-- Mobile Menu Toggle Button -->
-<div class="md:hidden flex items-center space-x-4">
-    <button class="text-gray-800 p-2 rounded-md hover:text-[#3E7D60] focus:outline-none">
-        <i class="fas fa-bars"></i>
-    </button>
-</div>
+
+    <!-- Mobile Menu Toggle Button -->
+    <div class="md:hidden flex items-center space-x-4">
+        <button class="text-gray-800 p-2 rounded-md hover:text-[#3E7D60] focus:outline-none">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
 
 
         <!-- content -->
@@ -134,7 +135,7 @@ if (!isset($_SESSION['username'])) {
     <form class="space-y-6" method="post" action="private/validasi">
         <!-- Nomor Pengaduan -->
         <div class="grid grid-cols-3 gap-4 items-center">                                                                           
-            <label for="nomor" class="font-semibold text-gray-700 col-span-1">Nomor Pengaduan</label>
+            <label for="nomor" class="font-semibold text-gray-700 col-span-1">Nomor Sambatan</label>
             <div class="col-span-2">
                 <input 
                     type="text" 
@@ -229,7 +230,7 @@ if (!isset($_SESSION['username'])) {
 
         <!-- Isi Pengaduan -->
         <div class="grid grid-cols-3 gap-4 items-center">
-            <label for="pengaduan" class="font-semibold text-gray-700 col-span-1">Isi Pengaduan</label>
+            <label for="pengaduan" class="font-semibold text-gray-700 col-span-1">Isi Sambatan</label>
             <div class="col-span-2">
                 <textarea 
                     id="pengaduan" 
@@ -248,13 +249,13 @@ if (!isset($_SESSION['username'])) {
                 type="submit" 
                 name="submit"
                 class="bg-[#3E7D60] hover:bg-[#3E7D60]/80 text-white font-bold py-2 px-4 rounded">
-                Kirim Pengaduan
+                Kirim Sambatan
             </button>
         </div>
 
         <!-- Note -->
         <div class="text-center text-sm text-gray-500 mt-4">
-            <em>* Catat Nomor Pengaduan Untuk Melihat Status Pengaduan</em>
+            <em>* Catat Nomor Sambatan Untuk Melihat Status sambatan</em>
         </div>
     </form>
 </div>
