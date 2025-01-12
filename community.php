@@ -459,7 +459,7 @@ $mysqli->close();
     <div class="w-full overflow-x-auto snap-x snap-mandatory flex gap-6 px-6 lg:px-16 custom-scrollbar">
         <!-- Card Forum -->
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/for5.png" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/for1.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Layanan Publik</h3>
                 <p class="text-sm text-gray-600 mb-4">Diskusikan Keluhan terkait layanan transportasi, air bersih, listrik, kesehatan, pendidikan, atau administrasi publik.</p>
@@ -467,7 +467,7 @@ $mysqli->close();
             </div>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/for6.png" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/for2.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Infrastruktur Daerah</h3>
                 <p class="text-sm text-gray-600 mb-4">Masalah jalan rusak, saluran air tersumbat, lampu jalan mati, atau fasilitas umum lainnya bersama masyarakat.</p>
@@ -475,7 +475,7 @@ $mysqli->close();
             </div>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/for1.png" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/for3.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Keamanan dan Ketertiban</h3>
                 <p class="text-sm text-gray-600 mb-4">Pengaduan terkait kejahatan, perilaku yang mengganggu, atau konflik antarwarga bermasyarakat.</p>
@@ -484,7 +484,7 @@ $mysqli->close();
         </div>
         <!-- Card Forum 2 -->
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/for2.png" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/for4.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Lingkungan Sekitar</h3>
                 <p class="text-sm text-gray-600 mb-4">Keluhan tentang polusi, sampah yang tidak dikelola, atau kerusakan lingkungan demi keberlangsungan hidup.</p>
@@ -493,7 +493,7 @@ $mysqli->close();
         </div>
         <!-- Tambahkan lebih banyak card forum -->
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/for3.png" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/for5.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Sosial dan Ekonomi</h3>
                 <p class="text-sm text-gray-600 mb-4">Isu kesenjangan sosial, bantuan yang tidak tepat sasaran, atau peluang kerja yang tidak merata.</p>
@@ -501,7 +501,7 @@ $mysqli->close();
             </div>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/for4.png" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/for6.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Keamanan dan Ketertiban</h3>
                 <p class="text-sm text-gray-600 mb-4">meningkatkan rasa aman dan nyaman di lingkungan masyarakat. Diskusi meliputi langkah pencegahan kejahatan.</p>
