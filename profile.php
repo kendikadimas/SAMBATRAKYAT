@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <!-- Tampilkan gambar pengguna jika sudah diunggah -->
                             <img src="data:<?php echo $imageType; ?>;base64,<?php echo $photoBase64; ?>" 
                                 alt="User Avatar" 
-                                class="w-8 h-8 rounded-full">
+                                class="w-8 h-full rounded-full object-cover ">
                         <?php else: ?>
                             <!-- Tampilkan gambar default jika pengguna belum mengunggah foto -->
                             <img src="<?php echo $defaultPhoto; ?>" 
