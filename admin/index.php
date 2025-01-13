@@ -71,7 +71,7 @@
             <span class="navbar-toggler-icon"></span>
         </button> -->
 
-        <nav class="flex justify-between bg-[#3E7D60] px-4 py-2">
+        <nav class="flex fixed w-full z-10 justify-between bg-[#3E7D60] px-4 py-2">
     <div>
         <a href="index" class="text-white font-bold">Sambat Rakyat</a>
     </div>
@@ -155,8 +155,8 @@
 
 
     <!-- sidebar -->
-    <div class="flex h-auto">
-    <div class="w-64 h-auto bg-gray-800 text-white" id="navbarResponsive">
+    <div class="flex h-auto min-h-screen">
+    <div class="w-64 h-auto min-h-screen fixed mt-10 bg-gray-800 text-white" id="navbarResponsive">
     <ul class="flex flex-col space-y-2 p-4">
         <!-- Profile Section -->
         <li class="sidebar-profile">
@@ -207,14 +207,14 @@
     </ul>
 
     <!-- Sidebar Toggler -->
-    <div class="mt-auto">
+    <!-- <div class="mt-auto">
         <a href="#" class="flex justify-center p-2 text-gray-400 hover:text-white" id="sidenavToggler">
             <i class="fa fa-fw fa-angle-left"></i>
         </a>
-    </div>
+    </div> -->
 </div>
 
-<div class="container mx-auto p-4">
+<div class="container mx-auto p-4 ml-64 mt-10">
     <!-- Breadcrumbs -->
     <!-- <ol class="flex space-x-2 text-gray-700">
         <li><a href="#" class="hover:underline">Dashboard</a></li>
@@ -235,9 +235,9 @@
                     <p class="text-lg font-bold"><?php echo $total_laporan_masuk; ?> Laporan Masuk</p>
                 </div>
             </div>
-            <a href="tables" class="block bg-blue-600 hover:bg-blue-700 text-white text-sm text-center py-2">
+            <!-- <a href="tables" class="block bg-blue-600 hover:bg-blue-700 text-white text-sm text-center py-2">
                 Total Laporan Masuk <i class="fa fa-angle-right ml-2"></i>
-            </a>
+            </a> -->
         </div>
 
         <!-- Card: Belum Ditanggapi -->
@@ -250,9 +250,9 @@
                     <p class="text-lg font-bold"><?php echo $total_laporan_menunggu; ?> Belum Ditanggapi</p>
                 </div>
             </div>
-            <a href="#" class="block bg-red-600 hover:bg-red-700 text-white text-sm text-center py-2">
+            <!-- <a href="#" class="block bg-red-600 hover:bg-red-700 text-white text-sm text-center py-2">
                 Belum Ditanggapi <i class="fa fa-angle-right ml-2"></i>
-            </a>
+            </a> -->
         </div>
 
         <!-- Card: Sudah Ditanggapi -->
@@ -265,9 +265,9 @@
                     <p class="text-lg font-bold"><?php echo $total_laporan_ditanggapi; ?> Sudah Ditanggapi</p>
                 </div>
             </div>
-            <a href="#" class="block bg-green-600 hover:bg-green-700 text-white text-sm text-center py-2">
+            <!-- <a href="#" class="block bg-green-600 hover:bg-green-700 text-white text-sm text-center py-2">
                 Sudah Ditanggapi <i class="fa fa-angle-right ml-2"></i>
-            </a>
+            </a> -->
         </div>
     </div>
 
@@ -378,9 +378,9 @@
     </div>
 
     <!-- Footer -->
-    <div class="mt-4 text-gray-500 text-xs">
+    <!-- <div class="mt-4 text-gray-500 text-xs">
         Updated yesterday at 11:59 PM
-    </div>
+    </div> -->
 </div>
 
 <script>
@@ -455,7 +455,7 @@ function sortTable(columnIndex) {
 
         <!-- Logout Modal-->
        <!-- Logout Modal -->
-<div id="exampleModal" class="fixed inset-0 items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">
+<div id="exampleModal" class="fixed inset-0 items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50 ">
     <div class="bg-white rounded-lg shadow-lg max-w-sm w-full">
         <div class="border-b px-4 py-2 flex justify-between items-center">
             <h5 class="text-lg font-semibold text-gray-800">Yakin Ingin Keluar?</h5>

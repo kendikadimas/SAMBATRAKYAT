@@ -1,28 +1,44 @@
 <?php
+    
     require '../koneksi.php';
-
+    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = $_POST["username"];
         $email = $_POST["email"];
         $password = $_POST["password"];
-        $role = "instansi"; // Ambil nilai role dari form
+        $role = "Instansi"; // Ambil nilai role dari form
+        $id_divisi = $_POST["id_divisi"];
     
         // Hash password untuk keamanan
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     
-        // Masukkan data ke database
-        $query_sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
-        $stmt = mysqli_prepare($conn, $query_sql);
-        mysqli_stmt_bind_param($stmt, "ssss", $username, $email, $hashed_password, $role);
+        // Mulai transaksi
+        mysqli_begin_transaction($conn);
     
-        if (mysqli_stmt_execute($stmt)) {
-            $_SESSION['success'] = "Penambahan akun berhasil!";
-            exit();
-        } else {
-            echo "Penambahan akun Gagal : " . mysqli_error($conn);
+        try {
+            // Masukkan data ke tabel users
+            $query_users = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
+            $stmt_users = mysqli_prepare($conn, $query_users);
+            mysqli_stmt_bind_param($stmt_users, "ssss", $username, $email, $hashed_password, $role);
+            mysqli_stmt_execute($stmt_users);
+    
+            // Masukkan data ke tabel instansi
+            $query_instansi = "INSERT INTO instansi (username, email, password, role, id_divisi) VALUES (?, ?, ?, ?, ?)";
+            $stmt_instansi = mysqli_prepare($conn, $query_instansi);
+            mysqli_stmt_bind_param($stmt_instansi, "ssssi", $username, $email, $hashed_password, $role, $id_divisi);
+            mysqli_stmt_execute($stmt_instansi);
+    
+            // Commit transaksi
+            mysqli_commit($conn);
+    
+            echo "<script>alert('Penambahan akun berhasil!');</script>";
+        } catch (Exception $e) {
+            // Rollback jika ada error
+            mysqli_rollback($conn);
+            echo "Penambahan akun Gagal: " . $e->getMessage();
         }
     }
-?>
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,7 +70,7 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button> -->
-        <nav class="flex justify-between bg-[#3E7D60] px-4 py-2">
+        <nav class="flex justify-between fixed w-full z-10 bg-[#3E7D60] px-4 py-2">
     <div>
         <a href="index" class="text-white font-bold">Sambat Rakyat</a>
     </div>
@@ -117,7 +133,7 @@
 
     <!-- sidebar -->
     <div class="flex h-auto min-h-screen">
-    <div class="w-64 h-auto bg-gray-800 text-white" id="navbarResponsive">
+    <div class="w-64 h-auto min-h-screen fixed mt-10 bg-gray-800 text-white" id="navbarResponsive">
     <ul class="flex flex-col space-y-2 p-4">
         <!-- Profile Section -->
         <li class="sidebar-profile">
@@ -168,17 +184,17 @@
     </ul>
 
     <!-- Sidebar Toggler -->
-    <div class="mt-auto">
+    <!-- <div class="mt-auto">
         <a href="#" class="flex justify-center p-2 text-gray-400 hover:text-white" id="sidenavToggler">
             <i class="fa fa-fw fa-angle-left"></i>
         </a>
-    </div>
+    </div> -->
 </div>
 
-<div class="container mx-auto p-4">
+<div class="container mx-auto p-4  ml-64 mt-10">
 
             <!-- Example DataTables Card-->
-            <div class="bg-white shadow rounded-lg p-4 mb-4">
+            <div class="bg-white min-h-screen rounded-lg p-4 mb-4">
     <!-- Header -->
     <div class="flex items-center justify-between border-b pb-2 mb-4">
         <h2 class="text-lg font-semibold text-gray-800">
@@ -213,6 +229,18 @@
                 <input type="password" id="password" name="password" placeholder="Password"
                     class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500" required>
             </div>
+            <div class="mb-4">
+                <label for="id_divisi" class="block text-gray-700 font-medium mb-1">Divisi</label>
+                <select name="id_divisi" id="id_divisi" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500" required>
+                    <option value="" disabled selected>Pilih Divisi</option>    
+                    <option value="1">Sosial dan Kemasyarakatan</option>
+                    <option value="2">Keamanan dan Pertahanan</option>
+                    <option value="3">Politik dan Pemerintahan</option>
+                    <option value="4">Lingkungan dan Alam</option>
+                    <option value="5">Infrastruktur dan Transportasi</option>
+                </select> 
+            </div>
+
             <!-- Input Hidden untuk Role -->
             <input type="hidden" name="role" value="user">
             <div class="mt-4">
@@ -246,13 +274,14 @@
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(1)">Email</th>
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(2)">Username</th>
                     <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(3)">Role</th>
-                    <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(4)">Aksi</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(4)">Kategori</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left cursor-pointer" onclick="sortTable(5)">Aksi</th>
                   
                 </tr>
             </thead>
             <tbody id="tableBody">
                 <?php
-                    $statement = $conn->query("SELECT * FROM users WHERE role = 'instansi'");
+                    $statement = $conn->query("SELECT * FROM instansi JOIN divisi ON instansi.id_divisi = divisi.id_divisi WHERE role = 'instansi'");
                     foreach ($statement as $key) {
                 ?>
                     <tr class="odd:bg-white even:bg-gray-50">
@@ -260,16 +289,15 @@
                         <td class="border border-gray-300 px-4 py-2"><?php echo $key['email']; ?></td>
                         <td class="border border-gray-300 px-4 py-2"><?php echo $key['username']; ?></td>
                         <td class="border border-gray-300 px-4 py-2"><?php echo $key['role']; ?></td>
+                        <td class="border border-gray-300 px-4 py-2"><?php echo $key['nama_divisi']; ?></td>
                         <td class="border border-gray-300 px-4 py-2">
-                            <div class="flex justify-center space-x-2">
-                                <!-- Tombol Hapus -->
-                                <button 
-                                    class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-500 transition"
-                                    onclick="openModal('ModalHapus')"
-                                >
+                            <form method="POST" action="deleteinstansi.php">
+                                <input type="hidden" name="id" value="<?php echo $key['id']; ?>">
+                                <button type="submit" name="Hapus" 
+                                    class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-500 transition">
                                     Hapus
                                 </button>
-                            </div>
+                            </form>
                         </td>
                     </tr>
                 <?php
@@ -279,7 +307,32 @@
         </table>
     </div>
 
+    <div id="exampleModal" class="fixed inset-0 items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50 ">
+    <div class="bg-white rounded-lg shadow-lg max-w-sm w-full">
+        <div class="border-b px-4 py-2 flex justify-between items-center">
+            <h5 class="text-lg font-semibold text-gray-800">Yakin Ingin Keluar?</h5>
+            <button class="text-gray-500 hover:text-gray-800" onclick="closeModal('exampleModal')">
+                &times;
+            </button>
+        </div>
+        <div class="p-4">
+            <p class="text-sm text-gray-600">Pilih "Logout" jika anda ingin mengakhiri sesi.</p>
+        </div>
+        <div class="border-t px-4 py-2 flex justify-end space-x-2">
+            <button class="bg-gray-300 text-gray-700 px-4 py-1 rounded hover:bg-gray-400" onclick="closeModal('exampleModal')">Batal</button>
+            <a href="logout" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-500">Logout</a>
+        </div>
+    </div>
+</div>
+<script>
+    function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'flex';
+}
 
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+</script>
 
         <!-- Bootstrap core JavaScript-->
         <script src="vendor/jquery/jquery.min.js"></script>
