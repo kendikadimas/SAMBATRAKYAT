@@ -111,6 +111,11 @@ $conn->close();
     <link rel="stylesheet" href="css/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs" defer></script>
+    <style>
+        #main-content {
+            flex: 1; /* Ambil sisa ruang di antara header dan footer */
+        }
+    </style>
 </head>
 <body class="flex flex-col min-h-screen">
     <!--Success Modal Saved-->
@@ -157,7 +162,7 @@ $conn->close();
         }
     ?>
 
-    <div class="w-full bg-white shadow-lg p-5 flex justify-between items-center z-[100]">
+    <div class="w-full bg-white shadow-lg p-5 flex justify-between items-center z-[100]" >
         <!-- Logo and Title Section -->
         <div class="flex items-center ml-14">
             <a href="/">
@@ -233,7 +238,7 @@ $conn->close();
     </div>
 
         <!-- content -->
-        <div class="p-6 rounded-lg shadow-lg border border-gray-200 mx-auto my-8 w-3/5 h- bg-white to-gray-100 flex flex-col">
+        <div class="p-6 rounded-lg shadow-lg border border-gray-200 mx-auto my-8 w-3/5 h-auto bg-white to-gray-100 flex flex-col" id="main-content">
             <h3 class="text-primary font-bold text-center text-3xl mb-4">Lihat Sambatan</h3>
             <hr class="border-t border-gray-300 mb-6" />
             <div class="flex flex-col items-center flex-grow mb-5">

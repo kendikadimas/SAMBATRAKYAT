@@ -4,6 +4,7 @@ include "../koneksi.php";
 require '../koneksi.php'; // File koneksi database
 $id = $_GET['id'] ?? 0;
 
+$defaultPhoto = "https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg";
 // Query untuk mendapatkan detail laporan
 $query = $conn->prepare("SELECT laporan.*, divisi.nama_divisi FROM laporan JOIN divisi ON laporan.tujuan = divisi.id_divisi WHERE laporan.id = ?");
 $query->bind_param("i", $id);
@@ -17,9 +18,32 @@ if ($result->num_rows === 0) {
 
 $laporan = $result->fetch_assoc();
 $query->close();
+
+$query = $conn->prepare("SELECT photo FROM users WHERE username = ?");
+if ($query === false) {
+    die("Kesalahan dalam query: " . $conn->error);
+}
+
+// Ikat parameter dan eksekusi query
+$query->bind_param("s", $username);
+$query->execute();
+
+// Ambil hasil query
+$result = $query->get_result();
+if ($result->num_rows > 0) {
+    $account = $result->fetch_assoc();
+
+    // Periksa apakah kolom `photo` berisi data
+    if (!empty($account['photo'])) {
+        $photoBase64 = 'data:image/jpeg;base64,' . base64_encode($account['photo']); // Encode gambar ke base64
+    }
+}
+// Tutup statement
+$query->close();
+
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,18 +114,7 @@ $query->close();
 
     </li>
 
-    <!-- Logout Button -->
-    <!-- <li>
-        <a
-            href="#"
-            class="text-white flex items-center"
-            data-toggle="modal"
-            data-target="#exampleModal"
-        >
-            <i class="fa fa-fw fa-sign-out"></i>
-            <span class="ml-2">Logout</span>
-        </a>
-    </li> -->
+    
 </ul>
 
 <script>
@@ -136,7 +149,10 @@ $query->close();
         <li class="sidebar-profile">
             <div class="flex flex-col items-center text-center">
                 <div class="relative">
-                    <img alt="profile" src="images/avatar1.png" class="w-20 h-20 rounded-full">
+                            <!-- Tampilkan gambar default jika pengguna belum mengunggah foto -->
+                            <img src="<?php echo $defaultPhoto; ?>" 
+                                alt="Default Avatar" 
+                                class="w-20 h-20 rounded-full">
                     <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border border-gray-800"></span>
                 </div>
                 <div class="mt-2">
@@ -153,13 +169,14 @@ $query->close();
                 <span>Kembali</span>
             </a>
         </li>
+    </ul>
 
     <!-- Sidebar Toggler -->
-    <div class="mt-auto">
+    <!-- <div class="mt-auto">
         <a href="#" class="flex justify-center p-2 text-gray-400 hover:text-white" id="sidenavToggler">
             <i class="fa fa-fw fa-angle-left"></i>
         </a>
-    </div>
+    </div> -->
 </div>
 <!-- end navbar -->
 <!-- answer report page -->
@@ -167,17 +184,24 @@ $query->close();
     <!-- Bagian Pertanyaan -->
     <div class="bg-white shadow-lg rounded-lg p-6 m-auto w-5/6 z-50 pt-10">
         <div class="flex items-center gap-4 mb-4 ml-10">
-            <img src="https://via.placeholder.com/50" alt="Profile" class="w-20 h-20 rounded-full">
+        <?php if (!empty($_SESSION['photo'])): ?>
+                            <!-- Tampilkan gambar pengguna jika sudah diunggah -->
+                            <img src="data:image/jpeg;base64,<?php echo $_SESSION['photo']; ?>" 
+                                alt="User Avatar" 
+                                class="w-20 h-20 rounded-full object-cover">
+                        <?php else: ?>
+                            <!-- Tampilkan gambar default jika pengguna belum mengunggah foto -->
+                            <img src="<?php echo $defaultPhoto; ?>" 
+                                alt="Default Avatar" 
+                                class="w-20 h-20 rounded-full">
             <div>
-            <?php
-                    ?>
-                    <div class="flex items-center justify-between ml-10">
-                        <div>
-                            <h3 class="font-bold text-green-700 text-xl"><?php echo htmlspecialchars($laporan['nama']); ?></h3>
-                            <p class="text-sm text-gray-500"><?php echo htmlspecialchars($tanggal); ?></p>
-                            <p class="text-gray-700 text-lg ml-auto"><?php echo htmlspecialchars($laporan['isi']); ?></p>
-                        </div>
+                <div class="flex items-center justify-between ml-10">
+                    <div>
+                        <h3 class="font-bold text-green-700 text-xl"><?php echo htmlspecialchars($laporan['nama']); ?></h3>
+                        <p class="text-sm text-gray-500"><?php echo htmlspecialchars($tanggal); ?></p>
+                        <p class="text-gray-700 text-lg ml-auto"><?php echo htmlspecialchars($laporan['isi']); ?></p>
                     </div>
+                </div>
                     <?php
                 //DEBUG 
                 $id = isset($_GET['id']) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -237,23 +261,22 @@ $query->close();
 </div>
 
 <!-- Bagian List Tanggapan -->
-<div class="bg-white shadow-lg rounded-lg p-6 m-auto w-5/6 mt-2 h-auto" >
+
+<div class="bg-white shadow-lg rounded-lg p-6 m-auto w-5/6 mt-2 h-auto">
     <h4 class="font-bold text-gray-700 text-lg mb-3">Tanggapan</h4>
     <?php
-$tanggapan_query = $conn->prepare("
-    SELECT komen.*, users.username 
-    FROM komen 
-    JOIN users ON komen.nama = users.username 
-    WHERE komen.laporan_id = ? AND role='instansi'
-");
-$tanggapan_query->bind_param("i", $laporan['id']);
-$tanggapan_query->execute();
-$result = $tanggapan_query->get_result();
-$tanggapan = $result->fetch_all(MYSQLI_ASSOC);
-?>
-
-
-<?php if (count($tanggapan) > 0): ?>
+    $tanggapan_query = $conn->prepare("
+        SELECT komen.*, users.username 
+        FROM komen 
+        JOIN users ON komen.nama = users.username 
+        WHERE komen.laporan_id = ? AND role='instansi'
+    ");
+    $tanggapan_query->bind_param("i", $laporan['id']);
+    $tanggapan_query->execute();
+    $result = $tanggapan_query->get_result();
+    $tanggapan = $result->fetch_all(MYSQLI_ASSOC);
+    ?>
+    <?php if (count($tanggapan) > 0): ?>
     <?php foreach ($tanggapan as $komen): ?>
         <div class="mb-4">
             <h5 class="font-bold text-gray-900"><?php echo htmlspecialchars($komen['username']); ?></h5>
@@ -264,32 +287,9 @@ $tanggapan = $result->fetch_all(MYSQLI_ASSOC);
 <?php else: ?>
     <p class="text-gray-500">Belum ada tanggapan.</p>
 <?php endif; ?>
-<!-- 
-<div id="exampleModal" class="fixed inset-0 items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50 ">
-    <div class="bg-white rounded-lg shadow-lg max-w-sm w-full">
-        <div class="border-b px-4 py-2 flex justify-between items-center">
-            <h5 class="text-lg font-semibold text-gray-800">Yakin Ingin Keluar?</h5>
-            <button class="text-gray-500 hover:text-gray-800" onclick="closeModal('exampleModal')">
-                &times;
-            </button>
-        </div>
-        <div class="p-4">
-            <p class="text-sm text-gray-600">Pilih "Logout" jika anda ingin mengakhiri sesi.</p>
-        </div>
-        <div class="border-t px-4 py-2 flex justify-end space-x-2">
-            <button class="bg-gray-300 text-gray-700 px-4 py-1 rounded hover:bg-gray-400" onclick="closeModal('exampleModal')">Batal</button>
-            <a href="logout" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-500">Logout</a>
-        </div>
-    </div>
 </div>
-<script>
-    function openModal(modalId) {
-    document.getElementById(modalId).style.display = 'flex';
-}
-
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-}
-</script> -->
-
 </div>
+</div>
+</body>
+</html>
+<?php endif; ?>
