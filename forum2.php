@@ -1,40 +1,41 @@
-
 <?php
-    session_start();
-    include "koneksi.php";
-    $defaultPhoto = "https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg";
-$username = $_SESSION['username'];
+session_start();
+include("koneksi.php");
 
-// Gunakan prepared statement dengan placeholder `?`
-$query = $conn->prepare("SELECT photo FROM users WHERE username = ?");
-if ($query === false) {
-    die("Kesalahan dalam query: " . $conn->error);
-}
+// Periksa apakah pengguna login
+$isLoggedIn = isset($_SESSION['username']);
+$username = $isLoggedIn ? $_SESSION['username'] : "Pengunjung";
 
-// Ikat parameter dan eksekusi query
-$query->bind_param("s", $username); // "s" untuk string
-$query->execute();
+// Atur foto default
+$defaultPhoto = "https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg";
+$photoBase64 = $defaultPhoto;
 
-// Ambil hasil query
-$result = $query->get_result();
-if ($result->num_rows > 0) {
-    $account = $result->fetch_assoc();
-
-    // Periksa apakah kolom `photo` berisi data
-    if (!empty($account['photo'])) {
-        $photoBase64 = base64_encode($account['photo']); // Encode gambar ke base64
-
-        // Simpan foto ke dalam session
-        $_SESSION['photo'] = $photoBase64;
-    } else {
-        $_SESSION['photo'] = null; // Atur ke null jika foto kosong
+if ($isLoggedIn) {
+    // Query untuk foto pengguna
+    $query = $conn->prepare("SELECT photo FROM users WHERE username = ?");
+    if ($query === false) {
+        die("Kesalahan dalam query: " . $conn->error);
     }
-} else {
-    echo "Data pengguna tidak ditemukan.";
+
+    // Ikat parameter dan eksekusi query
+    $query->bind_param("s", $username);
+    $query->execute();
+
+    // Ambil hasil query
+    $result = $query->get_result();
+    if ($result->num_rows > 0) {
+        $account = $result->fetch_assoc();
+
+        // Periksa apakah kolom `photo` berisi data
+        if (!empty($account['photo'])) {
+            $photoBase64 = 'data:image/jpeg;base64,' . base64_encode($account['photo']); // Encode gambar ke base64
+        }
+    }
+    // Tutup statement
+    $query->close();
 }
 
-// Tutup statement dan koneksi
-$query->close();
+// Tutup koneksi database
 $conn->close();
 ?>
     <!DOCTYPE html>

@@ -2,78 +2,91 @@
 session_start();
 include "koneksi.php";
 require_once("private/database.php");
+
 $nomorError = "";
 global $found, $foundreply;
-// jalankan jika tombol cari ditekan
-if(isset($_POST['submit'])) {
+$notFound = "";
+
+// Cek apakah pengguna sudah login, jika tidak beri status bahwa belum login
+if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
+    $isLoggedIn = false;
+} else {
+    $isLoggedIn = true;
+    $username = $_SESSION['username'];
+}
+
+// Jalankan jika tombol cari ditekan
+if (isset($_POST['submit'])) {
     $nomor = $_POST['nomor'];
     $is_valid = true;
-    // validasi nomor laporan yang di inputankan user
-    if (!preg_match("/^[0-9]*$/",$nomor)) { // cek nomor hanya boleh angka
+
+    // Validasi nomor laporan yang diinputkan user
+    if (!preg_match("/^[0-9]*$/", $nomor)) { // cek nomor hanya boleh angka
         $nomorError = "Input Hanya Boleh Angka";
         $is_valid = false;
     } else {
         $nomorError = "";
     }
-    // jika inpuan valid jalankan
+
+    // Jika input valid jalankan
     if ($is_valid) {
-        $statement = $db->query("SELECT * FROM laporan LEFT JOIN divisi ON laporan.tujuan = divisi.id_divisi WHERE laporan.id = $nomor");
-        // jika laporan tidak ditemukan tampilkan pesan
+        // Gunakan prepared statement dengan parameter
+        $statement = $db->prepare("SELECT * FROM laporan LEFT JOIN divisi ON laporan.tujuan = divisi.id_divisi WHERE laporan.id = ?");
+        $statement->execute([$nomor]);
+
+        // Jika laporan tidak ditemukan tampilkan pesan
         if ($statement->rowCount() < 1) {
-            $notFound= "Nomor Sambatan Tidak Ditemukan !";
-        }
-        // jika  laporan ditemukan
-        else {
-            // ada laporan ada tangggapan
-            $stat = $db->query("SELECT * FROM tanggapan WHERE id_laporan = $nomor");
+            $notFound = "Nomor Sambatan Tidak Ditemukan!";
+        } else {
+            // Ada laporan, cek apakah ada tanggapan
+            $stat = $db->prepare("SELECT * FROM tanggapan WHERE id_laporan = ?");
+            $stat->execute([$nomor]);
+
             if ($stat->rowCount() > 0) {
                 $foundreply = true;
             }
-            // pengaduan ditemukan
+
+            // Pengaduan ditemukan
             $nomorError = "";
             $found = true;
         }
     }
 }
-?>
-<?php
-include("koneksi.php");
 
-
-$username = $_SESSION['username'];
-
-// Gunakan prepared statement dengan placeholder `?`
-$query = $conn->prepare("SELECT photo FROM users WHERE username = ?");
-if ($query === false) {
-    die("Kesalahan dalam query: " . $conn->error);
-}
-
-// Ikat parameter dan eksekusi query
-$query->bind_param("s", $username); // "s" untuk string
-$query->execute();
-
-// Ambil hasil query
-$result = $query->get_result();
-if ($result->num_rows > 0) {
-    $account = $result->fetch_assoc();
-
-    // Periksa apakah kolom `photo` berisi data
-    if (!empty($account['photo'])) {
-        $photoBase64 = base64_encode($account['photo']); // Encode gambar ke base64
-
-        // Simpan foto ke dalam session
-        $_SESSION['photo'] = $photoBase64;
-    } else {
-        $_SESSION['photo'] = null; // Atur ke null jika foto kosong
+// Jika pengguna sudah login, query foto profil pengguna
+if ($isLoggedIn) {
+    $query = $conn->prepare("SELECT photo FROM users WHERE username = ?");
+    if ($query === false) {
+        die("Kesalahan dalam query: " . $conn->error);
     }
-} else {
-    echo "Data pengguna tidak ditemukan.";
+
+    // Ikat parameter dan eksekusi query
+    $query->bind_param("s", $username); // "s" untuk string
+    $query->execute();
+
+    // Ambil hasil query
+    $result = $query->get_result();
+    if ($result->num_rows > 0) {
+        $account = $result->fetch_assoc();
+
+        // Periksa apakah kolom `photo` berisi data
+        if (!empty($account['photo'])) {
+            $photoBase64 = base64_encode($account['photo']); // Encode gambar ke base64
+
+            // Simpan foto ke dalam session
+            $_SESSION['photo'] = $photoBase64;
+        } else {
+            $_SESSION['photo'] = null; // Atur ke null jika foto kosong
+        }
+    } else {
+        // Jika data pengguna tidak ditemukan, atur foto ke null
+        $_SESSION['photo'] = null;
+    }
+
+    $defaultPhoto = "https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg";
+    $query->close();
 }
 
-$defaultPhoto = "https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg";
-
-// Tutup statement dan koneksi
-$query->close();
 $conn->close();
 ?>
 
@@ -290,27 +303,47 @@ $conn->close();
 
                                     <hr class="border-t-2 border-gray-300 my-3">
                                     <?php
+// Pastikan koneksi database dibuat sebelumnya
+                                    $conn = mysqli_connect("localhost", "root", "", "kp");
+
+                                    // Periksa apakah koneksi berhasil
+                                    if (!$conn) {
+                                        die("Koneksi gagal: " . mysqli_connect_error());
+                                    }
+
                                     // Query untuk mengambil tanggapan berdasarkan laporan_id
                                     $laporan_id = $key['id'];
                                     $query = "SELECT komen.*, users.username 
-                                              FROM komen 
-                                              JOIN users ON komen.nama = users.username 
-                                              WHERE komen.laporan_id = '$laporan_id' AND role = 'instansi'";
+                                            FROM komen 
+                                            JOIN users ON komen.nama = users.username 
+                                            WHERE komen.laporan_id = '$laporan_id' AND role = 'instansi'";
                                     $result = mysqli_query($conn, $query);
+
+                                    // Periksa apakah query berhasil dijalankan
+                                    if (!$result) {
+                                        die("Query error: " . mysqli_error($conn));
+                                    }
                                     ?>
+
                                     <?php if (mysqli_num_rows($result) > 0): ?>
                                         <?php while ($reply = mysqli_fetch_assoc($result)): ?>
                                             <div class="flex items-start mt-6">
                                                 <img class="w-12 h-12 rounded-full border-2 border-blue-600" src="images/avatar/avatar2.png" alt="Avatar Admin">
                                                 <div class="ml-6">
-                                                    <h5 class="text-blue-700 font-bold"><?= $reply['username']; ?></h5>
-                                                    <p class="text-gray-800 mt-3"><?= $reply['isi']; ?></p>
+                                                    <h5 class="text-blue-700 font-bold"><?= htmlspecialchars($reply['username']); ?></h5>
+                                                    <p class="text-gray-800 mt-3"><?= htmlspecialchars($reply['isi']); ?></p>
                                                 </div>
                                             </div>
                                         <?php endwhile; ?>
                                     <?php else: ?>
                                         <p class="text-gray-600 text-sm"><i class="fa fa-exclamation-circle"></i> Belum Ada Tanggapan</p>
                                     <?php endif; ?>
+
+                                    <?php
+                                    // Tutup koneksi setelah semua selesai
+                                    mysqli_close($conn);
+                                    ?>
+
                                 </div>
                             </div>
                         <?php endforeach; ?>
