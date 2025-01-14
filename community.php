@@ -508,7 +508,7 @@ $conn->close();
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Infrastruktur Daerah</h3>
                 <p class="text-sm text-gray-600 mb-4">Masalah jalan rusak, saluran air tersumbat, lampu jalan mati, atau fasilitas umum lainnya bersama masyarakat.</p>
-                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
+                <a href="forum2.php" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
             </div>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
@@ -516,7 +516,7 @@ $conn->close();
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Keamanan dan Ketertiban</h3>
                 <p class="text-sm text-gray-600 mb-4">Pengaduan terkait kejahatan, perilaku yang mengganggu, atau konflik antarwarga bermasyarakat.</p>
-                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
+                <a href="forum3.php" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
             </div>
         </div>
         <!-- Card Forum 2 -->
@@ -525,7 +525,7 @@ $conn->close();
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Lingkungan Sekitar</h3>
                 <p class="text-sm text-gray-600 mb-4">Keluhan tentang polusi, sampah yang tidak dikelola, atau kerusakan lingkungan demi keberlangsungan hidup.</p>
-                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
+                <a href="forum4.php" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
             </div>
         </div>
         <!-- Tambahkan lebih banyak card forum -->
@@ -534,7 +534,7 @@ $conn->close();
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Sosial dan Ekonomi</h3>
                 <p class="text-sm text-gray-600 mb-4">Isu kesenjangan sosial, bantuan yang tidak tepat sasaran, atau peluang kerja yang tidak merata.</p>
-                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
+                <a href="forum5.php" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
             </div>
         </div>
     </div>
