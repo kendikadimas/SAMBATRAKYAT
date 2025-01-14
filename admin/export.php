@@ -84,7 +84,7 @@ logged_admin ();
             <span class="navbar-toggler-icon"></span>
         </button> -->
 
-        <nav class="flex justify-between bg-[#3E7D60] px-4 py-2">
+        <nav class="flex fixed w-full z-10 justify-between bg-[#3E7D60] px-4 py-2">
     <div>
         <a href="index" class="text-white font-bold">Sambat Rakyat</a>
     </div>
@@ -168,7 +168,7 @@ logged_admin ();
 
     <!-- sidebar -->
     <div class="flex h-auto min-h-screen">
-    <div class="w-64 h-auto bg-gray-800 text-white" id="navbarResponsive">
+    <div class="w-64 h-auto min-h-screen fixed mt-10 bg-gray-800 text-white" id="navbarResponsive">
     <ul class="flex flex-col space-y-2 p-4">
         <!-- Profile Section -->
         <li class="sidebar-profile">
@@ -241,7 +241,7 @@ logged_admin ();
     </div>
 
     <!-- Table -->
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto min-h-screen ml-64 mt-10">
         <table id="example" class="min-w-full border-collapse border border-gray-300 text-sm text-gray-700">
             <thead class="bg-gray-100">
                 <tr>
