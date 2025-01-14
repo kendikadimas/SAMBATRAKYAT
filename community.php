@@ -45,7 +45,44 @@ $total_selesai = $selesai_result->fetch_assoc()['selesai'];
 $mysqli->close();
 ?>
 
+<?php
+include("koneksi.php");
 
+
+$username = $_SESSION['username'];
+
+// Gunakan prepared statement dengan placeholder `?`
+$query = $conn->prepare("SELECT photo FROM users WHERE username = ?");
+if ($query === false) {
+    die("Kesalahan dalam query: " . $conn->error);
+}
+
+// Ikat parameter dan eksekusi query
+$query->bind_param("s", $username); // "s" untuk string
+$query->execute();
+
+// Ambil hasil query
+$result = $query->get_result();
+if ($result->num_rows > 0) {
+    $account = $result->fetch_assoc();
+
+    // Periksa apakah kolom `photo` berisi data
+    if (!empty($account['photo'])) {
+        $photoBase64 = base64_encode($account['photo']); // Encode gambar ke base64
+
+        // Simpan foto ke dalam session
+        $_SESSION['photo'] = $photoBase64;
+    } else {
+        $_SESSION['photo'] = null; // Atur ke null jika foto kosong
+    }
+} else {
+    echo "Data pengguna tidak ditemukan.";
+}
+$defaultPhoto = "https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg";
+// Tutup statement dan koneksi
+$query->close();
+$conn->close();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -107,7 +144,17 @@ $mysqli->close();
                     <!-- Account Dropdown -->
                     <div x-data="{ open: false }" class="relative">
                         <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-[#3E7D60] font-semibold transition">
-                            <img src="https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg" alt="Avatar" class="w-8 h-8 rounded-full">
+                        <?php if (!empty($_SESSION['photo'])): ?>
+                            <!-- Tampilkan gambar pengguna jika sudah diunggah -->
+                            <img src="data:image/jpeg;base64,<?php echo $_SESSION['photo']; ?>" 
+                                alt="User Avatar" 
+                                class="w-8 h-8 rounded-full object-cover">
+                        <?php else: ?>
+                            <!-- Tampilkan gambar default jika pengguna belum mengunggah foto -->
+                            <img src="<?php echo $defaultPhoto; ?>" 
+                                alt="Default Avatar" 
+                                class="w-8 h-8 rounded-full">
+                        <?php endif; ?>
                             <span><?php echo htmlspecialchars($username); ?></span>
                             <svg class="w-5 h-5 transform" :class="open ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -624,8 +671,8 @@ $mysqli->close();
                         </li>
                     </ul>
                     <p class="text-[0.9em]">
-                        Jl. Kabupaten No. 1 Purwokerto
-                        <br>Banyumas, Jawa Tengah
+                    Jl. Raya Mayjen Sungkono No.KM 5
+                        <br>Purbalingga, Jawa Tengah 53371
                     </p>
                 </div>
 
@@ -665,16 +712,16 @@ $mysqli->close();
                     </ul>
                     <p class="text-[0.9em]">
                         +62 858-1417-4267 <br>
-                        https://www.banyumaskab.go.id/ <br>
-                        banyumaspemkab@gmail.com
+                        sambatrakyat@gmail.com
                     </p>
                 </div>
         </footer>
         <!-- /footer -->
 
     <div class="copyright bg-black">
-        <p style="text-align: center; color: white">Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
+        <p style="text-align: center; color: white">Copyright &copy; GACORIAN</p>
     </div>
+
 
 <script>
     const swiper = new Swiper('.mySwiper', {
