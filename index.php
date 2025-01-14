@@ -3,64 +3,50 @@ session_start();
 require_once("private/database.php");
 include("koneksi.php");
 
-
-$username = $_SESSION['username'];
-
-// Gunakan prepared statement dengan placeholder `?`
-$query = $conn->prepare("SELECT photo FROM users WHERE username = ?");
-if ($query === false) {
-    die("Kesalahan dalam query: " . $conn->error);
-}
-
-// Ikat parameter dan eksekusi query
-$query->bind_param("s", $username); // "s" untuk string
-$query->execute();
-
-// Ambil hasil query
-$result = $query->get_result();
-if ($result->num_rows > 0) {
-    $account = $result->fetch_assoc();
-
-    // Periksa apakah kolom `photo` berisi data
-    if (!empty($account['photo'])) {
-        $photoBase64 = base64_encode($account['photo']); // Encode gambar ke base64
-
-        // Simpan foto ke dalam session
-        $_SESSION['photo'] = $photoBase64;
-    } else {
-        $_SESSION['photo'] = null; // Atur ke null jika foto kosong
-    }
-} else {
-    echo "Data pengguna tidak ditemukan.";
-}
-
-// Tutup statement dan koneksi
-$query->close();
-$conn->close();
-?>
-<?php
-// fungsi untuk merandom avatar profil
-// function RandomAvatar(){
-//     $photoAreas = array("avatar1.png", "avatar2.png", "avatar3.png", "avatar4.png", "avatar5.png", "avatar6.png", "avatar7.png", "avatar8.png", "avatar9.png", "avatar10.png", "avatar11.png");
-//     $randomNumber = array_rand($photoAreas);
-//     $randomImage = $photoAreas[$randomNumber];
-//     return $randomImage;
-// }
-// Inisialisasi variabel $account sebagai null secara default
+// Inisialisasi variabel default
 $account = null;
 $photoBase64 = null;
 $imageType = null;
 $defaultPhoto = "https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg";
-?>
+$username = $_SESSION['username'] ?? null; // Gunakan null coalescing operator untuk menghindari error jika session kosong
 
-<?php
-// Konfigurasi koneksi database
+// Jika username tersedia, ambil data pengguna
+if ($username) {
+    // Gunakan prepared statement untuk keamanan
+    $query = $conn->prepare("SELECT photo FROM users WHERE username = ?");
+    if ($query === false) {
+        die("Kesalahan dalam query: " . $conn->error);
+    }
+
+    // Bind parameter dan eksekusi query
+    $query->bind_param("s", $username);
+    $query->execute();
+
+    // Ambil hasil query
+    $result = $query->get_result();
+    if ($result->num_rows > 0) {
+        $account = $result->fetch_assoc();
+
+        // Periksa apakah kolom `photo` berisi data
+        if (!empty($account['photo'])) {
+            $photoBase64 = base64_encode($account['photo']); // Encode gambar ke base64
+        } else {
+            $photoBase64 = null; // Atur null jika foto kosong
+        }
+    }
+
+    // Tutup statement
+    $query->close();
+}
+
+// Tutup koneksi database utama
+$conn->close();
+
+// Konfigurasi koneksi database untuk statistik laporan
 $host = 'localhost';
 $user = 'root';
 $password = '';
 $database = 'kp';
-
-// Koneksi ke database
 $mysqli = new mysqli($host, $user, $password, $database);
 
 // Periksa koneksi
@@ -83,7 +69,7 @@ $selesai_query = "SELECT COUNT(*) AS selesai FROM laporan WHERE status = 'Ditang
 $selesai_result = $mysqli->query($selesai_query);
 $total_selesai = $selesai_result->fetch_assoc()['selesai'];
 
-// Tutup koneksi
+// Tutup koneksi statistik laporan
 $mysqli->close();
 ?>
 
