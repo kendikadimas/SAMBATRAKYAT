@@ -170,8 +170,8 @@
 
     <!-- Image Gallery -->
     <section class="flex flex-wrap justify-between gap-4 mt-8">
-        <img src="images/art1.png" alt="Mekanisme Pengaduan" class="w-[48%] rounded-lg shadow-lg hover:scale-105 transition-transform duration-300">
-        <img src="images/art2.png" alt="Layanan Digital" class="w-[48%] rounded-lg shadow-lg hover:scale-105 transition-transform duration-300">
+        <img src="images/artikel1.png" alt="Mekanisme Pengaduan" class="w-[48%] rounded-lg shadow-lg hover:scale-105 transition-transform duration-300">
+        <img src="images/artikel2.png" alt="Layanan Digital" class="w-[48%] rounded-lg shadow-lg hover:scale-105 transition-transform duration-300">
     </section>
 
     <!-- Call to Action -->

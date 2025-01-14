@@ -171,112 +171,103 @@ $mysqli->close();
 
 <!-- sambatan -->
 <main class="flex w-full">
-    <section class="h-auto w-3/4 bg-cover bg-center bg-no-repeat bg-gray-100">
-        <h1 class="text-3xl font-bold px-16 pt-8 pb-4 text-left text-gray-800">Sambatan</h1>
+<section class="h-auto w-3/4 bg-cover bg-center bg-no-repeat bg-gray-100">
+    <h1 class="text-3xl font-bold px-16 pt-8 pb-4 text-left text-gray-800">Sambatan</h1>
 
-    <div class="flex flex-wrap gap-6 px-14 py-3 justify-center w-full border-r-2 border-[#3E7D60] ">
+    <!-- Dropdown Kategori -->
+    <form method="GET" class="px-16 py-4">
+        <label for="kategori" class="block text-gray-700 font-semibold mb-2">Pilih Kategori:</label>
+        <select name="kategori" id="kategori" class="border border-gray-300 rounded-md p-2 w-1/3">
+            <option value="">Semua Kategori</option>
+            <option value="1">Sosial dan Kemasyarakatan</option>
+            <option value="2">Keamanan dan Pertahanan</option>
+            <option value="3">Politik dan Pemerintahan</option>
+            <option value="4">Lingkungan dan Alam</option>
+            <option value="5">Infrastruktur dan Transportasi</option>
+        </select>
+        <button type="submit" class="ml-2 bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600">
+            Tampilkan
+        </button>
+    </form>
+
+    <div class="flex flex-wrap gap-6 px-14 py-3 justify-center w-full border-r-2 border-[#3E7D60]">
         <?php
-        // Ambil semua record dari tabel laporan
-        $statement = $db->query("SELECT * FROM `laporan` ORDER BY likes DESC, id DESC");
+        // Ambil kategori dari GET
+        $kategori = isset($_GET['kategori']) ? intval($_GET['kategori']) : '';
+
+        // Query berdasarkan kategori
+        $query = "SELECT * FROM `laporan`";
+        if (!empty($kategori)) {
+            $query .= " WHERE tujuan = ?";
+            $statement = $db->prepare($query);
+            $statement->execute([$kategori]);
+        } else {
+            $query .= " ORDER BY likes DESC, id DESC";
+            $statement = $db->query($query);
+        }
+
+        // Tampilkan data laporan
         foreach ($statement as $key) {
             $mysqldate = $key['tanggal'];
             $phpdate = strtotime($mysqldate);
             $tanggal = date('d F Y, H:i:s', $phpdate);
 
-            // Ambil tanggapan terkait laporan ini
             $laporan_id = $key['id'];
             $replies = $db->prepare("SELECT * FROM `komen` WHERE laporan_id = ?");
             $replies->execute([$laporan_id]);
-            $reply_count = $replies->rowCount(); // Hitung jumlah tanggapan
+            $reply_count = $replies->rowCount();
         ?>
 
-        
-            <!-- Card -->
-            <div class="flex flex-col sm:flex-row items-start bg-white border border-gray-300 rounded-lg shadow-lg w-1/2 sm:w-[48%] p-4 hover:shadow-2xl transition-shadow duration-300">
-    <!-- Avatar -->
-    <div class="flex-shrink-0">
-        <a href="#">
-            <img src="images/avatar/avatar1.png" alt="Avatar" class="rounded-full w-16 h-16 border border-green-500 shadow-sm">
-        </a>
-    </div>
-    <!-- Content -->
-    <div class="ml-4 flex-1 relative">
-        <!-- Nama dan Tombol -->
-        <div class="flex justify-between items-center">
-            <h4 class="text-green-700 text-[20px] font-semibold mb-1" style="font-family: monospace;">
-                <?php echo htmlspecialchars($key['nama']); ?>
-            </h4>
-            <div class="flex items-center gap-2">
-              <!-- Tombol Like -->
-    <button class="like-btn bg-gray-200 hover:bg-green-300 p-2 rounded-full transition-all duration-300" 
-            data-id="<?php echo $key['id']; ?>" data-action="like">
-        <i class="fa fa-thumbs-up text-green-700"></i>
-    </button>
-    <span id="like-count-<?php echo $key['id']; ?>" class="text-gray-600">
-        <?php echo $key['likes']; ?>
-    </span>
-
-    <!-- Tombol Unlike -->
-    <button class="unlike-btn bg-gray-200 hover:bg-red-300 p-2 rounded-full transition-all duration-300" 
-            data-id="<?php echo $key['id']; ?>" data-action="unlike">
-        <i class="fa fa-thumbs-down text-red-700"></i>
-    </button>
-    <span id="unlike-count-<?php echo $key['id']; ?>" class="text-gray-600">
-        <?php echo $key['unlikes']; ?>
-    </span>
-
+        <!-- Card -->
+        <div class="flex flex-col sm:flex-row items-start bg-white border border-gray-300 rounded-lg shadow-lg w-1/2 sm:w-[48%] p-4 hover:shadow-2xl transition-shadow duration-300">
+            <!-- Avatar -->
+            <div class="flex-shrink-0">
+                <a href="#">
+                    <img src="images/avatar/avatar1.png" alt="Avatar" class="rounded-full w-16 h-16 border border-green-500 shadow-sm">
+                </a>
             </div>
-        </div>
-        <p class="text-gray-500 text-sm mb-2">
-            <i class="fa fa-calendar-alt text-green-600"></i> <?php echo $tanggal; ?>
-        </p>
-        <hr class="mb-2">
-        <p class="text-gray-700 leading-relaxed">
-            <?php echo htmlspecialchars($key['isi']); ?>
-        </p>
-        <hr class="my-2">
-        <!-- Jumlah Tanggapan -->
-        <p class="text-sm text-gray-600 mb-2">
-            <i class="fa fa-comments text-green-600"></i> <?php echo $reply_count; ?> Tanggapan
-        </p>
-        <!-- Tanggapan dan Form -->
-        <div>
-            <button class="toggle-replies bg-green-500 text-white py-1 px-3 rounded hover:bg-green-600 transition-all duration-300">
-                Tanggapi
+            <!-- Content -->
+            <div class="ml-4 flex-1 relative">
+    <div class="flex justify-between items-center">
+        <h4 class="text-green-700 text-[20px] font-semibold mb-1" style="font-family: monospace;">
+            <?php echo htmlspecialchars($key['nama']); ?>
+        </h4>
+        <div class="flex items-center gap-2">
+            <!-- Tombol Like -->
+            <button class="like-btn bg-gray-200 hover:bg-green-300 p-2 rounded-full transition-all duration-300" 
+                    data-id="<?php echo $key['id']; ?>" data-action="like">
+                <i class="fa fa-thumbs-up text-green-700"></i>
             </button>
-            <div class="replies tutup mt-4">
-                <h5 class="text-green-700 font-semibold mb-3">Tanggapan:</h5>
-                <div class="space-y-4">
-                    <?php foreach ($replies as $reply) { ?>
-                        <div class="flex items-start gap-3 p-3 bg-gray-100 rounded-lg shadow-sm">
-                            <img src="images/avatar/avatar2.png" alt="Avatar" class="rounded-full w-10 h-10 border border-green-300">
-                            <div>
-                                <strong class="text-green-700"><?php echo htmlspecialchars($reply['nama']); ?></strong>
-                                <p class="text-gray-600 text-sm mt-1 leading-relaxed"><?php echo htmlspecialchars($reply['isi']); ?></p>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
-                <!-- Form Tanggapan -->
-                <form action="tambah_tanggapan.php" method="POST" class="mt-6">
-                    <input type="hidden" name="laporan_id" value="<?php echo $key['id']; ?>">
-                    <div class="mb-4">
-                        <label for="nama" class="block text-sm font-medium text-gray-700">Nama Anda</label>
-                        <input type="text" id="nama" name="nama" required
-                            class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500">
-                    </div>
-                    <div class="mb-4">
-                        <label for="isi" class="block text-sm font-medium text-gray-700">Tanggapan</label>
-                        <textarea id="isi" name="isi" rows="2" required
-                            class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500"></textarea>
-                    </div>
-                    <button type="submit"
-                        class="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600 transition-all duration-300">Kirim Tanggapan</button>
-                </form>
-            </div>
+            <span id="like-count-<?php echo $key['id']; ?>" class="text-gray-600">
+                <?php echo $key['likes']; ?>
+            </span>
+
+            <!-- Tombol Unlike -->
+            <button class="unlike-btn bg-gray-200 hover:bg-red-300 p-2 rounded-full transition-all duration-300" 
+                    data-id="<?php echo $key['id']; ?>" data-action="unlike">
+                <i class="fa fa-thumbs-down text-red-700"></i>
+            </button>
+            <span id="unlike-count-<?php echo $key['id']; ?>" class="text-gray-600">
+                <?php echo $key['unlikes']; ?>
+            </span>
         </div>
+            </div>
+            <p class="text-gray-500 text-sm mb-2">
+                <i class="fa fa-calendar-alt text-green-600"></i> <?php echo $tanggal; ?>
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <?php echo htmlspecialchars($key['isi']); ?>
+            </p>
+            <p class="text-sm text-gray-600 mb-2">
+                <i class="fa fa-comments text-green-600"></i> <?php echo $reply_count; ?> Tanggapan
+            </p>
+        </div>
+
+        </div>
+        <?php } ?>
     </div>
-</div>
+</section>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
     // Handle upvote
@@ -320,7 +311,6 @@ $mysqli->close();
 
 </script>
 
-        <?php } ?>
     </div>
 </section>
 
@@ -475,7 +465,7 @@ $mysqli->close();
             </div>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/for3.png" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/forum3.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Keamanan dan Ketertiban</h3>
                 <p class="text-sm text-gray-600 mb-4">Pengaduan terkait kejahatan, perilaku yang mengganggu, atau konflik antarwarga bermasyarakat.</p>
@@ -484,7 +474,7 @@ $mysqli->close();
         </div>
         <!-- Card Forum 2 -->
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/for4.png" alt="Forum Image" class="w-full h-48 object-cover">
+            <img src="images/forum4.png" alt="Forum Image" class="w-full h-48 object-cover">
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Lingkungan Sekitar</h3>
                 <p class="text-sm text-gray-600 mb-4">Keluhan tentang polusi, sampah yang tidak dikelola, atau kerusakan lingkungan demi keberlangsungan hidup.</p>
@@ -497,14 +487,6 @@ $mysqli->close();
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Sosial dan Ekonomi</h3>
                 <p class="text-sm text-gray-600 mb-4">Isu kesenjangan sosial, bantuan yang tidak tepat sasaran, atau peluang kerja yang tidak merata.</p>
-                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
-            </div>
-        </div>
-        <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
-            <img src="images/for6.png" alt="Forum Image" class="w-full h-48 object-cover">
-            <div class="p-6">
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">Keamanan dan Ketertiban</h3>
-                <p class="text-sm text-gray-600 mb-4">meningkatkan rasa aman dan nyaman di lingkungan masyarakat. Diskusi meliputi langkah pencegahan kejahatan.</p>
                 <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
             </div>
         </div>
@@ -556,7 +538,7 @@ $mysqli->close();
         <!-- Card Artikel -->
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
             <a href="artikel.php">
-            <img src="images/art1.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <img src="images/artbro1.png" alt="Artikel Image" class="w-full h-48 object-cover">
             <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
                 <h3 class="text-lg font-bold text-white drop-shadow-md">Pengaduan Masyarakat</h3>
                 <p class="text-sm text-gray-300 drop-shadow-md">Pentingnya Layanan Pengaduan Masyarakat untuk Kesejahteraan Bersama.</p>
@@ -566,7 +548,7 @@ $mysqli->close();
         <!-- Card Artikel 2 -->
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
         <a href="artikel.php">
-            <img src="images/art2.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <img src="images/artbro2.png" alt="Artikel Image" class="w-full h-48 object-cover">
             <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
                 <h3 class="text-lg font-bold text-white drop-shadow-md">Panduan Pengaduan</h3>
                 <p class="text-sm text-gray-300 drop-shadow-md">Panduan Praktis Mengakses Layanan Pengaduan Masyarakat.</p>
@@ -575,7 +557,7 @@ $mysqli->close();
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
         <a href="artikel.php">
-            <img src="images/art3.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <img src="images/artbr3.png" alt="Artikel Image" class="w-full h-48 object-cover">
             <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
                 <h3 class="text-lg font-bold text-white drop-shadow-md">Peningkatan Efektivitas</h3>
                 <p class="text-sm text-gray-300 drop-shadow-md">Meningkatkan Efektivitas Pengaduan dengan Teknologi Digital.</p>
@@ -584,7 +566,7 @@ $mysqli->close();
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
         <a href="artikel.php">
-            <img src="images/art4.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <img src="images/artbro4.png" alt="Artikel Image" class="w-full h-48 object-cover">
             <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
                 <h3 class="text-lg font-bold text-white drop-shadow-md">Kewajiban Masyarakat</h3>
                 <p class="text-sm text-gray-300 drop-shadow-md">Hak dan Kewajiban Masyarakat dalam Mengajukan Pengaduan.</p>
@@ -593,7 +575,7 @@ $mysqli->close();
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
         <a href="artikel.php">
-            <img src="images/art5.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <img src="images/artbro5.png" alt="Artikel Image" class="w-full h-48 object-cover">
             <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
                 <h3 class="text-lg font-bold text-white drop-shadow-md">Transparansi Pengaduan</h3>
                 <p class="text-sm text-gray-300 drop-shadow-md">Mengapa Transparansi Penting dalam Layanan Pengaduan Masyarakat?.</p>
@@ -602,7 +584,7 @@ $mysqli->close();
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
         <a href="artikel.php">
-            <img src="images/art6.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <img src="images/artbro6.png" alt="Artikel Image" class="w-full h-48 object-cover">
             <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
                 <h3 class="text-lg font-bold text-white drop-shadow-md">Masyarakat dan Pemerintah</h3>
                 <p class="text-sm text-gray-300 drop-shadow-md">Kolaborasi Masyarakat dan Pemerintah dalam Menyelesaikan Masalah.</p>
@@ -611,7 +593,7 @@ $mysqli->close();
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl relative">
         <a href="artikel.php">
-            <img src="images/art7.png" alt="Artikel Image" class="w-full h-48 object-cover">
+            <img src="images/artbro7.png" alt="Artikel Image" class="w-full h-48 object-cover">
             <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-gray-900/90 via-gray-800/50 to-transparent p-6">
                 <h3 class="text-lg font-bold text-white drop-shadow-md">Inovasi Pengaduan</h3>
                 <p class="text-sm text-gray-300 drop-shadow-md">Inovasi Layanan Pengaduan Masyarkat Berbasis Aplikasi Website dan Mobile.</p>
