@@ -1,86 +1,62 @@
 <?php
 session_start();
 require_once("private/database.php");
-?>
-<?php
-// fungsi untuk merandom avatar profil
-// function RandomAvatar(){
-//     $photoAreas = array("avatar1.png", "avatar2.png", "avatar3.png", "avatar4.png", "avatar5.png", "avatar6.png", "avatar7.png", "avatar8.png", "avatar9.png", "avatar10.png", "avatar11.png");
-//     $randomNumber = array_rand($photoAreas);
-//     $randomImage = $photoAreas[$randomNumber];
-//     return $randomImage;
-// }
-?>
-<?php
-// Konfigurasi koneksi database
+
+// Cek apakah pengguna login atau tidak
+$isLoggedIn = isset($_SESSION['username']);
+$username = $isLoggedIn ? $_SESSION['username'] : "Pengunjung";
+
+// Koneksi database
 $host = 'localhost';
 $user = 'root';
 $password = '';
 $database = 'kp';
-
-// Koneksi ke database
-$mysqli = new mysqli($host, $user, $password, $database);
+$conn = new mysqli($host, $user, $password, $database);
 
 // Periksa koneksi
-if ($mysqli->connect_error) {
-    die("Koneksi gagal: " . $mysqli->connect_error);
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
 }
 
 // Ambil jumlah laporan total
 $total_laporan_query = "SELECT COUNT(*) AS total_laporan FROM laporan";
-$total_laporan_result = $mysqli->query($total_laporan_query);
+$total_laporan_result = $conn->query($total_laporan_query);
 $total_laporan = $total_laporan_result->fetch_assoc()['total_laporan'];
 
 // Ambil jumlah laporan menunggu
 $menunggu_query = "SELECT COUNT(*) AS menunggu FROM laporan WHERE status = 'Menunggu'";
-$menunggu_result = $mysqli->query($menunggu_query);
+$menunggu_result = $conn->query($menunggu_query);
 $total_menunggu = $menunggu_result->fetch_assoc()['menunggu'];
 
 // Ambil jumlah laporan selesai
 $selesai_query = "SELECT COUNT(*) AS selesai FROM laporan WHERE status = 'Ditanggapi'";
-$selesai_result = $mysqli->query($selesai_query);
+$selesai_result = $conn->query($selesai_query);
 $total_selesai = $selesai_result->fetch_assoc()['selesai'];
 
-// Tutup koneksi
-$mysqli->close();
-?>
-
-<?php
-include("koneksi.php");
-
-
-$username = $_SESSION['username'];
-
-// Gunakan prepared statement dengan placeholder `?`
-$query = $conn->prepare("SELECT photo FROM users WHERE username = ?");
-if ($query === false) {
-    die("Kesalahan dalam query: " . $conn->error);
-}
-
-// Ikat parameter dan eksekusi query
-$query->bind_param("s", $username); // "s" untuk string
-$query->execute();
-
-// Ambil hasil query
-$result = $query->get_result();
-if ($result->num_rows > 0) {
-    $account = $result->fetch_assoc();
-
-    // Periksa apakah kolom `photo` berisi data
-    if (!empty($account['photo'])) {
-        $photoBase64 = base64_encode($account['photo']); // Encode gambar ke base64
-
-        // Simpan foto ke dalam session
-        $_SESSION['photo'] = $photoBase64;
-    } else {
-        $_SESSION['photo'] = null; // Atur ke null jika foto kosong
-    }
-} else {
-    echo "Data pengguna tidak ditemukan.";
-}
+// Foto pengguna (jika login)
 $defaultPhoto = "https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg";
-// Tutup statement dan koneksi
-$query->close();
+$photoBase64 = $defaultPhoto;
+
+if ($isLoggedIn) {
+    // Query untuk foto pengguna
+    $query = $conn->prepare("SELECT photo FROM users WHERE username = ?");
+    if ($query === false) {
+        die("Kesalahan dalam query: " . $conn->error);
+    }
+    $query->bind_param("s", $username);
+    $query->execute();
+    $result = $query->get_result();
+
+    if ($result->num_rows > 0) {
+        $account = $result->fetch_assoc();
+        if (!empty($account['photo'])) {
+            $photoBase64 = 'data:image/jpeg;base64,' . base64_encode($account['photo']);
+        }
+    }
+    $query->close();
+}
+
+// Tutup koneksi
 $conn->close();
 ?>
 
