@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2025 at 10:31 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Waktu pembuatan: 14 Jan 2025 pada 17.20
+-- Versi server: 10.4.28-MariaDB
+-- Versi PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Struktur dari tabel `admin`
 --
 
 CREATE TABLE `admin` (
@@ -35,7 +35,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `admin`
+-- Dumping data untuk tabel `admin`
 --
 
 INSERT INTO `admin` (`id_admin`, `username`, `password`, `divisi`) VALUES
@@ -49,7 +49,7 @@ INSERT INTO `admin` (`id_admin`, `username`, `password`, `divisi`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `divisi`
+-- Struktur dari tabel `divisi`
 --
 
 CREATE TABLE `divisi` (
@@ -58,20 +58,83 @@ CREATE TABLE `divisi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `divisi`
+-- Dumping data untuk tabel `divisi`
 --
 
 INSERT INTO `divisi` (`id_divisi`, `nama_divisi`) VALUES
 (0, 'Super Admin'),
-(1, 'Pelayanan Pendaftaran Penduduk'),
-(2, 'Pelayanan Pencatatan Sipil'),
-(3, 'Pengelolaan Informasi Administrasi Kependudukan'),
-(4, 'Pemanfaatan Data Dan Inovasi Pelayanan');
+(1, 'Sosial dan Kemasyarakatan\r\n'),
+(2, 'Keamanan dan Pertahanan'),
+(3, 'Politik dan Pemerintahan'),
+(4, 'Lingkungan dan Alam'),
+(5, 'Infrastruktur dan Transportasi');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `komen`
+-- Struktur dari tabel `forum`
+--
+
+CREATE TABLE `forum` (
+  `id` int(11) NOT NULL,
+  `topik` text NOT NULL,
+  `chat` text NOT NULL,
+  `username` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `forum_chat`
+--
+
+CREATE TABLE `forum_chat` (
+  `id` int(11) NOT NULL,
+  `id_topik` int(11) NOT NULL,
+  `topik` varchar(255) NOT NULL,
+  `chat` text NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `waktu` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `forum_chat`
+--
+
+INSERT INTO `forum_chat` (`id`, `id_topik`, `topik`, `chat`, `username`, `waktu`) VALUES
+(1, 1, 'Layanan Publik', 'Halo teman teman, ayo diskusi mengenai layanan publik yang ada di Indonesia!', 'Dimas Kendika', '2025-01-13 21:59:25');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `instansi`
+--
+
+CREATE TABLE `instansi` (
+  `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('admin','user','instansi','') NOT NULL DEFAULT 'user',
+  `photo` blob NOT NULL,
+  `id_divisi` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `instansi`
+--
+
+INSERT INTO `instansi` (`id`, `username`, `email`, `password`, `role`, `photo`, `id_divisi`) VALUES
+(5, 'Kepolisian Republik Indonesia', 'kapolri@gmail.com', '$2y$10$TajnuGKMQMijOatC31s4keJtDVObV9Y9sECYc/PbEVb8D8IhQDlaC', 'instansi', '', 2),
+(10, 'Kementerian Sosial Republik Indonesia', 'kemensos@gmail.com', '$2y$10$M12WxbjlVyOVb2hX.LEGUuHmDjkbWiC0yvfKM4tDjgeOvhThtiNGq', 'instansi', '', 1),
+(11, 'Kementerian Lingkungan Hidup Dan Kehutanan', 'kemenlhk@gmail.com', '$2y$10$zLCvuHiDKkkmaGokw17jDuxTckMjvAAhIci0GmMdYC7.UZeqxrdSK', 'instansi', '', 4),
+(12, 'DPRD Jateng', 'dprdjateng@gmail.com', '$2y$10$aRonh6IWuA7McCVNtG6CEOztme4KahSL/KKZU6T2.1io8KHvCrUoC', 'instansi', '', 3),
+(13, 'Kementerian Perhubungan', 'kemenhub@gmail.com', '$2y$10$Sim0GdLnbryQCvoKkv7cielr29SAmJY0BNvapFZf/T3Cl2N/9YVSC', 'instansi', '', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `komen`
 --
 
 CREATE TABLE `komen` (
@@ -83,26 +146,28 @@ CREATE TABLE `komen` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `komen`
+-- Dumping data untuk tabel `komen`
 --
 
 INSERT INTO `komen` (`id`, `laporan_id`, `nama`, `isi`, `tanggal`) VALUES
-(1, 105, 'moren', 'hallow', '2025-01-06 08:27:37'),
-(2, 105, 'dimas', 'monggo', '2025-01-06 08:28:09'),
-(3, 104, 'moren', 'hallow', '2025-01-06 08:28:23'),
-(4, 105, 'Edwi', 'Iya sih Mantap', '2025-01-06 08:30:31'),
-(5, 102, 'Edwi Tsanys', 'keren juga', '2025-01-06 09:05:57'),
-(8, 105, 'Dimas Kendika', 'keren', '2025-01-06 09:59:32'),
-(9, 105, 'Jono', 'Hallow', '2025-01-06 11:13:58'),
-(10, 103, 'Aan Karomi', 'Kayanya sih setaun ya', '2025-01-06 12:06:41'),
-(11, 102, 'KAFAGHH', 'Kayannya sih ngga', '2025-01-06 12:07:28'),
-(12, 101, 'Nafisah Kemiren', 'Nomor anuan', '2025-01-06 12:07:47'),
-(13, 104, 'Jehian Athaya', 'Nama yang sama', '2025-01-07 08:26:54');
+(39, 106, 'Polisi PWT', 'Baik terimakasih atas laporannya, Saudara Sellyjuan. Selanjutnya akan kami tindaklanjuti dengan pemantauan dan pelaksaan patrol di Desa tersebut. Terimakasih banyak', '2025-01-11 21:48:07'),
+(40, 108, 'Pemerintah Purwokerto', 'Terimakasih atas sambatannya, akan kami tinjau kembali kemudian.', '2025-01-11 22:07:37'),
+(41, 109, 'Kementerian Lingkungan Hidup Dan Kehutanan', 'Baik terimakasih atas sambatannya saudara Dimas Kendika, jadi untuk daerah disitu memang daerah industri dimana PLTU Cilacap beroperasi jadi memang udaranya kotor jadi memang dibutuhkan penanganan segera. Untuk hal itu akan kami sampaikan dan tinjaukan ke yang terkait di lapangan. Terimakasih', '2025-01-13 01:46:23'),
+(42, 109, 'Moreno', 'Wah bener emang daerah itu udaranya item banget', '2025-01-13 07:47:13'),
+(43, 106, 'Kafah', 'hallow', '2025-01-14 14:10:47'),
+(44, 107, 'Kafah', 'wahh', '2025-01-14 14:32:52'),
+(45, 109, '', 'wah benar', '2025-01-14 14:34:40'),
+(46, 108, '', 'betul', '2025-01-14 14:41:02'),
+(47, 108, 'Kafah', 'benar sekali', '2025-01-14 14:43:30'),
+(48, 108, 'Kafah', 'Saya setuju', '2025-01-14 14:44:17'),
+(49, 106, 'Kafah', 'Benar', '2025-01-14 14:49:25'),
+(50, 106, 'Kafah', 'saya setuju', '2025-01-14 14:51:09'),
+(51, 108, 'Kafah', 'Setuju banget', '2025-01-14 14:51:33');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `laporan`
+-- Struktur dari tabel `laporan`
 --
 
 CREATE TABLE `laporan` (
@@ -116,25 +181,25 @@ CREATE TABLE `laporan` (
   `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` varchar(12) NOT NULL,
   `upvotes` int(11) DEFAULT 0,
-  `downvotes` int(11) DEFAULT 0
+  `downvotes` int(11) DEFAULT 0,
+  `likes` int(11) NOT NULL DEFAULT 0,
+  `unlikes` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `laporan`
+-- Dumping data untuk tabel `laporan`
 --
 
-INSERT INTO `laporan` (`id`, `nama`, `email`, `telpon`, `alamat`, `tujuan`, `isi`, `tanggal`, `status`, `upvotes`, `downvotes`) VALUES
-(100, 'Wahid Ari', 'wahiid.ari@gmail.com', '087850866665', 'Mlajah', 1, 'Apakah Aplikasi Pengaduan Masyarakat Dispendukcapil Bangkalan ini?', '2018-05-23 06:17:29', 'Ditanggapi', 0, 0),
-(101, 'Surya Ray', 'ray@gmail.com', '087123123444', 'Bangkalan', 2, 'Apakah nomor pengaduan itu dan apa yang harus saya lakukan terhadap nomor pengaduan ini? ', '2018-05-23 07:25:00', 'Ditanggapi', 0, 0),
-(102, 'Faris Ikhsan', 'faris@gmail.com', '087865786345', 'Bangkalan', 4, 'Apakah kerahasiaan identitas saya sebagai pengadu/pelapor terjaga? ', '2018-05-23 07:37:55', 'Menunggu', 0, 0),
-(103, 'Robbi Pradiantoro', 'robi@gmail.com', '081233824715', 'Bangkalan', 3, 'Berapa lama respon atas pengaduan yang disampaikan diberikan kepada pelapor? ', '2018-06-09 06:40:44', 'Ditanggapi', 0, 0),
-(104, 'Nadzare Kafah Alfatiha', 'zartampan@gmail.com', '093043045060', 'Kost Griya Satria 05', 4, 'Lembaga inovasi sungguh slow respon terhadap client sehingga membuat antrian panjang dan tidak efisien', '2024-12-19 12:37:45', 'Ditanggapi', 0, 0),
-(105, 'Dimas Kendika Fazrulfalah', 'dkendika1@gmail.com', '087864562253', 'Kalijaran', 1, 'ini gmn ya daftarnya', '2025-01-02 02:43:09', 'Menunggu', 0, 0);
+INSERT INTO `laporan` (`id`, `nama`, `email`, `telpon`, `alamat`, `tujuan`, `isi`, `tanggal`, `status`, `upvotes`, `downvotes`, `likes`, `unlikes`) VALUES
+(106, 'Sellyjuan Alya Rosalina', 'selju@gmail.com', '081234567890', 'Karangkemiri, Kec. Maos, Kab, Cilacap, Jawa Tengah', 2, 'Pak, tolong dicek untuk di desa saya terdapat banyak maling dan tawuran pada malam hari, hal ini sudah meresahkan warga. Terimakasih', '2025-01-14 12:23:52', 'Ditanggapi', 0, 0, 10, 0),
+(107, 'Moreno Hilbran Glenardi', 'morenking@gmail.com', '081234578910', 'Limas Agung, Purwokerto, Jawa Tengah', 1, 'Ini ppn kenapa naik ke 12%, udah barang pada mahal tambah mahal lagi haduh', '2025-01-14 12:24:02', 'Terposting', 0, 0, 8, 0),
+(108, 'Moreno', 'morenking@gmail.com', '081234567890', 'Limas Agung, Purwokerto, Jawa Tengah', 4, 'Keknya pemerintah harus banyak banyakin nanem pohon dikawasan Purwokerto deh, panas banget soalnya udah kek gurun', '2025-01-14 12:23:57', 'Ditanggapi', 0, 0, 9, 0),
+(109, 'Dimas Kendika', 'dkendika1@gmail.com', '081227587005', 'Kalijaran, Cilacap, Jawa Tengah', 4, 'Tolong untuk daerah cilacap khususnya dekat PLTU kenapa udaranya sangat kotor ya mungkin bisa ditangani kembali untuk solusinya bagaimana', '2025-01-14 12:24:04', 'Ditanggapi', 0, 0, 4, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tanggapan`
+-- Struktur dari tabel `tanggapan`
 --
 
 CREATE TABLE `tanggapan` (
@@ -146,7 +211,7 @@ CREATE TABLE `tanggapan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `tanggapan`
+-- Dumping data untuk tabel `tanggapan`
 --
 
 INSERT INTO `tanggapan` (`id_tanggapan`, `id_laporan`, `admin`, `isi_tanggapan`, `tanggal_tanggapan`) VALUES
@@ -159,7 +224,7 @@ INSERT INTO `tanggapan` (`id_tanggapan`, `id_laporan`, `admin`, `isi_tanggapan`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `users`
 --
 
 CREATE TABLE `users` (
@@ -167,103 +232,144 @@ CREATE TABLE `users` (
   `username` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('admin','user') NOT NULL DEFAULT 'user'
+  `role` enum('admin','user','instansi') NOT NULL DEFAULT 'user',
+  `photo` mediumblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`) VALUES
-(14, 'admin', 'admin@gmail.com', '$2y$10$8OeTxezUGBcI6lXP9FVZV.bEvmdZar/rIQLBJA2vpHouZqVJ6TRgO\r\n', 'admin'),
-(15, 'Nadzare', 'nadzare@gmail.com', '$2y$10$/OMCAo5/AeP1ynI5tPk6K.oA0NIm/6nIAKf9nq8SnT680yAfZOukW', 'user'),
-(16, 'Dimas Kendika', 'dkendika1@gmail.com', '$2y$10$TbE6UcFgSoLxW4I/aXp05eeMxpDHj7iwXBF2R.DQZJMrTMmJuX2k6', 'user'),
-(17, 'anuan', 'anuan@gmail.com', '$2y$10$i4vMVwK5JYHJJ7OX/LO1c.faEeTQIQl7eriHljgC0uItIniLgr7za', 'user');
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `photo`) VALUES
+(14, 'admin', 'admin@gmail.com', '$2y$10$34BrcDn9L9JCS4NKjtPtluWCcGum5cRBtZ0dzn73AO9mBG.Y/8dMy', 'admin', NULL),
+(15, 'Nadzare', 'nadzare@gmail.com', '$2y$10$/OMCAo5/AeP1ynI5tPk6K.oA0NIm/6nIAKf9nq8SnT680yAfZOukW', 'user', NULL),
+(16, 'Dimas Kendika', 'dkendika1@gmail.com', '$2y$10$TbE6UcFgSoLxW4I/aXp05eeMxpDHj7iwXBF2R.DQZJMrTMmJuX2k6', 'user', NULL),
+(20, 'Sellyjuan Alya', 'selju@gmail.com', '$2y$10$wMnjrh1YOXjuK5hmXY/BWep7e2V1HDioASE/8oS7BXC5B5onvcylK', 'user', NULL),
+(21, 'Moreno Hilbran Glenardi', 'morenking@gmail.com', '$2y$10$p45MyPOlrcCxQ4.x/UFjC.k4HqNXVEajZnZ2iLNHpMNmUjPrdpmD6', 'user', NULL),
+(25, 'Kementerian Lingkungan Hidup Dan Kehutanan', 'kemenlhk@gmail.com', '$2y$10$wZiHx80Hqdk966r2HVKIFePoGSn9J49sOuIixExefTiUj5E1DKyq.', 'instansi', NULL),
+(27, 'Kepolisian Republik Indonesia', 'kapolri@gmail.com', '$2y$10$TajnuGKMQMijOatC31s4keJtDVObV9Y9sECYc/PbEVb8D8IhQDlaC', 'instansi', NULL),
+(28, 'jajalan', 'jajal@gmail.com', '$2y$10$HmjOsTuSKKUGDKRx0WvYmuKSX3EHK9q3PqCRlEoQBqTLUHI6wvS5q', 'instansi', NULL),
+(31, 'fijfjiijf', 'ijsfiji@ifieji', '$2y$10$uP.g.RSKnxy11h0JyI6vruOYLoqUbUUrTaDE1EAvg6HuF81vOztvO', 'instansi', NULL),
+(32, 'Kementerian Sosial Republik Indonesia', 'kemensos@gmail.com', '$2y$10$M12WxbjlVyOVb2hX.LEGUuHmDjkbWiC0yvfKM4tDjgeOvhThtiNGq', 'instansi', NULL),
+(33, 'Kementerian Lingkungan Hidup Dan Kehutanan', 'kemenlhk@gmail.com', '$2y$10$zLCvuHiDKkkmaGokw17jDuxTckMjvAAhIci0GmMdYC7.UZeqxrdSK', 'instansi', NULL),
+(34, 'DPRD Jateng', 'dprdjateng@gmail.com', '$2y$10$aRonh6IWuA7McCVNtG6CEOztme4KahSL/KKZU6T2.1io8KHvCrUoC', 'instansi', NULL),
+(35, 'Kementerian Perhubungan', 'kemenhub@gmail.com', '$2y$10$Sim0GdLnbryQCvoKkv7cielr29SAmJY0BNvapFZf/T3Cl2N/9YVSC', 'instansi', NULL),
+(36, 'Kafah', 'zartampan@gmail.com', '$2y$10$qevEd2Xc6fpE0ikm9eUTdObSfkhTwug2HjFKz3Zssp/nuQZpi5EbW', 'user', NULL);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `admin`
+-- Indeks untuk tabel `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id_admin`),
   ADD KEY `divisi` (`divisi`);
 
 --
--- Indexes for table `divisi`
+-- Indeks untuk tabel `divisi`
 --
 ALTER TABLE `divisi`
   ADD PRIMARY KEY (`id_divisi`);
 
 --
--- Indexes for table `komen`
+-- Indeks untuk tabel `forum_chat`
+--
+ALTER TABLE `forum_chat`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `instansi`
+--
+ALTER TABLE `instansi`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_divisi` (`id_divisi`);
+
+--
+-- Indeks untuk tabel `komen`
 --
 ALTER TABLE `komen`
   ADD PRIMARY KEY (`id`),
   ADD KEY `laporan_id` (`laporan_id`);
 
 --
--- Indexes for table `laporan`
+-- Indeks untuk tabel `laporan`
 --
 ALTER TABLE `laporan`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tujuan` (`tujuan`);
 
 --
--- Indexes for table `tanggapan`
+-- Indeks untuk tabel `tanggapan`
 --
 ALTER TABLE `tanggapan`
   ADD PRIMARY KEY (`id_tanggapan`);
 
 --
--- Indexes for table `users`
+-- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `komen`
+-- AUTO_INCREMENT untuk tabel `forum_chat`
 --
-ALTER TABLE `komen`
+ALTER TABLE `forum_chat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `instansi`
+--
+ALTER TABLE `instansi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `tanggapan`
+-- AUTO_INCREMENT untuk tabel `komen`
+--
+ALTER TABLE `komen`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+
+--
+-- AUTO_INCREMENT untuk tabel `tanggapan`
 --
 ALTER TABLE `tanggapan`
   MODIFY `id_tanggapan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `admin`
+-- Ketidakleluasaan untuk tabel `admin`
 --
 ALTER TABLE `admin`
   ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`divisi`) REFERENCES `divisi` (`id_divisi`);
 
 --
--- Constraints for table `komen`
+-- Ketidakleluasaan untuk tabel `instansi`
 --
-ALTER TABLE `komen`
-  ADD CONSTRAINT `komen_ibfk_1` FOREIGN KEY (`laporan_id`) REFERENCES `laporan` (`id`);
+ALTER TABLE `instansi`
+  ADD CONSTRAINT `fk_divisi` FOREIGN KEY (`id_divisi`) REFERENCES `divisi` (`id_divisi`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `laporan`
+-- Ketidakleluasaan untuk tabel `komen`
+--
+ALTER TABLE `komen`
+  ADD CONSTRAINT `komen_ibfk_1` FOREIGN KEY (`laporan_id`) REFERENCES `laporan` (`id`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `laporan`
 --
 ALTER TABLE `laporan`
   ADD CONSTRAINT `laporan_ibfk_1` FOREIGN KEY (`tujuan`) REFERENCES `divisi` (`id_divisi`);
