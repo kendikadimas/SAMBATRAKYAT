@@ -91,7 +91,7 @@ $query->close();
     </li>
 
     <!-- Logout Button -->
-    <li>
+    <!-- <li>
         <a
             href="#"
             class="text-white flex items-center"
@@ -101,7 +101,7 @@ $query->close();
             <i class="fa fa-fw fa-sign-out"></i>
             <span class="ml-2">Logout</span>
         </a>
-    </li>
+    </li> -->
 </ul>
 
 <script>
@@ -264,5 +264,32 @@ $tanggapan = $result->fetch_all(MYSQLI_ASSOC);
 <?php else: ?>
     <p class="text-gray-500">Belum ada tanggapan.</p>
 <?php endif; ?>
+<!-- 
+<div id="exampleModal" class="fixed inset-0 items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50 ">
+    <div class="bg-white rounded-lg shadow-lg max-w-sm w-full">
+        <div class="border-b px-4 py-2 flex justify-between items-center">
+            <h5 class="text-lg font-semibold text-gray-800">Yakin Ingin Keluar?</h5>
+            <button class="text-gray-500 hover:text-gray-800" onclick="closeModal('exampleModal')">
+                &times;
+            </button>
+        </div>
+        <div class="p-4">
+            <p class="text-sm text-gray-600">Pilih "Logout" jika anda ingin mengakhiri sesi.</p>
+        </div>
+        <div class="border-t px-4 py-2 flex justify-end space-x-2">
+            <button class="bg-gray-300 text-gray-700 px-4 py-1 rounded hover:bg-gray-400" onclick="closeModal('exampleModal')">Batal</button>
+            <a href="logout" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-500">Logout</a>
+        </div>
+    </div>
+</div>
+<script>
+    function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'flex';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+</script> -->
 
 </div>

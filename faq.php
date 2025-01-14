@@ -116,12 +116,27 @@
             <i class="fas fa-bars"></i>
         </button>
     </div>
-
+    
+        <!-- Aside Breadcrumb -->
+        <aside class="fixed left-0 top-1/2 transform -translate-y-1/2 flex flex-col gap-4 p-4">
+                <a href="#title" class="w-10 h-10 bg-green-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-500 transition duration-300">
+                    <i class="fa fa-home"></i>
+                </a>
+                <a href="#how-to" class="w-10 h-10 bg-green-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-500 transition duration-300">
+                    <i class="fa fa-info"></i>
+                </a>
+                <a href="#features" class="w-10 h-10 bg-green-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-500 transition duration-300">
+                    <i class="fa fa-list"></i>
+                </a>
+                <a href="#why" class="w-10 h-10 bg-green-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-500 transition duration-300">
+                    <i class="fa fa-question-circle"></i>
+                </a>
+            </aside>
                 <!-- Main Content -->
         <div class="main-content mt-10 md:mt-0 max-w-4xl mx-auto p-6 fade-in">
             <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg">
                 <!-- Title -->
-                <h3 class="text-3xl font-bold text-green-700 mb-4 text-center">
+                <h3 class="text-3xl font-bold text-green-700 mb-4 text-center" id="title">
                 "Aspirasi Didengar, Solusi Dikerjakan!"
                 </h3>
                 <hr class="my-6 border-t-2 border-green-700">
@@ -145,7 +160,7 @@
         </div>
         <br>
         <!-- How to Use -->
-        <h3 class="text-2xl font-bold text-green-700 mb-4 text-center md:text-left pl-3 fade-in">Cara Membuat Sambatan</h3>
+        <h3 class="text-2xl font-bold text-green-700 mb-4 text-center md:text-left pl-3 fade-in" id="how-to">Cara Membuat Sambatan</h3>
         <div class="flex flex-col md:flex-row items-center gap-6 mt-4">
             <!-- Deskripsi (Sebelah Kiri) -->
             <div class="w-full md:w-2/4 pl-5">
@@ -174,7 +189,7 @@
             </div>
             <!-- Deskripsi (Sebelah Kanan) -->
             <div class="w-full md:w-6/12">
-            <h2 class="text-2xl font-bold text-green-700 mb-4 text-center md:text-left">Fitur-fitur Sambat Rakyat</h2>
+            <h2 class="text-2xl font-bold text-green-700 mb-4 text-center md:text-left" id="features">Fitur-fitur Sambat Rakyat</h2>
                 <p class="text-justify text-gray-700 leading-relaxed">
                 Halaman komunitas pada platform ini memuat semua sambatan pengguna dengan fitur penyaringan kategori yang memudahkan pencarian dan penanganan masalah sesuai bidang. Selain itu, tersedia Forum interaktif sebagai ruang untuk berdiskusi, berbagi pandangan, dan memberikan solusi atas topik-topik yang berkembang di masyarakat. Untuk mendukung partisipasi publik, Halaman Event menyajikan informasi terkait berbagai kegiatan kemasyarakatan, seperti kegiatan sosial, seminar, dan pelatihan. Sementara itu, Halaman Artikel menghadirkan tulisan edukatif tentang isu-isu penting, memberikan wawasan, inspirasi, serta solusi atas beragam permasalahan yang dihadapi masyarakat.
                 </p>
@@ -185,11 +200,11 @@
         <div class="flex flex-col md:flex-row items-center gap-8 justify-center mt-8 mb-5 fade-in">
             <!-- Deskripsi -->
             <div class="md:w-1/2 text-left pl-3">
-                <h3 class="text-2xl font-bold text-green-700 mb-4 text-center md:text-left">Kenapa Sambat Rakyat?</h3>
+                <h3 class="text-2xl font-bold text-green-700 mb-4 text-center md:text-left" id="why">Kenapa Sambat Rakyat?</h3>
                 <p class="text-gray-700 leading-relaxed text-justify">
                 Fitur integrasi dengan instansi terkait mempermudah pengelolaan pengaduan dan mempercepat respons. Melalui fitur Kelola Instansi, pengguna dapat menghubungkan pengaduan dengan instansi pemerintah atau Lembaga relevan berdasarkan kategori. Instansi tersebut dapat memberikan solusi langsung kepada pelapor melalui fitur Tanggapan Instansi, sehingga penyelesaian masalah menjadi lebih efisien.Dengan Kategori Spesifik, pengaduan langsung diarahkan ke instansi terkait, mempercepat proses penanganan dan solusi.
                 </p>
-            </div>
+            </div> 
 
             <!-- Gambar -->
             <div class="md:w-1/2 flex justify-center">
@@ -199,6 +214,7 @@
 
             </div>
 <br>
+</div>
         <!-- Back to Top Button -->
         <a 
     id="top" 
@@ -278,12 +294,14 @@
                     </ul>
                     <ul class="list-none flex text-center justify-center p-0 mb-0">
                         <li class="pl-0 list-none">
-                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1" href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-full p-2 flex items-center justify-center w-8 h-8" 
+                            href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
                                 <i class="fa fa-fw fa-facebook"></i>
                             </a>
                         </li>
                         <li class="pl-0 list-none">
-                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1 ml-5" href="https://twitter.com/bmshumas?lang=en">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-full p-2 flex items-center justify-center w-8 h-8 ml-5" 
+                            href="https://twitter.com/bmshumas?lang=en">
                                 <i class="fa fa-fw fa-twitter"></i>
                             </a>
                         </li>

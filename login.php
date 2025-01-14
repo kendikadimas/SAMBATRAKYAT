@@ -1,56 +1,74 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 require 'koneksi.php';
 
 $message = "";
 
 if (isset($_POST["email"]) && isset($_POST["password"])) {
-    // Ambil data dari form
-    $username = trim($_POST["email"]);
     $email = trim($_POST["email"]);
     $password = $_POST["password"];
 
-    // Validasi email, password
     if (!empty($email) && !empty($password)) {
-        // Query untuk memeriksa pengguna di database
-        $query_sql = "SELECT * FROM users WHERE email = ?";
-        $stmt = mysqli_prepare($conn, $query_sql);
-        mysqli_stmt_bind_param($stmt, "s", $email);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $user = mysqli_fetch_assoc($result);
+        // Cek login sebagai user
+        $query_user = "SELECT * FROM users WHERE email = ?";
+        $stmt_user = mysqli_prepare($conn, $query_user);
+        mysqli_stmt_bind_param($stmt_user, "s", $email);
+        mysqli_stmt_execute($stmt_user);
+        $result_user = mysqli_stmt_get_result($stmt_user);
+        $user = mysqli_fetch_assoc($result_user);
 
         if ($user && password_verify($password, $user['password'])) {
-            // Login berhasil, set session
-            $_SESSION["id"] = $user['id']; // Set ID user
+            // Set session untuk user
+            $_SESSION["id"] = $user['id'];
             $_SESSION["username"] = $user['username'];
             $_SESSION["email"] = $user['email'];
+            $_SESSION["role"] = $user['role'];
 
-            // Redirect berdasarkan role
             if ($user['role'] === 'admin') {
-                $_SESSION["role"] = 'admin';
                 header("Location: admin/index.php");
+                exit();
             } elseif ($user['role'] === 'user') {
-                $_SESSION["role"] = 'user';
                 header("Location: index.php");
-            } elseif ($user['role'] === 'instansi') {
-                $_SESSION["id_instansi"] = $user['id']; // Tambahan untuk instansi
-                $_SESSION["role"] = 'instansi';
-                header("Location: admin/list_sambat.php");
+                exit();
+            } else  {
+            // Jika user tidak ditemukan, cek login sebagai instansi
+            $query_instansi = "SELECT * FROM instansi WHERE email = ?";
+            $stmt_instansi = mysqli_prepare($conn, $query_instansi);
+            mysqli_stmt_bind_param($stmt_instansi, "s", $email);
+            mysqli_stmt_execute($stmt_instansi);
+            $result_instansi = mysqli_stmt_get_result($stmt_instansi);
+            $instansi = mysqli_fetch_assoc($result_instansi);
+
+            if ($instansi && password_verify($password, $instansi['password'])) {
+                // Set session untuk instansi
+                $_SESSION["id"] = $instansi['id'];
+                $_SESSION["username"] = $instansi['username'];
+                $_SESSION["email"] = $instansi['email'];
+                $_SESSION["id_divisi"] = $instansi['id_divisi'];
+                $_SESSION["role"] = $instansi['role'];
+
+                if ($instansi['role'] === 'instansi') {
+                    header("Location: admin/list_sambat.php");
+                    exit();
+                }
             } else {
-                $message = "Role tidak valid.";
+                // Jika login gagal di kedua tabel
+                $message = "Email atau Password salah.";
             }
-            exit();
-        } else {
-            $message = "Email atau Password salah.";
         }
     } else {
         $message = "Semua field wajib diisi.";
     }
 }
 
-
+if (!empty($message)) {
+    echo "<script>alert('$message');</script>";
+}
+}
 ?>
+
 
 
 <!DOCTYPE html>

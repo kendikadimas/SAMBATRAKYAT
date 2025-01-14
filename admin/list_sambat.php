@@ -3,6 +3,7 @@
 # @Copyright: (c) Sambat Rakyat Banyumas 2024 -->
 <?php
     session_start();
+
     // database
     require_once("database.php");
     logged_admin ();
@@ -48,6 +49,8 @@
         // kembali ke page tables
         // header("Location: tables");
     }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,7 +82,7 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button> -->
-        <nav class="flex justify-between bg-[#3E7D60] px-4 py-2">
+        <nav class="flex fixed w-full z-10 justify-between bg-[#3E7D60] px-4 py-2">
     <div>
         <a href="index" class="text-white font-bold">Sambat Rakyat</a>
     </div>
@@ -164,8 +167,8 @@
 
 
     <!-- sidebar -->
-    <div class="flex h-auto">
-    <div class="w-64 h-auto bg-gray-800 text-white" id="navbarResponsive">
+    <div class="flex h-auto min-h-screen">
+    <div class="w-64 h-auto min-h-screen fixed mt-10 bg-gray-800 text-white" id="navbarResponsive">
     <ul class="flex flex-col space-y-2 p-4">
         <!-- Profile Section -->
         <li class="sidebar-profile">
@@ -184,7 +187,7 @@
     </ul>
 </div>
 
-<div class="container mx-auto p-4">
+<div class="container mx-auto p-4 ml-64 mt-10">
             <!-- Example DataTables Card-->
             <div class="bg-white shadow rounded-lg p-4 mb-4">
     <!-- Header -->
@@ -197,6 +200,35 @@
             <input type="text" id="searchInput" placeholder="Cari laporan..." class="border border-gray-300 rounded px-2 py-1 text-sm focus:ring focus:ring-blue-300">
         </div>
     </div>
+
+    <?php
+    include "../koneksi.php";
+
+    // Pastikan admin sudah login
+    if (!isset($_SESSION['id_divisi'])) {
+        echo "<script>alert('Silakan login terlebih dahulu.'); window.location.href = 'login.php';</script>";
+        exit;
+    }
+
+    // Ambil `id_divisi` dari sesi
+    $id_divisi = $_SESSION['id_divisi'];
+
+    // Query untuk laporan yang sesuai dengan `id_divisi`
+    $query = "SELECT laporan.*, divisi.nama_divisi 
+            FROM laporan 
+            JOIN divisi ON laporan.tujuan = divisi.id_divisi 
+            WHERE laporan.tujuan = ? 
+            ORDER BY laporan.id DESC";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $id_divisi);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+?>
+
+    
+    
+
 
     <!-- Table -->
     <div class="overflow-x-auto">
@@ -216,9 +248,7 @@
             </thead>
             <tbody id="tableBody">
                 <?php   
-            $statement = $db->query("SELECT * FROM laporan, divisi WHERE laporan.tujuan = divisi.id_divisi ORDER BY laporan.id DESC");
-
-                foreach ($statement as $key) {
+           while ($key = $result->fetch_assoc()) {
                     $mysqldate = $key['tanggal'];
                     $phpdate = strtotime($mysqldate);
                     $tanggal = date('d/m/Y', $phpdate);
