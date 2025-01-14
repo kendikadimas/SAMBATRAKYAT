@@ -243,50 +243,90 @@ $conn->close();
 
         <!-- Card -->
         <div class="flex flex-col sm:flex-row items-start bg-white border border-gray-300 rounded-lg shadow-lg w-1/2 sm:w-[48%] p-4 hover:shadow-2xl transition-shadow duration-300">
-            <!-- Avatar -->
-            <div class="flex-shrink-0">
-                <a href="#">
-                    <img src="images/avatar/avatar1.png" alt="Avatar" class="rounded-full w-16 h-16 border border-green-500 shadow-sm">
-                </a>
-            </div>
-            <!-- Content -->
-            <div class="ml-4 flex-1 relative">
-    <div class="flex justify-between items-center">
-        <h4 class="text-green-700 text-[20px] font-semibold mb-1" style="font-family: monospace;">
-            <?php echo htmlspecialchars($key['nama']); ?>
-        </h4>
-        <div class="flex items-center gap-2">
-            <!-- Tombol Like -->
-            <button class="like-btn bg-gray-200 hover:bg-green-300 p-2 rounded-full transition-all duration-300" 
-                    data-id="<?php echo $key['id']; ?>" data-action="like">
-                <i class="fa fa-thumbs-up text-green-700"></i>
-            </button>
-            <span id="like-count-<?php echo $key['id']; ?>" class="text-gray-600">
-                <?php echo $key['likes']; ?>
-            </span>
+    <!-- Avatar -->
+    <div class="flex-shrink-0">
+        <a href="#">
+            <img src="images/avatar/avatar1.png" alt="Avatar" class="rounded-full w-16 h-16 border border-green-500 shadow-sm">
+        </a>
+    </div>
+    <!-- Content -->
+    <div class="ml-4 flex-1">
+        <div class="flex justify-between items-center">
+            <h4 class="text-green-700 text-[20px] font-semibold mb-1" style="font-family: monospace;">
+                <?php echo htmlspecialchars($key['nama']); ?>
+            </h4>
+            <div class="flex items-center gap-2">
+                <!-- Tombol Like -->
+                <button class="like-btn bg-gray-200 hover:bg-green-300 p-2 rounded-full transition-all duration-300" 
+                        data-id="<?php echo $key['id']; ?>" data-action="like">
+                    <i class="fa fa-thumbs-up text-green-700"></i>
+                </button>
+                <span id="like-count-<?php echo $key['id']; ?>" class="text-gray-600">
+                    <?php echo $key['likes']; ?>
+                </span>
 
-            <!-- Tombol Unlike -->
-            <button class="unlike-btn bg-gray-200 hover:bg-red-300 p-2 rounded-full transition-all duration-300" 
-                    data-id="<?php echo $key['id']; ?>" data-action="unlike">
-                <i class="fa fa-thumbs-down text-red-700"></i>
-            </button>
-            <span id="unlike-count-<?php echo $key['id']; ?>" class="text-gray-600">
-                <?php echo $key['unlikes']; ?>
-            </span>
-        </div>
+                <!-- Tombol Unlike -->
+                <button class="unlike-btn bg-gray-200 hover:bg-red-300 p-2 rounded-full transition-all duration-300" 
+                        data-id="<?php echo $key['id']; ?>" data-action="unlike">
+                    <i class="fa fa-thumbs-down text-red-700"></i>
+                </button>
+                <span id="unlike-count-<?php echo $key['id']; ?>" class="text-gray-600">
+                    <?php echo $key['unlikes']; ?>
+                </span>
             </div>
-            <p class="text-gray-500 text-sm mb-2">
-                <i class="fa fa-calendar-alt text-green-600"></i> <?php echo $tanggal; ?>
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-                <?php echo htmlspecialchars($key['isi']); ?>
-            </p>
-            <p class="text-sm text-gray-600 mb-2">
-                <i class="fa fa-comments text-green-600"></i> <?php echo $reply_count; ?> Tanggapan
-            </p>
         </div>
+        <p class="text-gray-500 text-sm mb-2">
+            <i class="fa fa-calendar-alt text-green-600"></i> <?php echo $tanggal; ?>
+        </p>
+        <p class="text-gray-700 leading-relaxed">
+            <?php echo htmlspecialchars($key['isi']); ?>
+        </p>
+        <p class="text-sm text-gray-600 mb-2">
+            <i class="fa fa-comments text-green-600"></i> <?php echo $reply_count; ?> Komentar
+        </p>
+        <?php if ($isLoggedIn): ?>
+    <!-- Tombol Komentar jika login -->
+    <button class="toggle-replies bg-[#3E7D60] text-white py-1 px-3 rounded hover:bg-green-600 transition-all duration-300 mb-2">
+        Komen
+    </button>
+    <!-- Tanggapan dan Form -->
+    <div class="replies tutup mt-4">
+        <h5 class="text-green-700 font-semibold mb-3">Komentar:</h5>
+        <div class="space-y-4">
+            <?php foreach ($replies as $reply): ?>
+                <div class="flex items-start gap-3 p-3 bg-gray-100 rounded-lg shadow-sm">
+                    <img src="images/avatar/avatar2.png" alt="Avatar" class="rounded-full w-10 h-10 border border-green-300">
+                    <div>
+                        <strong class="text-green-700"><?php echo htmlspecialchars($reply['nama']); ?></strong>
+                        <p class="text-gray-600 text-sm mt-1 leading-relaxed"><?php echo htmlspecialchars($reply['isi']); ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <!-- Form Tanggapan -->
+        <form action="tambah_tanggapan.php" method="POST" class="mt-6">
+            <input type="hidden" name="laporan_id" value="<?php echo $key['id']; ?>">
+            <input type="hidden" name="nama" value="<?php echo htmlspecialchars($username); ?>"> <!-- Nama diambil dari sesi -->
+            <textarea id="isi" name="isi" rows="2" required
+                class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500"
+                placeholder="Tulis tanggapan Anda..."></textarea>
+            <button type="submit"
+                class="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600 transition-all duration-300 mt-4">
+                Kirim Komentar
+            </button>
+        </form>
+    </div>
+<?php else: ?>
+    <!-- Tombol Komentar jika belum login -->
+    <a href="login.php" class="bg-[#3E7D60] text-white py-1 px-3 rounded hover:bg-green-600 transition-all duration-300 mb-2 block text-center">
+        Login untuk Komen
+    </a>
+<?php endif; ?>
 
-        </div>
+
+    </div>
+</div>
+
         <?php } ?>
     </div>
 </section>
@@ -346,10 +386,10 @@ $conn->close();
                         const repliesDiv = this.nextElementSibling;
                         if (repliesDiv.classList.contains('tutup')) {
                             repliesDiv.classList.remove('tutup');
-                            this.textContent = 'Sembunyikan Tanggapan';
+                            this.textContent = 'Sembunyikan Komentar';
                         } else {
                             repliesDiv.classList.add('tutup');
-                            this.textContent = 'Tanggapi';
+                            this.textContent = 'Komen';
                         }
                     });
                 });

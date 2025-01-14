@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Eksekusi query
         if ($conn->query($sql) === TRUE) {
             // Redirect kembali ke halaman index
-            header("Location: community.php");
+            header("Location: index.php");
             exit;
         } else {
             // Jika gagal, lempar error

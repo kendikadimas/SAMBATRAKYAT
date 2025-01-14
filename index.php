@@ -3,6 +3,11 @@ session_start();
 require_once("private/database.php");
 include("koneksi.php");
 
+
+// Cek apakah pengguna login atau tidak
+$isLoggedIn = isset($_SESSION['username']);
+$username = $isLoggedIn ? $_SESSION['username'] : "Pengunjung";
+
 // Inisialisasi variabel default
 $account = null;
 $photoBase64 = null;
@@ -315,134 +320,209 @@ $mysqli->close();
         <span class="absolute bottom-0 left-0 w-0 h-[4px] bg-[#3E7D60] transition-all duration-700 ease-in-out animate-border"></span>
     </h3>
     <hr class="my-4">
-    <!-- Container for all cards -->
-    <div class="flex flex-wrap gap-6 justify-center">
+    <div class="flex flex-wrap gap-6 px-14 py-3 justify-center w-full border-r-2 border-[#3E7D60]">
         <?php
-        // Ambil semua record dari tabel laporan
-        $statement = $db->query("SELECT * FROM `laporan` 
-                            WHERE status IN ('Ditanggapi', 'Terposting') 
-                            ORDER BY id DESC;
-        ");
-        
+        // Ambil kategori dari GET
+        $kategori = isset($_GET['kategori']) ? intval($_GET['kategori']) : '';
+
+        // Query berdasarkan kategori
+        $query = "SELECT * FROM `laporan`";
+        if (!empty($kategori)) {
+            $query .= " WHERE tujuan = ?";
+            $statement = $db->prepare($query);
+            $statement->execute([$kategori]);
+        } else {
+            $query .= " ORDER BY likes DESC, id DESC";
+            $statement = $db->query($query);
+        }
+
+        // Tampilkan data laporan
         foreach ($statement as $key) {
             $mysqldate = $key['tanggal'];
             $phpdate = strtotime($mysqldate);
             $tanggal = date('d F Y, H:i:s', $phpdate);
 
-            // Ambil tanggapan terkait laporan ini
             $laporan_id = $key['id'];
             $replies = $db->prepare("SELECT * FROM `komen` WHERE laporan_id = ?");
             $replies->execute([$laporan_id]);
-            $reply_count = $replies->rowCount(); // Hitung jumlah tanggapan
+            $reply_count = $replies->rowCount();
         ?>
+
         <!-- Card -->
-        <div class="flex flex-col sm:flex-row items-start bg-white border border-gray-300 rounded-lg shadow-lg w-full sm:w-[48%] p-4 hover:shadow-2xl transition-shadow duration-300">
-            <!-- Avatar -->
-            <div class="flex-shrink-0">
-                <a href="#">
-                    <img src="images/avatar/avatar1.png" alt="Avatar" class="rounded-full w-16 h-16 border border-green-500 shadow-sm">
-                </a>
-            </div>
-            <!-- Content -->
-            <div class="ml-4 flex-1">
-                <h4 class="text-green-700 text-[20px] font-semibold mb-1" style="font-family: monospace;">
-                    <?php echo htmlspecialchars($key['nama']); ?>
-                </h4>
-                <p class="text-gray-500 text-sm mb-2">
-                    <i class="fa fa-calendar-alt text-green-600"></i> <?php echo $tanggal; ?>
-                </p>
-                <hr class="mb-2">
-                <p class="text-gray-700 leading-relaxed">
-                    <?php echo htmlspecialchars($key['isi']); ?>
-                </p>
-                <hr class="my-2">
+        <div class="flex flex-col sm:flex-row items-start bg-white border border-gray-300 rounded-lg shadow-lg w-1/2 sm:w-[48%] p-4 hover:shadow-2xl transition-shadow duration-300">
+    <!-- Avatar -->
+    <div class="flex-shrink-0">
+        <a href="#">
+            <img src="images/avatar/avatar1.png" alt="Avatar" class="rounded-full w-16 h-16 border border-green-500 shadow-sm">
+        </a>
+    </div>
+    <!-- Content -->
+    <div class="ml-4 flex-1">
+        <div class="flex justify-between items-center">
+            <h4 class="text-green-700 text-[20px] font-semibold mb-1" style="font-family: monospace;">
+                <?php echo htmlspecialchars($key['nama']); ?>
+            </h4>
+            <div class="flex items-center gap-2">
+                <!-- Tombol Like -->
+                <button class="like-btn bg-gray-200 hover:bg-green-300 p-2 rounded-full transition-all duration-300" 
+                        data-id="<?php echo $key['id']; ?>" data-action="like">
+                    <i class="fa fa-thumbs-up text-green-700"></i>
+                </button>
+                <span id="like-count-<?php echo $key['id']; ?>" class="text-gray-600">
+                    <?php echo $key['likes']; ?>
+                </span>
 
-                <!-- Jumlah Tanggapan -->
-                <p class="text-sm text-gray-600 mb-2">
-                    <i class="fa fa-comments text-green-600"></i> <?php echo $reply_count; ?> Tanggapan
-                </p>
-
-                <!-- Tanggapan dan Form -->
-                <div>
-                    <button class="toggle-replies bg-[#3E7D60] text-white py-1 px-3 rounded hover:bg-green-600 transition-all duration-300">
-                        Tanggapi
-                    </button>
-                    <div class="replies tutup mt-4">
-                        <h5 class="text-green-700 font-semibold mb-3">Tanggapan:</h5>
-                        <div class="space-y-4">
-                            <?php foreach ($replies as $reply) { ?>
-                                <div class="flex items-start gap-3 p-3 bg-gray-100 rounded-lg shadow-sm">
-                                    <img src="images/avatar/avatar2.png" alt="Avatar" class="rounded-full w-10 h-10 border border-green-300">
-                                    <div>
-                                        <strong class="text-green-700"><?php echo htmlspecialchars($reply['nama']); ?></strong>
-                                        <p class="text-gray-600 text-sm mt-1 leading-relaxed"><?php echo htmlspecialchars($reply['isi']); ?></p>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </div>
-
-                        <!-- Form Tanggapan -->
-                        <form action="tambah_tanggapan.php" method="POST" class="mt-6">
-                            <input type="hidden" name="laporan_id" value="<?php echo $key['id']; ?>">
-                            <div class="mb-4">
-                                <label for="nama" class="block text-sm font-medium text-gray-700">Nama Anda</label>
-                                <input type="text" id="nama" name="nama" required
-                                    class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500">
-                            </div>
-                            <div class="mb-4">
-                                <label for="isi" class="block text-sm font-medium text-gray-700">Tanggapan</label>
-                                <textarea id="isi" name="isi" rows="2" required
-                                    class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500"></textarea>
-                            </div>
-                            <button type="submit"
-                                class="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600 transition-all duration-300">Kirim Tanggapan</button>
-                        </form>
-                    </div>
-                </div>
+                <!-- Tombol Unlike -->
+                <button class="unlike-btn bg-gray-200 hover:bg-red-300 p-2 rounded-full transition-all duration-300" 
+                        data-id="<?php echo $key['id']; ?>" data-action="unlike">
+                    <i class="fa fa-thumbs-down text-red-700"></i>
+                </button>
+                <span id="unlike-count-<?php echo $key['id']; ?>" class="text-gray-600">
+                    <?php echo $key['unlikes']; ?>
+                </span>
             </div>
         </div>
-        <?php } ?>
+        <p class="text-gray-500 text-sm mb-2">
+            <i class="fa fa-calendar-alt text-green-600"></i> <?php echo $tanggal; ?>
+        </p>
+        <p class="text-gray-700 leading-relaxed">
+            <?php echo htmlspecialchars($key['isi']); ?>
+        </p>
+        <p class="text-sm text-gray-600 mb-2">
+            <i class="fa fa-comments text-green-600"></i> <?php echo $reply_count; ?> Komentar
+        </p>
+        <?php if ($isLoggedIn): ?>
+    <!-- Tombol Komentar jika login -->
+    <button class="toggle-replies bg-[#3E7D60] text-white py-1 px-3 rounded hover:bg-green-600 transition-all duration-300 mb-2">
+        Komen
+    </button>
+    <!-- Tanggapan dan Form -->
+    <div class="replies tutup mt-4">
+        <h5 class="text-green-700 font-semibold mb-3">Komentar:</h5>
+        <div class="space-y-4">
+            <?php foreach ($replies as $reply): ?>
+                <div class="flex items-start gap-3 p-3 bg-gray-100 rounded-lg shadow-sm">
+                    <img src="images/avatar/avatar2.png" alt="Avatar" class="rounded-full w-10 h-10 border border-green-300">
+                    <div>
+                        <strong class="text-green-700"><?php echo htmlspecialchars($reply['nama']); ?></strong>
+                        <p class="text-gray-600 text-sm mt-1 leading-relaxed"><?php echo htmlspecialchars($reply['isi']); ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <!-- Form Tanggapan -->
+        <form action="tambah_tanggapan_home.php" method="POST" class="mt-6">
+            <input type="hidden" name="laporan_id" value="<?php echo $key['id']; ?>">
+            <input type="hidden" name="nama" value="<?php echo htmlspecialchars($username); ?>"> <!-- Nama diambil dari sesi -->
+            <textarea id="isi" name="isi" rows="2" required
+                class="block w-full border border-gray-300 rounded-md p-2 mt-1 focus:ring-green-500 focus:border-green-500"
+                placeholder="Tulis tanggapan Anda..."></textarea>
+            <button type="submit"
+                class="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600 transition-all duration-300 mt-4">
+                Kirim Komentar
+            </button>
+        </form>
+    </div>
+<?php else: ?>
+    <!-- Tombol Komentar jika belum login -->
+    <a href="login.php" class="bg-[#3E7D60] text-white py-1 px-3 rounded hover:bg-green-600 transition-all duration-300 mb-2 block text-center">
+        Login untuk Komen
+    </a>
+<?php endif; ?>
+
+
     </div>
 </div>
 
+        <?php } ?>
+    </div>
+</section>
+
 <script>
-// JavaScript untuk toggle visibilitas komentar dan form
-document.addEventListener('DOMContentLoaded', function () {
-    const toggleButtons = document.querySelectorAll('.toggle-replies');
-    toggleButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const repliesDiv = this.nextElementSibling;
-            if (repliesDiv.classList.contains('tutup')) {
-                repliesDiv.classList.remove('tutup');
-                this.textContent = 'Sembunyikan Tanggapan';
-            } else {
-                repliesDiv.classList.add('tutup');
-                this.textContent = 'Tanggapi';
-            }
+    document.addEventListener('DOMContentLoaded', () => {
+    // Handle upvote
+    document.querySelectorAll('.upvote-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const laporanId = button.closest('.flex').dataset.id; // Assuming each card has a data-id attribute
+            fetch('upvote.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `laporan_id=${laporanId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const voteCountEl = button.nextElementSibling;
+                    voteCountEl.textContent = parseInt(voteCountEl.textContent) + 1;
+                }
+            });
+        });
+    });
+
+    // Handle downvote
+    document.querySelectorAll('.downvote-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const laporanId = button.closest('.flex').dataset.id;
+            fetch('downvote.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `laporan_id=${laporanId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const voteCountEl = button.previousElementSibling;
+                    voteCountEl.textContent = parseInt(voteCountEl.textContent) - 1;
+                }
+            });
         });
     });
 });
+
 </script>
 
-<style>
-/* Gaya untuk menyembunyikan komentar dan form */
-.tutup {
-    display: none;
-}
+    </div>
+</section>
 
-/* Kartu utama */
-.card {
-    transition: all 0.3s ease;
-}
-.card:hover {
-    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
-}
+        <script>
+            // JavaScript untuk toggle visibilitas komentar dan form
+            document.addEventListener('DOMContentLoaded', function () {
+                const toggleButtons = document.querySelectorAll('.toggle-replies');
+                toggleButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const repliesDiv = this.nextElementSibling;
+                        if (repliesDiv.classList.contains('tutup')) {
+                            repliesDiv.classList.remove('tutup');
+                            this.textContent = 'Sembunyikan Komentar';
+                        } else {
+                            repliesDiv.classList.add('tutup');
+                            this.textContent = 'Komen';
+                        }
+                    });
+                });
+            });
+            </script>
 
-/* Warna tambahan */
-.bg-gray-100 {
-    background-color: #f9f9f9;
-}
-</style>
+        <style>
+        /* Gaya untuk menyembunyikan komentar dan form */
+        .tutup {
+            display: none;
+        }
+
+        /* Kartu utama */
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Warna tambahan */
+        .bg-gray-100 {
+            background-color: #f9f9f9;
+        }
+        </style>
+
 
 
 
