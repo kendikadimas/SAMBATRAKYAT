@@ -1,11 +1,10 @@
 
-    <?php
+<?php
     session_start();
     include "koneksi.php";
-    
+    require 'koneksi.php'; // File koneksi database
     $defaultPhoto = "https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg";
-    ?>
-    <?php
+
     $username = $_SESSION['username'];
 
 // Gunakan prepared statement dengan placeholder `?`
@@ -161,7 +160,7 @@ $conn->close();
         <!-- Content -->
         <div class="relative text-center text-white px-6 md:px-0">
             <h1 class="text-[40px] md:text-[60px] font-bold leading-tight">
-                Layanan Publik
+                Keamanan 
             </h1>
             <p class="text-[18px] md:text-[24px] font-medium mt-4">
                 Berdiskusi dengan komunitas mengenai topik-topik yang berkembang di masyarakat
@@ -171,7 +170,7 @@ $conn->close();
 
     <section class="h-auto w-full bg-gray-100 py-10" id="roomchat">
     <div class="container mx-auto px-4">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Forum Diskusi: Layanan Publik</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Forum Diskusi: Keamanan</h2>
         <div id="chat-container" class="bg-white min-h-[50vh] shadow-md rounded-lg p-6 overflow-y-auto max-h-[500px]">
             <!-- Chat akan dimuat di sini -->
         </div>
@@ -204,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Load chat dari server
     function loadChat() {
-        fetch("load_chat.php")
+        fetch("load_chat3.php")
             .then((response) => response.json())
             .then((chats) => {
                 chatContainer.innerHTML = chats.map((chat) => `
@@ -226,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const chat = chatInput.value.trim();
         if (!chat) return;
 
-        fetch("proses_chat.php", {
+        fetch("proses_chat3.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ chat }),

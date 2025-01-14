@@ -3,6 +3,13 @@ require_once("database.php");
 
 session_start(); // Memulai sesi
 
+$message = null;
+if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']); // Hapus pesan setelah ditampilkan
+}
+
+
 // Inisialisasi variabel $account sebagai null secara default
 $account = null;
 $photoBase64 = null;
@@ -46,38 +53,47 @@ if (isset($_SESSION['username'])) {
     }
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Koneksi ke database
     $koneksi = new mysqli('localhost', 'root', '', 'kp');
 
     if (isset($_FILES['photo'])) {
-        
         $tmpName = $_FILES['photo']['tmp_name'];
         $imageType = $_FILES['photo']['type'];
-    
         $validImage = ['image/jpg', 'image/jpeg', 'image/png'];
-    
-        // Validasi format file
+
         if (in_array($imageType, $validImage)) {
             if (is_uploaded_file($tmpName)) {
                 $imageData = addslashes(file_get_contents($_FILES['photo']['tmp_name']));
-    
-                $query = "UPDATE USERS SET photo='$imageData' WHERE username = '$username'";
-    
+                $query = "UPDATE users SET photo='$imageData' WHERE username = '$username'";
+
                 if (mysqli_query($koneksi, $query)) {
-                    echo "
-                    <script>
-                        alert('Data berhasil ditambahkan!');
+                    
+                    echo "<script>
+                    alert('Foto berhasil diunggah!');
                     </script>";
+                    header("Location: profile.php");
+                    exit;
                 } else {
-                    echo "<script>alert('Gagal menambahkan data: " . mysqli_error($koneksi) . "');</script>";
+                    echo "<script>
+                    alert('Foto gagal diunggah');
+                    </script>";
+                    exit;
                 }
-            } else {
-                echo "<script>alert('Format gambar harus jpg, jpeg, atau png!')</script>";
             }
         }
-        $koneksi -> close();    
-        }
+        echo "<script>
+            alert('Format file tidak valid');
+            </script>";
+        exit;
     }
+}
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $_SESSION['message'] = "Foto berhasil diunggah!";
+    header("Location: profile.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,6 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/animate.min.css"> 
     <title>Profile</title> -->
     <script src="https://unpkg.com/alpinejs" defer></script>
+
 
 </head>
 <body>
@@ -152,13 +169,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="flex items-center space-x-6">
                 <?php if ($username): ?>
                     <!-- Account Dropdown -->
-                    <div x-data="{ open: false }" class="relative">
+                    <div x-data="{ open: false }" class="relative ">
                         <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-[#3E7D60] font-semibold transition">
                         <?php if ($photoBase64): ?>
                             <!-- Tampilkan gambar pengguna jika sudah diunggah -->
-                            <img src="data:<?php echo $imageType; ?>;base64,<?php echo $photoBase64; ?>" 
+                            <div class="rounded-full">
+                            <img 
+                                src="data:<?php echo $imageType; ?>;base64,<?php echo $photoBase64;  ?>" 
                                 alt="User Avatar" 
-                                class="w-8 h-full rounded-full object-cover ">
+                                class="w-8 h-8 rounded-full object-cover">
+                            </div>
+                            <script>
+                                document.querySelector("form").addEventListener("submit", async (event) => {
+                                event.preventDefault();
+
+                                const formData = new FormData(event.target);
+                                const photoInput = document.getElementById("photo");
+                                const profileImage = document.querySelector(".rounded-full img");
+
+                                try {
+                                    const response = await fetch("profile.php", {
+                                        method: "POST",
+                                        body: formData,
+                                    });
+
+                                    const result = await response.json();
+
+                                    if (result.status === "success") {
+                                        alert(result.message);
+
+                                        // Update gambar di navbar jika upload berhasil
+                                        const reader = new FileReader();
+                                        reader.onload = (e) => {
+                                            profileImage.src = e.target.result;
+                                        };
+                                        reader.readAsDataURL(photoInput.files[0]);
+                                    } else {
+                                        alert(result.message);
+                                    }
+                                } catch (error) {
+                                    console.error("Error uploading photo:", error);
+                                    alert("Terjadi kesalahan saat mengunggah foto.");
+                                }
+                            });
+
+                            </script>
                         <?php else: ?>
                             <!-- Tampilkan gambar default jika pengguna belum mengunggah foto -->
                             <img src="<?php echo $defaultPhoto; ?>" 
@@ -375,7 +430,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
         <!-- Footer -->
-        <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5 ">
+        <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5">
                 <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
                     <ul class="pl-0 list-none ">
                         <li class="pl-0 list-none ">
@@ -386,8 +441,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </li>
                     </ul>
                     <p class="text-[0.9em]">
-                        Jl. Kabupaten No. 1 Purwokerto
-                        <br>Banyumas, Jawa Tengah
+                    Jl. Raya Mayjen Sungkono No.KM 5
+                        <br>Purbalingga, Jawa Tengah 53371
                     </p>
                 </div>
 
@@ -402,12 +457,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </ul>
                     <ul class="list-none flex text-center justify-center p-0 mb-0">
                         <li class="pl-0 list-none">
-                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1" href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-full p-2 flex items-center justify-center w-8 h-8" 
+                            href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
                                 <i class="fa fa-fw fa-facebook"></i>
                             </a>
                         </li>
                         <li class="pl-0 list-none">
-                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-circle p-1 ml-5" href="https://twitter.com/bmshumas?lang=en">
+                            <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-full p-2 flex items-center justify-center w-8 h-8 ml-5" 
+                            href="https://twitter.com/bmshumas?lang=en">
                                 <i class="fa fa-fw fa-twitter"></i>
                             </a>
                         </li>
@@ -425,16 +482,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </ul>
                     <p class="text-[0.9em]">
                         +62 858-1417-4267 <br>
-                        https://www.banyumaskab.go.id/ <br>
-                        banyumaspemkab@gmail.com
+                        sambatrakyat@gmail.com
                     </p>
                 </div>
         </footer>
         <!-- /footer -->
 
     <div class="copyright bg-black">
-        <p style="text-align: center; color: white">Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
+        <p style="text-align: center; color: white">Copyright &copy; GACORIAN</p>
     </div>
+
 </div>
 </body>
 </html>

@@ -1,9 +1,4 @@
 <?php
-# @Author: kelompok 4
-# @Date:   20 Desember 2024
-# @Copyright: (c) Sambat Rakyat Banyumas 2024
-?>
-<?php
 session_start();
 include "koneksi.php";
 require_once("private/database.php");
@@ -41,6 +36,47 @@ if(isset($_POST['submit'])) {
     }
 }
 ?>
+<?php
+include("koneksi.php");
+
+
+$username = $_SESSION['username'];
+
+// Gunakan prepared statement dengan placeholder `?`
+$query = $conn->prepare("SELECT photo FROM users WHERE username = ?");
+if ($query === false) {
+    die("Kesalahan dalam query: " . $conn->error);
+}
+
+// Ikat parameter dan eksekusi query
+$query->bind_param("s", $username); // "s" untuk string
+$query->execute();
+
+// Ambil hasil query
+$result = $query->get_result();
+if ($result->num_rows > 0) {
+    $account = $result->fetch_assoc();
+
+    // Periksa apakah kolom `photo` berisi data
+    if (!empty($account['photo'])) {
+        $photoBase64 = base64_encode($account['photo']); // Encode gambar ke base64
+
+        // Simpan foto ke dalam session
+        $_SESSION['photo'] = $photoBase64;
+    } else {
+        $_SESSION['photo'] = null; // Atur ke null jika foto kosong
+    }
+} else {
+    echo "Data pengguna tidak ditemukan.";
+}
+
+$defaultPhoto = "https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg";
+
+// Tutup statement dan koneksi
+$query->close();
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -135,7 +171,17 @@ if(isset($_POST['submit'])) {
                     <!-- Account Dropdown -->
                     <div x-data="{ open: false }" class="relative">
                         <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-[#3E7D60] font-semibold transition">
-                            <img src="https://cdn.tailgrids.com/2.2/assets/core-components/images/account-dropdowns/image-1.jpg" alt="Avatar" class="w-8 h-8 rounded-full">
+                        <?php if (!empty($_SESSION['photo'])): ?>
+                            <!-- Tampilkan gambar pengguna jika sudah diunggah -->
+                            <img src="data:image/jpeg;base64,<?php echo $_SESSION['photo']; ?>" 
+                                alt="User Avatar" 
+                                class="w-8 h-8 rounded-full object-cover">
+                        <?php else: ?>
+                            <!-- Tampilkan gambar default jika pengguna belum mengunggah foto -->
+                            <img src="<?php echo $defaultPhoto; ?>" 
+                                alt="Default Avatar" 
+                                class="w-8 h-8 rounded-full">
+                        <?php endif; ?>
                             <span><?php echo htmlspecialchars($username); ?></span>
                             <svg class="w-5 h-5 transform" :class="open ? 'rotate-180' : ''" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -274,21 +320,32 @@ if(isset($_POST['submit'])) {
         </div>
 
        <!-- Footer -->
-       <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5 mt-auto">
-        <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
-            <ul class="pl-0 list-none">
-                <li><i class="fa fa-top fa-map-marker"></i></li>
-                <li><h4 class="text-[1.2em] mb-[10px]">Kantor</h4></li>
-            </ul>
-            <p class="text-[0.9em]">Jl. Kabupaten No. 1 Purwokerto<br>Banyumas, Jawa Tengah</p>
-        </div>
+       <footer class="text-center flex justify-around w-full bg-[#343a40] text-white py-5">
+                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+                    <ul class="pl-0 list-none ">
+                        <li class="pl-0 list-none ">
+                            <i class="fa fa-top fa-map-marker"></i>
+                        </li>
+                        <li class="pl-0 list-none ">
+                            <h4 class="text-[1.2em] mb-[10px]">Kantor</h4>
+                        </li>
+                    </ul>
+                    <p class="text-[0.9em]">
+                    Jl. Raya Mayjen Sungkono No.KM 5
+                        <br>Purbalingga, Jawa Tengah 53371
+                    </p>
+                </div>
 
-        <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
-            <ul class="list-none p-0 mb-0">
-                <li><i class="fa fa-top fa-rss"></i></li>
-                <li><h4 class="text-[1.2em] mb-[10px]">Sosial Media</h4></li>
-            </ul>
-            <ul class="list-none flex text-center justify-center p-0 mb-0">
+                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+                    <ul class="list-none p-0 mb-0">
+                        <li class="pl-0 list-none">
+                            <i class="fa fa-top fa-rss"></i>
+                        </li>
+                        <li class="pl-0 list-none">
+                            <h4 class="text-[1.2em] mb-[10px]">Sosial Media</h4>
+                        </li>
+                    </ul>
+                    <ul class="list-none flex text-center justify-center p-0 mb-0">
                         <li class="pl-0 list-none">
                             <a class="text-white border border-white mx-0 my-[5px] transition-all duration-300 ease-in-out hover:bg-[#3E7D60] hover:border-[#3E7D60] text-center rounded-full p-2 flex items-center justify-center w-8 h-8" 
                             href="https://www.facebook.com/betterbanyumas/?ref=embed_page">
@@ -302,19 +359,27 @@ if(isset($_POST['submit'])) {
                             </a>
                         </li>
                     </ul>
-        </div>
+                </div>
 
-        <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
-            <ul class="pl-0 list-none">
-                <li><i class="fa fa-top fa-envelope-o"></i></li>
-                <li><h4 class="text-[1.2em] mb-[10px]">Kontak</h4></li>
-            </ul>
-            <p class="text-[0.9em]">+62 858-1417-4267<br>https://www.banyumaskab.go.id/<br>banyumaspemkab@gmail.com</p>
-        </div>
-    </footer>
+                <div class="relative min-h-[1px] px-[15px] float-left w-1/3">
+                    <ul class="pl-0 list-none ">
+                        <li class="pl-0 list-none ">
+                            <i class="fa fa-top fa-envelope-o"></i>
+                        </li>
+                        <li class="pl-0 list-none ">
+                            <h4 class="text-[1.2em] mb-[10px]">Kontak</h4>
+                        </li>
+                    </ul>
+                    <p class="text-[0.9em]">
+                        +62 858-1417-4267 <br>
+                        sambatrakyat@gmail.com
+                    </p>
+                </div>
+        </footer>
+        <!-- /footer -->
 
     <div class="copyright bg-black">
-        <p style="text-align: center; color: white">Copyright &copy; Pemerintahan Kabupaten Banyumas</p>
+        <p style="text-align: center; color: white">Copyright &copy; GACORIAN</p>
     </div>
 
     <!-- jQuery -->
