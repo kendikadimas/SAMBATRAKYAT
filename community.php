@@ -453,7 +453,7 @@ $mysqli->close();
             <div class="p-6">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3">Layanan Publik</h3>
                 <p class="text-sm text-gray-600 mb-4">Diskusikan Keluhan terkait layanan transportasi, air bersih, listrik, kesehatan, pendidikan, atau administrasi publik.</p>
-                <a href="#" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
+                <a href="forum.php" class="block text-center text-white bg-green-600 px-6 py-2 rounded-lg hover:bg-green-700 transition-all duration-300">Bergabung</a>
             </div>
         </div>
         <div class="bg-white snap-center shrink-0 w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 shadow-lg rounded-lg overflow-hidden border hover:border-green-600 transition-all duration-300">
