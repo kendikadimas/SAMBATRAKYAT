@@ -320,7 +320,7 @@ $mysqli->close();
         <span class="absolute bottom-0 left-0 w-0 h-[4px] bg-[#3E7D60] transition-all duration-700 ease-in-out animate-border"></span>
     </h3>
     <hr class="my-4">
-    <div class="flex flex-wrap gap-6 px-14 py-3 justify-center w-full border-r-2 border-[#3E7D60]">
+    <div class="flex flex-wrap gap-6 px-14 py-3 justify-center w-full">
         <?php
         // Ambil kategori dari GET
         $kategori = isset($_GET['kategori']) ? intval($_GET['kategori']) : '';
@@ -783,6 +783,36 @@ function animateCounter(element, start, end, duration) {
         });
     });
 </script>
+
+
+<script>
+   document.querySelectorAll('.like-btn, .unlike-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const laporanId = button.getAttribute('data-id'); // Ambil ID laporan
+        const action = button.getAttribute('data-action'); // Ambil aksi (like/unlike)
+
+        // Kirim permintaan ke backend
+        fetch('like_unlike.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `laporan_id=${laporanId}&action=${action}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Perbarui angka like/unlike
+                document.getElementById(`like-count-${laporanId}`).textContent = data.likes;
+                document.getElementById(`unlike-count-${laporanId}`).textContent = data.unlikes;
+            } else {
+                alert(data.message); // Tampilkan pesan error
+            }
+        })
+        .catch(error => console.error('Terjadi kesalahan:', error));
+    });
+});
+
+</script>
+
 
 </body>
 </html>
